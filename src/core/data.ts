@@ -156,10 +156,16 @@ export interface BalanceData {
   rest: {
     healthRestored: number;
     leadershipMoraleHint: boolean;
+    forageFoodMin: number;
+    forageFoodMax: number;
   };
   search: {
     baseFindChance: number;
     scoutBonusFindChance: number;
+    guaranteedFoodMin: number;
+    guaranteedFoodMax: number;
+    guaranteedFuelMin: number;
+    guaranteedFuelMax: number;
     lootTable: LootEntry[];
   };
   loot: {

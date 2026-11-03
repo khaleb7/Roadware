@@ -2,7 +2,7 @@
 
 Offline convoy strategy game (working title). Clean-room original — no original Roadwar assets, text, or names.
 
-**Milestone 7:** art/audio polish, versioned save/load + autosave, settings (fullscreen / 1080p FIT), Classic vs Road-Weary, mouse-first UI with tooltips, log, staged undo, tutorial tips.
+**Milestone 8 (final):** headless balance sims (`npm run balance`), `/data` tuning from AI playtests, Classic ~20% / Road-Weary ~10% scripted win rates.
 
 ## Requirements (Windows)
 
@@ -41,6 +41,7 @@ npm run sim -- 12345
 | ------------------- | ---------------------------------------------------------------- |
 | `npm run dev`       | Electron + Vite hot reload                                       |
 | `npm run sim`       | Console runner for the core simulation                           |
+| `npm run balance`   | Headless AI balance batch (`--games N --difficulty classic`)     |
 | `npm run build`     | Typecheck renderer, Vite production build, compile Electron main |
 | `npm run dist`      | Build + package Windows x64 NSIS installer and portable exe      |
 | `npm run lint`      | ESLint                                                           |
@@ -52,6 +53,7 @@ npm run sim -- 12345
 
 ```
 src/core/           Pure simulation (RNG, map, encounters, tactical, campaign, difficulty)
+src/core/balance/   Headless AI policy + batch runner (`npm run balance`)
 src/art/            Palette + procedural textures
 src/audio/          Procedural SFX hooks
 src/persistence/    Versioned saves + settings store (Electron / localStorage)

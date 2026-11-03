@@ -11,13 +11,13 @@
     "spareParts"
   ],
   "startingResources": {
-    "food": 60,
-    "fuel": 80,
-    "tires": 10,
-    "medicine": 8,
-    "guns": 10,
-    "ammunition": 40,
-    "spareParts": 10
+    "food": 280,
+    "fuel": 180,
+    "tires": 22,
+    "medicine": 18,
+    "guns": 12,
+    "ammunition": 65,
+    "spareParts": 18
   },
   "consumption": {
     "foodPerCrewPerTurn": 1,
@@ -29,13 +29,13 @@
     "minFuelCost": 1
   },
   "travel": {
-    "milesPerFuelUnit": 45,
-    "referenceMilesForTireWear": 120,
-    "maxTireWearChance": 0.85
+    "milesPerFuelUnit": 70,
+    "referenceMilesForTireWear": 140,
+    "maxTireWearChance": 0.75
   },
   "cityGeneration": {
-    "lootPileCountMin": 2,
-    "lootPileCountMax": 5,
+    "lootPileCountMin": 3,
+    "lootPileCountMax": 6,
     "vehicleYardChance": 0.45,
     "vehicleYardMin": 0,
     "vehicleYardMax": 2,
@@ -56,8 +56,8 @@
     "recruitLeadershipMax": 45
   },
   "recruit": {
-    "searchHireChance": 0.4,
-    "negotiatorHireBonus": 0.15,
+    "searchHireChance": 0.55,
+    "negotiatorHireBonus": 0.2,
     "maxCrewSoftCap": 24
   },
   "scavenge": {
@@ -65,9 +65,9 @@
     "maxDurabilityFraction": 0.8
   },
   "starvation": {
-    "healthLossWhenHungry": 8,
-    "desertionChancePerHungryCrew": 0.2,
-    "hungerStreakBeforeDesertion": 1
+    "healthLossWhenHungry": 2,
+    "desertionChancePerHungryCrew": 0.05,
+    "hungerStreakBeforeDesertion": 3
   },
   "stranded": {
     "blockMoveWithoutFuel": true,
@@ -85,24 +85,30 @@
   },
   "rest": {
     "healthRestored": 5,
-    "leadershipMoraleHint": true
+    "leadershipMoraleHint": true,
+    "forageFoodMin": 2,
+    "forageFoodMax": 5
   },
   "search": {
-    "baseFindChance": 0.65,
-    "scoutBonusFindChance": 0.15,
+    "baseFindChance": 0.72,
+    "scoutBonusFindChance": 0.18,
+    "guaranteedFoodMin": 4,
+    "guaranteedFoodMax": 9,
+    "guaranteedFuelMin": 3,
+    "guaranteedFuelMax": 8,
     "lootTable": [
-      { "resource": "food", "min": 2, "max": 8, "weight": 3 },
-      { "resource": "fuel", "min": 1, "max": 5, "weight": 3 },
-      { "resource": "tires", "min": 1, "max": 2, "weight": 1 },
+      { "resource": "food", "min": 10, "max": 22, "weight": 6 },
+      { "resource": "fuel", "min": 5, "max": 14, "weight": 4 },
+      { "resource": "tires", "min": 1, "max": 3, "weight": 1 },
       { "resource": "medicine", "min": 1, "max": 3, "weight": 2 },
       { "resource": "guns", "min": 1, "max": 2, "weight": 1 },
-      { "resource": "ammunition", "min": 4, "max": 12, "weight": 2 },
+      { "resource": "ammunition", "min": 5, "max": 14, "weight": 2 },
       { "resource": "spareParts", "min": 1, "max": 4, "weight": 2 }
     ]
   },
   "loot": {
-    "baseFindChance": 0.8,
-    "negotiatorBonusFindChance": 0.1,
+    "baseFindChance": 0.85,
+    "negotiatorBonusFindChance": 0.12,
     "multiplierMin": 1,
     "multiplierMax": 2
   },
@@ -116,11 +122,11 @@
     "minVictoryChance": 0.05
   },
   "encounters": {
-    "roadBaseChance": 0.35,
+    "roadBaseChance": 0.26,
     "cityAttackBaseChance": 1,
-    "dangerChancePerPoint": 0.03,
-    "scoutAvoidBonus": 0.1,
-    "maxChance": 0.85,
+    "dangerChancePerPoint": 0.025,
+    "scoutAvoidBonus": 0.12,
+    "maxChance": 0.8,
     "lootRollsOnWinMin": 1,
     "lootRollsOnWinMax": 3,
     "fightAmmoBase": 4,
@@ -158,44 +164,44 @@
         "id": "decisive",
         "minRatio": 0.72,
         "damageMin": 0,
-        "damageMax": 8,
-        "vehicleDamageChance": 0.05,
+        "damageMax": 6,
+        "vehicleDamageChance": 0.04,
         "xp": 6
       },
       {
         "id": "win",
         "minRatio": 0.55,
-        "damageMin": 5,
-        "damageMax": 18,
-        "vehicleDamageChance": 0.15,
+        "damageMin": 2,
+        "damageMax": 10,
+        "vehicleDamageChance": 0.1,
         "xp": 5
       },
       {
         "id": "pyrrhic",
         "minRatio": 0.45,
-        "damageMin": 12,
-        "damageMax": 28,
-        "vehicleDamageChance": 0.35,
+        "damageMin": 6,
+        "damageMax": 16,
+        "vehicleDamageChance": 0.22,
         "xp": 4
       },
       {
         "id": "loss",
         "minRatio": 0.28,
-        "damageMin": 18,
-        "damageMax": 40,
-        "vehicleDamageChance": 0.45,
+        "damageMin": 8,
+        "damageMax": 22,
+        "vehicleDamageChance": 0.3,
         "xp": 2
       },
       {
         "id": "rout",
         "minRatio": 0,
-        "damageMin": 25,
-        "damageMax": 55,
-        "vehicleDamageChance": 0.6,
+        "damageMin": 12,
+        "damageMax": 32,
+        "vehicleDamageChance": 0.4,
         "xp": 1
       }
     ],
-    "vehicleDamageAmount": 15,
+    "vehicleDamageAmount": 12,
     "winLootOn": ["decisive", "win", "pyrrhic"],
     "resourceLossOnDefeat": {
       "food": { "min": 1, "max": 4 },
@@ -204,19 +210,19 @@
     }
   },
   "encounterActions": {
-    "evadeBaseChance": 0.45,
-    "scoutEvadeBonus": 0.2,
-    "driverEvadeBonus": 0.1,
-    "survivalEvadeScale": 0.002,
-    "enemyMoraleEvadePenaltyScale": 0.001,
-    "evadeFailDamageMin": 5,
-    "evadeFailDamageMax": 16,
-    "negotiateBaseChance": 0.35,
-    "negotiatorBonus": 0.25,
-    "leadershipNegotiateScale": 0.003,
-    "enemyMoraleNegotiatePenaltyScale": 0.004,
-    "negotiateTributeFood": 3,
-    "negotiateFailForceFight": true
+    "evadeBaseChance": 0.55,
+    "scoutEvadeBonus": 0.22,
+    "driverEvadeBonus": 0.12,
+    "survivalEvadeScale": 0.0025,
+    "enemyMoraleEvadePenaltyScale": 0.0008,
+    "evadeFailDamageMin": 2,
+    "evadeFailDamageMax": 8,
+    "negotiateBaseChance": 0.42,
+    "negotiatorBonus": 0.28,
+    "leadershipNegotiateScale": 0.0035,
+    "enemyMoraleNegotiatePenaltyScale": 0.0035,
+    "negotiateTributeFood": 2,
+    "negotiateFailForceFight": false
   },
   "experience": {
     "restXp": 1,

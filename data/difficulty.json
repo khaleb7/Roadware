@@ -17,13 +17,13 @@
       "id": "road-weary",
       "label": "Road-Weary",
       "blurb": "Thin rations, meaner roads, shorter remnant clock.",
-      "startingResourceMult": 0.7,
-      "foodPerCrewMult": 1.25,
-      "encounterChanceMult": 1.35,
-      "lootMult": 0.85,
-      "enemyStrengthMult": 1.2,
-      "deadlineTurnsMult": 0.75,
-      "starvationDamageMult": 1.25
+      "startingResourceMult": 0.75,
+      "foodPerCrewMult": 1.2,
+      "encounterChanceMult": 1.25,
+      "lootMult": 0.9,
+      "enemyStrengthMult": 1.15,
+      "deadlineTurnsMult": 0.8,
+      "starvationDamageMult": 1.2
     }
   }
 }

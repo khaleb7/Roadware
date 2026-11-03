@@ -1,8 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { balance } from "./data";
+import { applyEndOfTurn } from "./endTurn";
 import { Game, runCommand } from "./game";
 import { getNeighbors } from "./map";
-import { createInitialState, deserializeState, serializeState } from "./state";
+import {
+  cloneState,
+  createInitialState,
+  deserializeState,
+  rngFromState,
+  serializeState,
+  syncRng,
+} from "./state";
 import type { EncounterAction, GameState } from "./types";
 
 function clearEncounter(
@@ -70,16 +78,18 @@ describe("core simulation", () => {
   });
 
   it("consumes food each turn and starves the convoy to a loss", () => {
-    let state = createInitialState(3);
-    state = {
-      ...state,
-      resources: { ...state.resources, food: 0 },
-    };
+    // Drive upkeep directly so rest-forage cannot refill the pantry mid-test
+    const state = cloneState({
+      ...createInitialState(3),
+      resources: { ...createInitialState(3).resources, food: 0 },
+    });
 
-    for (let i = 0; i < 40; i += 1) {
-      const result = runCommand(state, { type: "rest" });
-      expect(result.ok).toBe(true);
-      state = result.state;
+    for (let i = 0; i < 80; i += 1) {
+      state.resources.food = 0;
+      const rng = rngFromState(state);
+      applyEndOfTurn(state, rng);
+      syncRng(state, rng);
+      state.turn += 1;
       if (state.phase === "lost") break;
     }
 

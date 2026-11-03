@@ -52,6 +52,40 @@ export function findRoad(fromId: string, toId: string): RoadLink | undefined {
   return getNeighbors(fromId).find((n) => n.to === toId);
 }
 
+/** BFS shortest path of city ids (inclusive). Empty if unreachable or same city. */
+export function shortestPath(fromId: string, toId: string): string[] {
+  if (fromId === toId) return [fromId];
+  const prev = new Map<string, string | null>();
+  prev.set(fromId, null);
+  const q: string[] = [fromId];
+  while (q.length > 0) {
+    const cur = q.shift()!;
+    for (const n of getNeighbors(cur)) {
+      if (prev.has(n.to)) continue;
+      prev.set(n.to, cur);
+      if (n.to === toId) {
+        const path: string[] = [toId];
+        let walk: string | null | undefined = cur;
+        while (walk) {
+          path.push(walk);
+          walk = prev.get(walk);
+        }
+        path.reverse();
+        return path;
+      }
+      q.push(n.to);
+    }
+  }
+  return [];
+}
+
+/** Next hop toward target, or null if already there / unreachable. */
+export function nextHop(fromId: string, toId: string): string | null {
+  const path = shortestPath(fromId, toId);
+  if (path.length < 2) return null;
+  return path[1] ?? null;
+}
+
 export function computeTravelCost(
   state: GameState,
   miles: number,

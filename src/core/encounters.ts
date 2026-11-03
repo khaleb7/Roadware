@@ -131,18 +131,27 @@ function playerMorale(state: GameState): number {
   return m;
 }
 
+/** Prefer non-leader casualties while others remain — keeps convoy command alive longer. */
+function pickCasualty(state: GameState, rng: SeededRng) {
+  const alive = livingCrew(state.crew);
+  if (alive.length === 0) return undefined;
+  const leaderId = state.campaign.leaderCrewId;
+  const nonLeaders = alive.filter((c) => c.id !== leaderId);
+  const pool = nonLeaders.length > 0 ? nonLeaders : alive;
+  return pool[rng.int(0, pool.length - 1)];
+}
+
 function applyDistributedDamage(
   state: GameState,
   rng: SeededRng,
   total: number,
 ): string[] {
   const notes: string[] = [];
-  const alive = livingCrew(state.crew);
-  if (alive.length === 0 || total <= 0) return notes;
+  if (livingCrew(state.crew).length === 0 || total <= 0) return notes;
   let remaining = total;
   while (remaining > 0 && livingCrew(state.crew).length > 0) {
-    const pool = livingCrew(state.crew);
-    const victim = pool[rng.int(0, pool.length - 1)]!;
+    const victim = pickCasualty(state, rng);
+    if (!victim) break;
     const hit = Math.min(remaining, rng.int(1, Math.max(1, Math.ceil(total / 3))));
     victim.health -= hit;
     clampHealth(victim);

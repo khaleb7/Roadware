@@ -186,6 +186,41 @@ Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.t
 - Expanded log/history panel.
 - **Stage → Confirm (Enter) / Undo (U)** for the last menu choice before the turn commits (`Game.stage` / `undoStage`).
 
+## Milestone 8 — balance pass
+
+### Harness
+
+- `npm run balance` → `src/core/balance/runner.ts` plays N seeded games with a survival-first AI (`aiPolicy.ts`).
+- Reports win/loss/timeout rates, contact rate, avg turns, avg scientists delivered, loss breakdown.
+
+### Before → after (key `/data` knobs)
+
+| Knob | Before (M7) | After (M8) |
+| --- | --- | --- |
+| Starting food / fuel | 60 / 80 | 280 / 180 |
+| Starvation damage / desertion | 8 / 0.2 @ streak 1 | 2 / 0.05 @ streak 3 |
+| Road encounter base | 0.35 | 0.26 |
+| Federal minCrew / minVehicles / strength | 8 / 4 / 420 | 7 / 3 / 380 |
+| Deadline after contact | 120 | 500 |
+| Scientist max graph distance | (none) | 4 |
+| milesPerFuelUnit | 45 | 70 |
+| Search forage | none | guaranteed food + fuel |
+| Rest forage | none | when hungry (tight rations) |
+| Quick-combat damage | higher | softened bands |
+| Negotiate fail → force fight | true | false |
+| Casualties | uniform | prefer non-leader while others remain |
+
+### Measured (simple AI)
+
+- **Classic** (40 games, seedBase 13000, maxTurns 650): win **20%**, contact **95%**, avg scientists delivered **6.08**, losses mostly deadline; avg win length ~398 turns.
+- **Road-Weary** (20 games, seedBase 14000): win **10%**, contact **95%**, avg delivered **4.65** — harder as intended.
+- Early baseline before tuning: ~0% contact, wipe/leader by turn ~15.
+
+### Ambiguity
+
+- Simple AI is omniscient about scientist city ids (balance probe, not player UI).
+- Win rate is for the scripted policy — skilled humans should clear more often within the 500-turn remnant clock.
+
 ## Clean-room
 
 No original Roadwar 2000 / Roadwar Europa assets, dialogue, or proper names. Systems may be inspired by the genre (convoy, cities, road encounters) but content and naming are original.

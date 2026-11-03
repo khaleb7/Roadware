@@ -14,6 +14,7 @@
   ],
   "placement": {
     "minDistanceFromStart": 1,
+    "maxDistanceFromStart": 4,
     "avoidBunker": true,
     "statusWeights": [
       { "status": "hidden", "weight": 3 },
@@ -22,40 +23,40 @@
     ]
   },
   "federalContact": {
-    "minCrew": 8,
-    "minVehicles": 4,
-    "minTotalCombat": 280,
+    "minCrew": 7,
+    "minVehicles": 3,
+    "minTotalCombat": 240,
     "minGuns": 8,
     "crewWeight": 12,
     "vehicleWeight": 18,
     "combatWeight": 1,
     "gunWeight": 4,
-    "strengthThreshold": 420,
+    "strengthThreshold": 380,
     "factionId": "federal-remnant",
     "factionLabel": "Federal Remnant",
     "briefing": "A cracked federal freq crackles: recover eight vaccine scientists and bring them to the marked bunker. The plague does not negotiate."
   },
   "discovery": {
-    "hiddenFindChance": 0.75,
-    "scoutBonus": 0.15,
-    "guardedRevealChance": 0.7,
-    "factionRevealChance": 0.55,
-    "negotiatorRevealBonus": 0.2
+    "hiddenFindChance": 0.82,
+    "scoutBonus": 0.18,
+    "guardedRevealChance": 0.78,
+    "factionRevealChance": 0.65,
+    "negotiatorRevealBonus": 0.22
   },
   "extract": {
-    "guardedBaseChance": 0.45,
-    "gunnerBonus": 0.15,
-    "combatScale": 0.0015,
-    "factionBaseChance": 0.4,
-    "negotiatorBonus": 0.25,
-    "leadershipScale": 0.002,
-    "failDamageMin": 6,
-    "failDamageMax": 18,
-    "ammoCostGuarded": 3
+    "guardedBaseChance": 0.55,
+    "gunnerBonus": 0.18,
+    "combatScale": 0.0018,
+    "factionBaseChance": 0.5,
+    "negotiatorBonus": 0.28,
+    "leadershipScale": 0.0025,
+    "failDamageMin": 4,
+    "failDamageMax": 14,
+    "ammoCostGuarded": 2
   },
   "deadline": {
     "enabled": true,
-    "turnsAfterContact": 120
+    "turnsAfterContact": 500
   },
   "bunker": {
     "specialLocationId": "vaccine-bunker",

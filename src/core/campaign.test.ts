@@ -24,12 +24,12 @@ describe("campaign arc", () => {
     }
   });
 
-  it("does not contact the remnant below strength threshold", () => {
+  it("does not contact the remnant below crew/vehicle gates", () => {
     const state = createInitialState(11);
+    // Starting convoy is under minCrew even if raw strength is high
+    expect(state.crew.length).toBeLessThan(campaignData.federalContact.minCrew);
     expect(meetsFederalContactThreshold(state)).toBe(false);
-    expect(gangStrength(state)).toBeLessThan(
-      campaignData.federalContact.strengthThreshold,
-    );
+    expect(gangStrength(state)).toBeGreaterThan(0);
   });
 
   it("contacts federal remnant once gang strength clears data thresholds", () => {

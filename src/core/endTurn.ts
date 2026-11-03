@@ -35,9 +35,11 @@ export function applyEndOfTurn(state: GameState, rng: SeededRng): GameEvent[] {
     );
 
     for (const member of alive) {
-      member.health -= Math.ceil(
-        balance.starvation.healthLossWhenHungry * diff.starvationDamageMult,
-      );
+      const isLeader = member.id === state.campaign.leaderCrewId;
+      // Leader rations last — half hunger damage while others remain
+      const base = balance.starvation.healthLossWhenHungry * diff.starvationDamageMult;
+      const loss = Math.ceil(isLeader && alive.length > 1 ? base * 0.5 : base);
+      member.health -= loss;
       clampHealth(member);
       grantXp(member, balance.experience.surviveHungryTurnXp, {
         survival: balance.experience.surviveHungryTurnXp,
@@ -49,6 +51,13 @@ export function applyEndOfTurn(state: GameState, rng: SeededRng): GameEvent[] {
     if (state.hungerStreak >= balance.starvation.hungerStreakBeforeDesertion) {
       const stillAlive = livingCrew(state.crew);
       for (const member of [...stillAlive]) {
+        // Leader does not desert while any other crew remains
+        if (
+          member.id === state.campaign.leaderCrewId &&
+          stillAlive.length > 1
+        ) {
+          continue;
+        }
         if (rng.chance(balance.starvation.desertionChancePerHungryCrew)) {
           member.health = 0;
           events.push(

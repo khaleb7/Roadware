@@ -17,6 +17,8 @@ export interface CampaignData {
   scientistNames: string[];
   placement: {
     minDistanceFromStart: number;
+    /** Optional cap so scientists stay on a completable circuit for balance. */
+    maxDistanceFromStart?: number;
     avoidBunker: boolean;
     statusWeights: Array<{ status: ScientistStatus; weight: number }>;
   };
@@ -104,22 +106,40 @@ export function createCampaignState(
     throw new Error("Not enough cities for campaign placement");
   }
 
-  // Pick bunker far-ish from start
+  const maxDist = cfg.placement.maxDistanceFromStart ?? 99;
+
+  // Pick bunker mid-to-far from start (completable, not coast-to-coast every seed)
   const bunkerCandidates = cityIds
     .map((id) => ({ id, d: bfsDistance(startCityId, id) }))
-    .filter((c) => c.d >= cfg.placement.minDistanceFromStart)
+    .filter(
+      (c) =>
+        c.d >= Math.max(2, cfg.placement.minDistanceFromStart) &&
+        c.d <= Math.max(maxDist, 4),
+    )
     .sort((a, b) => b.d - a.d);
-  const bunkerPool = bunkerCandidates.slice(
-    0,
-    Math.max(8, Math.floor(bunkerCandidates.length / 3)),
-  );
+  const bunkerPool =
+    bunkerCandidates.length > 0
+      ? bunkerCandidates.slice(0, Math.max(8, Math.floor(bunkerCandidates.length / 2)))
+      : cityIds.map((id) => ({ id, d: bfsDistance(startCityId, id) }));
   const bunkerCityId =
     bunkerPool[rng.int(0, Math.max(0, bunkerPool.length - 1))]?.id ??
     cityIds[rng.int(0, cityIds.length - 1)]!;
 
-  const available = cityIds.filter((id) =>
-    cfg.placement.avoidBunker ? id !== bunkerCityId : true,
-  );
+  let available = cityIds
+    .filter((id) => (cfg.placement.avoidBunker ? id !== bunkerCityId : true))
+    .map((id) => ({ id, d: bfsDistance(startCityId, id) }))
+    .filter((c) => c.d >= cfg.placement.minDistanceFromStart && c.d <= maxDist)
+    .sort((a, b) => a.d - b.d)
+    .map((c) => c.id);
+  // If the band is thin, widen by nearest cities rather than continent-wide fallback
+  if (available.length < cfg.scientistCount) {
+    available = cityIds
+      .filter((id) => (cfg.placement.avoidBunker ? id !== bunkerCityId : true))
+      .map((id) => ({ id, d: bfsDistance(startCityId, id) }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, Math.max(cfg.scientistCount * 3, 24))
+      .map((c) => c.id);
+  }
   // Shuffle via RNG
   for (let i = available.length - 1; i > 0; i -= 1) {
     const j = rng.int(0, i);
@@ -345,7 +365,9 @@ export function extractScientist(
   }
 
   const dmg = rng.int(cfg.failDamageMin, cfg.failDamageMax);
-  const victim = crew[rng.int(0, crew.length - 1)];
+  const nonLeaders = crew.filter((c) => c.id !== state.campaign.leaderCrewId);
+  const victimPool = nonLeaders.length > 0 ? nonLeaders : crew;
+  const victim = victimPool[rng.int(0, victimPool.length - 1)];
   if (victim) {
     victim.health -= dmg;
     clampHealth(victim);

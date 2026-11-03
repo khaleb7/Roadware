@@ -38,11 +38,20 @@ export { moveFuelCost, canAddVehicle } from "./vehicles";
 export {
   getNeighbors,
   findRoad,
+  shortestPath,
+  nextHop,
   computeTravelCost,
   graphStats,
   cityStatusView,
   neighborStatus,
 } from "./map";
+export {
+  chooseCommand,
+  playSeededGame,
+  aggregateResults,
+  formatReport,
+} from "./balance";
+export type { PlayResult, PlayOptions, BalanceReport } from "./balance";
 export {
   rollEncounterChance,
   createPendingEncounter,

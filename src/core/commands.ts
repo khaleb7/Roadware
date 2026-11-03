@@ -133,7 +133,7 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
         break;
       case "rest":
         assertNoPending(next);
-        events.push(...cmdRest(next));
+        events.push(...cmdRest(next, rng));
         break;
       case "attack":
         assertNoPending(next);
@@ -336,6 +336,23 @@ function cmdSearch(state: GameState, rng: SeededRng): GameEvent[] {
       `Swept ${getCityDef(city.id).name}. Faction: ${getFaction(city.factionId).label}.`,
     ),
   ];
+
+  const forage = rng.int(
+    balance.search.guaranteedFoodMin,
+    balance.search.guaranteedFoodMax,
+  );
+  if (forage > 0) {
+    state.resources.food += forage;
+    events.push(ev(state, "forage", `Scrounged ${forage} food while sweeping.`));
+  }
+  const siphon = rng.int(
+    balance.search.guaranteedFuelMin,
+    balance.search.guaranteedFuelMax,
+  );
+  if (siphon > 0) {
+    state.resources.fuel += siphon;
+    events.push(ev(state, "siphon", `Siphoned ${siphon} fuel while sweeping.`));
+  }
 
   if (city.specialLocations.length > 0) {
     events.push(
@@ -560,7 +577,7 @@ function cmdCache(state: GameState, deposit: Partial<Resources>): GameEvent[] {
   return [ev(state, "cache", `Buried cache ${cache.id} at ${state.locationId}.`)];
 }
 
-function cmdRest(state: GameState): GameEvent[] {
+function cmdRest(state: GameState, rng?: SeededRng): GameEvent[] {
   for (const member of livingCrew(state.crew)) {
     member.health += balance.rest.healthRestored;
     clampHealth(member);
@@ -569,7 +586,21 @@ function cmdRest(state: GameState): GameEvent[] {
       leadership: balance.experience.restXp,
     });
   }
-  return [ev(state, "rest", "Convoy rests. Wounds ease a little.")];
+  const events: GameEvent[] = [
+    ev(state, "rest", "Convoy rests. Wounds ease a little."),
+  ];
+  if (rng) {
+    const mouths = livingCrew(state.crew).length;
+    // Only forage when rations are tight — keeps intentional starvation tests honest
+    if (state.resources.food < mouths * 2) {
+      const forage = rng.int(balance.rest.forageFoodMin, balance.rest.forageFoodMax);
+      if (forage > 0) {
+        state.resources.food += forage;
+        events.push(ev(state, "forage", `Foraged ${forage} food while resting.`));
+      }
+    }
+  }
+  return events;
 }
 
 /**
