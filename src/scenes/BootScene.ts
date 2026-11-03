@@ -25,7 +25,12 @@ export class BootScene extends Phaser.Scene {
       "veh-armored",
     ];
     for (const key of svgs) {
-      this.load.svg(key, `svg/${key}.svg`);
+      // Explicit raster size — SVGs without width/height attributes otherwise
+      // decode at the browser default (~300×150) and paint as huge black slabs.
+      const size = key.startsWith("veh-")
+        ? { width: 128, height: 64 }
+        : { width: 64, height: 64 };
+      this.load.svg(key, `svg/${key}.svg`, size);
     }
     this.load.json("asset-manifest", "manifest.json");
   }

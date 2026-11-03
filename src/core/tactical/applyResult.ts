@@ -84,7 +84,7 @@ export function applyTacticalResult(
       ev(
         state,
         "salvage",
-        `Salvaged ${offer.name} (${offer.durability}/${offer.maxDurability}).`,
+        `${offer.name} (${offer.durability}/${offer.maxDurability}).`,
       ),
     );
   }

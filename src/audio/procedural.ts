@@ -94,28 +94,32 @@ function noiseBurst(duration: number, gain = 0.2): void {
 }
 
 export function playSfx(id: SfxId): void {
-  void resumeAudio();
-  switch (id) {
-    case "ui-click":
-      tone(660, 0.04, "square", 0.08);
-      break;
-    case "ui-confirm":
-      tone(520, 0.06, "triangle", 0.1);
-      tone(780, 0.08, "triangle", 0.08);
-      break;
-    case "ui-cancel":
-      tone(320, 0.07, "sawtooth", 0.06, 180);
-      break;
-    case "engine":
-      tone(90, 0.25, "sawtooth", 0.05, 70);
-      tone(45, 0.3, "sine", 0.04);
-      break;
-    case "gunfire":
-      noiseBurst(0.08, 0.35);
-      tone(220, 0.05, "square", 0.06, 80);
-      break;
-    default:
-      break;
+  try {
+    void resumeAudio();
+    switch (id) {
+      case "ui-click":
+        tone(660, 0.04, "square", 0.08);
+        break;
+      case "ui-confirm":
+        tone(520, 0.06, "triangle", 0.1);
+        tone(780, 0.08, "triangle", 0.08);
+        break;
+      case "ui-cancel":
+        tone(320, 0.07, "sawtooth", 0.06, 180);
+        break;
+      case "engine":
+        tone(90, 0.25, "sawtooth", 0.05, 70);
+        tone(45, 0.3, "sine", 0.04);
+        break;
+      case "gunfire":
+        noiseBurst(0.08, 0.35);
+        tone(220, 0.05, "square", 0.06, 80);
+        break;
+      default:
+        break;
+    }
+  } catch {
+    /* Autoplay / suspended AudioContext must not break UI */
   }
 }
 
