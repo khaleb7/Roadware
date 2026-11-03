@@ -216,6 +216,12 @@ Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.t
 - **Road-Weary** (20 games, seedBase 14000): win **10%**, contact **95%**, avg delivered **4.65** — harder as intended.
 - Early baseline before tuning: ~0% contact, wipe/leader by turn ~15.
 
+### QA re-check (post M8)
+
+- Same Classic batch sometimes lands **~17.5%** wins (7/40) with identical seeds — seed-batch variance around the 20% target; do **not** retune from a single 40-game swing.
+- Short `maxTurns` (e.g. 300) under-reports wins (most victories land ~300–500 turns). Prefer **650** for balance reports.
+- Controversial further deadline / AI aggressiveness knobs stay here; ship M8 numbers unless a clear regression appears.
+
 ### Ambiguity
 
 - Simple AI is omniscient about scientist city ids (balance probe, not player UI).
