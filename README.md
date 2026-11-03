@@ -2,7 +2,7 @@
 
 Offline convoy strategy game (working title). Clean-room original — no original Roadwar assets, text, or names.
 
-**Milestone 2:** pure TypeScript core simulation (seeded RNG, resources, crew, vehicles, command turn loop) under `src/core`, with Vitest coverage. Phaser UI remains the Milestone 1 Boot / Main Menu shell.
+**Milestone 3:** continental U.S. strategic city graph (~110 cities), terrain-aware travel, hidden city intel, status overlay UI. Core sim remains pure TypeScript under `src/core`.
 
 ## Requirements (Windows)
 
@@ -18,17 +18,23 @@ npm install
 
 ## Development
 
-Opens an Electron window loading the Vite dev server:
-
 ```bash
 npm run dev
 ```
 
-Headless sim smoke (no window):
+Press any key on the main menu to open the strategic map (starts in Denver). Status overlay keys: `1` search, `2` loot, `3` rest, `4` attack, `M` move, `S` refresh.
+
+Headless sim:
 
 ```bash
 npm run sim
 npm run sim -- 12345
+```
+
+Regenerate the city graph (optional; committed `data/cities.json` is used at runtime):
+
+```bash
+node scripts/generate-cities.mjs
 ```
 
 ## Scripts
@@ -47,29 +53,23 @@ npm run sim -- 12345
 ## Project layout
 
 ```
-src/core/     Pure simulation (no Phaser) — state, RNG, commands
-src/scenes/   Phaser scenes
-src/ui/       UI helpers (stub)
-data/         Balance + vehicle/specialist tables (JSON)
+src/core/     Pure simulation (RNG, commands, map travel, city intel)
+src/scenes/   Phaser scenes (Boot, MainMenu, StrategicMap)
+src/ui/       HTML status overlay
+data/         balance, cities, terrain, factions, vehicle/specialist tables
+scripts/      City graph generator
 electron/     Electron main + preload
 assets/       Runtime assets + manifest.json
-dist/         Vite renderer output
-dist-electron/ Compiled Electron main process
-release/      electron-builder output (Windows)
 ```
 
-Balance numbers belong in `/data/*.json` — keep them out of `src/core` logic.
+Balance and map numbers belong in `/data/*.json` — keep them out of `src/core` logic.
 
 ## Connecting a GitHub remote (later)
-
-This repo was initialized locally with no remote. When you have a GitHub repo:
 
 ```bash
 git remote add origin git@github.com:<org-or-user>/<repo>.git
 git push -u origin HEAD
 ```
-
-Then open a PR against your default branch as usual.
 
 ## License / credits
 

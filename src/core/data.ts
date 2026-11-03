@@ -1,7 +1,10 @@
 import balanceJson from "../../data/balance.json";
+import citiesJson from "../../data/cities.json";
+import factionsJson from "../../data/factions.json";
 import specialistsJson from "../../data/specialists.json";
+import terrainJson from "../../data/terrain.json";
 import vehicleClassesJson from "../../data/vehicle-classes.json";
-import type { ResourceId, SpecialistId, VehicleClassId } from "./types";
+import type { ResourceId, SpecialistId, TerrainId, VehicleClassId } from "./types";
 
 export interface LootEntry {
   resource: ResourceId;
@@ -23,6 +26,38 @@ export interface BalanceData {
     tiresConsumedOnWear: number;
     driverFuelMultiplier: number;
     minFuelCost: number;
+  };
+  travel: {
+    milesPerFuelUnit: number;
+    referenceMilesForTireWear: number;
+    maxTireWearChance: number;
+  };
+  cityGeneration: {
+    lootPileCountMin: number;
+    lootPileCountMax: number;
+    vehicleYardChance: number;
+    vehicleYardMin: number;
+    vehicleYardMax: number;
+    recruitCountMin: number;
+    recruitCountMax: number;
+    specialLocationChance: number;
+    specialLocationMax: number;
+    dangerJitter: number;
+    populationJitterFraction: number;
+    minPopulation: number;
+    minDanger: number;
+    maxDanger: number;
+    recruitCombatMin: number;
+    recruitCombatMax: number;
+    recruitSurvivalMin: number;
+    recruitSurvivalMax: number;
+    recruitLeadershipMin: number;
+    recruitLeadershipMax: number;
+  };
+  recruit: {
+    searchHireChance: number;
+    negotiatorHireBonus: number;
+    maxCrewSoftCap: number;
   };
   scavenge: {
     minDurabilityFraction: number;
@@ -83,6 +118,8 @@ export interface BalanceData {
     stubDamageToEnemy: number;
     stubVictoryChance: number;
     gunnerBonusVictoryChance: number;
+    dangerVictoryPenaltyPerPoint: number;
+    minVictoryChance: number;
   };
   cache: {
     minDepositTotal: number;
@@ -107,7 +144,47 @@ export interface BalanceData {
     }>;
     vehicles: Array<{ classId: VehicleClassId; name: string }>;
   };
-  stubMap: Record<string, { name: string; links: string[] }>;
+}
+
+export interface CityDef {
+  id: string;
+  name: string;
+  state: string;
+  lat: number;
+  lon: number;
+  region: string;
+  basePopulation: number;
+  baseDanger: number;
+}
+
+export interface RoadEdge {
+  from: string;
+  to: string;
+  terrain: TerrainId;
+  miles: number;
+}
+
+export interface CitiesData {
+  version: number;
+  startCityId: string;
+  cities: CityDef[];
+  edges: RoadEdge[];
+  specialLocationPool: string[];
+  regionFactionPools: Record<string, string[]>;
+}
+
+export interface TerrainDef {
+  id: TerrainId;
+  label: string;
+  speedMultiplier: number;
+  fuelMultiplier: number;
+  tireWearMultiplier: number;
+}
+
+export interface FactionDef {
+  id: string;
+  label: string;
+  attitude: string;
 }
 
 export interface VehicleClassDef {
@@ -129,17 +206,38 @@ export interface SpecialistDef {
 }
 
 export const balance = balanceJson as BalanceData;
+export const citiesData = citiesJson as CitiesData;
+export const terrain = terrainJson as Record<TerrainId, TerrainDef>;
+export const factions = factionsJson as Record<string, FactionDef>;
 export const vehicleClasses = vehicleClassesJson as Record<
   VehicleClassId,
   VehicleClassDef
 >;
 export const specialists = specialistsJson as Record<SpecialistId, SpecialistDef>;
 
+export const cityById: Record<string, CityDef> = Object.fromEntries(
+  citiesData.cities.map((c) => [c.id, c]),
+);
+
 export function getVehicleClass(classId: VehicleClassId): VehicleClassDef {
   const def = vehicleClasses[classId];
-  if (!def) {
-    throw new Error(`Unknown vehicle class: ${classId}`);
-  }
+  if (!def) throw new Error(`Unknown vehicle class: ${classId}`);
+  return def;
+}
+
+export function getTerrain(id: TerrainId): TerrainDef {
+  const def = terrain[id];
+  if (!def) throw new Error(`Unknown terrain: ${id}`);
+  return def;
+}
+
+export function getFaction(id: string): FactionDef {
+  return factions[id] ?? factions.unknown!;
+}
+
+export function getCityDef(id: string): CityDef {
+  const def = cityById[id];
+  if (!def) throw new Error(`Unknown city: ${id}`);
   return def;
 }
 

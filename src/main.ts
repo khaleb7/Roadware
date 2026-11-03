@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { GAME_HEIGHT, GAME_WIDTH, WORKING_TITLE } from "./config";
 import { BootScene } from "./scenes/BootScene";
 import { MainMenuScene } from "./scenes/MainMenuScene";
+import { StrategicMapScene } from "./scenes/StrategicMapScene";
 
 document.title = WORKING_TITLE;
 
@@ -15,7 +16,7 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, MainMenuScene],
+  scene: [BootScene, MainMenuScene, StrategicMapScene],
 };
 
 const game = new Phaser.Game(config);

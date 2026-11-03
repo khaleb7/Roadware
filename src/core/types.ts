@@ -19,20 +19,10 @@ export type SpecialistId =
 export type VehicleClassId =
   "bike" | "hardtop" | "hauler" | "bus" | "tanker" | "armored";
 
-export type GamePhase = "playing" | "lost";
+export type TerrainId =
+  "highway" | "secondary" | "mountain" | "desert" | "coastal" | "ruined";
 
-export type CommandType =
-  | "move"
-  | "search"
-  | "loot"
-  | "repair"
-  | "heal"
-  | "cache"
-  | "rest"
-  | "attack"
-  | "status"
-  | "scavengeVehicle"
-  | "captureVehicle";
+export type GamePhase = "playing" | "lost";
 
 export interface CrewMember {
   id: string;
@@ -68,10 +58,41 @@ export interface GameEvent {
   message: string;
 }
 
+export interface RecruitTemplate {
+  name: string;
+  specialist: SpecialistId;
+  combat: number;
+  survival: number;
+  leadership: number;
+}
+
+export interface CityRevealFlags {
+  population: boolean;
+  danger: boolean;
+  faction: boolean;
+  loot: boolean;
+  vehicles: boolean;
+  recruits: boolean;
+  specials: boolean;
+}
+
+/** Per-city runtime state — hidden fields stay in state but UI reads reveal flags. */
+export interface CityRuntime {
+  id: string;
+  visited: boolean;
+  searched: boolean;
+  population: number;
+  danger: number;
+  factionId: string;
+  loot: Resources;
+  vehicleYard: VehicleClassId[];
+  recruits: RecruitTemplate[];
+  specialLocations: string[];
+  revealed: CityRevealFlags;
+}
+
 export interface GameState {
-  /** Original campaign seed (for display / new-game replay). */
   seed: number;
-  /** Current Mulberry32 state — serialize this for mid-run reproducibility. */
   rngState: number;
   turn: number;
   phase: GamePhase;
@@ -81,6 +102,7 @@ export interface GameState {
   crew: CrewMember[];
   vehicles: Vehicle[];
   caches: CacheDeposit[];
+  cities: Record<string, CityRuntime>;
   hungerStreak: number;
   stranded: boolean;
   nextEntityId: number;
@@ -91,6 +113,7 @@ export type GameCommand =
   | { type: "move"; destinationId: string }
   | { type: "search" }
   | { type: "loot"; cacheId?: string }
+  | { type: "retrieve"; cacheId: string }
   | { type: "repair"; vehicleId: string }
   | { type: "heal"; crewId: string }
   | { type: "cache"; deposit: Partial<Resources> }
@@ -100,11 +123,34 @@ export type GameCommand =
   | { type: "scavengeVehicle"; classId?: VehicleClassId }
   | { type: "captureVehicle"; classId?: VehicleClassId };
 
+export interface NeighborInfo {
+  id: string;
+  name: string;
+  terrain: TerrainId;
+  miles: number;
+  fuelCost: number;
+}
+
+export interface CityStatusView {
+  id: string;
+  name: string;
+  stateCode: string;
+  visited: boolean;
+  searched: boolean;
+  population: number | null;
+  danger: number | null;
+  factionLabel: string | null;
+  loot: Partial<Resources> | null;
+  vehicleYard: VehicleClassId[] | null;
+  recruitCount: number | null;
+  recruits: RecruitTemplate[] | null;
+  specialLocations: string[] | null;
+}
+
 export interface CommandResult {
   ok: boolean;
   state: GameState;
   events: GameEvent[];
-  /** False for free commands like status. */
   turnAdvanced: boolean;
   error?: string;
   status?: StatusSnapshot;
@@ -114,10 +160,15 @@ export interface StatusSnapshot {
   turn: number;
   phase: GamePhase;
   locationId: string;
+  locationName: string;
   resources: Resources;
   crewCount: number;
   vehicleCount: number;
   hungerStreak: number;
   stranded: boolean;
   lossReason: string | null;
+  neighbors: NeighborInfo[];
+  city: CityStatusView;
+  cachesHere: Array<{ id: string; resources: Partial<Resources> }>;
+  recentLog: GameEvent[];
 }

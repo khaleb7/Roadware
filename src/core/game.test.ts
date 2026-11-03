@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { balance } from "./data";
 import { Game, runCommand } from "./game";
+import { getNeighbors } from "./map";
 import { createInitialState, deserializeState, serializeState } from "./state";
 import type { GameState } from "./types";
 
@@ -11,16 +12,19 @@ describe("core simulation", () => {
     expect(state.vehicles).toHaveLength(balance.startingConvoy.vehicles.length);
     expect(state.vehicles.length).toBeLessThanOrEqual(balance.maxVehicles);
     expect(state.resources.food).toBe(balance.startingResources.food);
+    expect(state.locationId).toBe(balance.startingConvoy.locationId);
+    expect(Object.keys(state.cities).length).toBeGreaterThanOrEqual(100);
 
     const roundTrip = deserializeState(serializeState(state));
     expect(roundTrip).toEqual(state);
   });
 
   it("replays identically from the same seed", () => {
+    const destination = getNeighbors("denver-co")[0]!.to;
     const commands = [
       { type: "search" as const },
       { type: "rest" as const },
-      { type: "move" as const, destinationId: "ash-crossroads" },
+      { type: "move" as const, destinationId: destination },
       { type: "loot" as const },
       { type: "attack" as const },
     ];
@@ -39,7 +43,7 @@ describe("core simulation", () => {
     expect(run(9001)).not.toEqual(run(9002));
   });
 
-  it("treats status as a free command", () => {
+  it("treats status as a free command with map intel", () => {
     const game = new Game(1);
     const before = game.getState().turn;
     const result = game.dispatch({ type: "status" });
@@ -47,6 +51,8 @@ describe("core simulation", () => {
     expect(result.turnAdvanced).toBe(false);
     expect(game.getState().turn).toBe(before);
     expect(result.status?.crewCount).toBe(balance.startingConvoy.crew.length);
+    expect(result.status?.neighbors.length).toBeGreaterThan(0);
+    expect(result.status?.locationName).toMatch(/Denver/);
   });
 
   it("consumes food each turn and starves the convoy to a loss", () => {
@@ -56,7 +62,6 @@ describe("core simulation", () => {
       resources: { ...state.resources, food: 0 },
     };
 
-    // healthLossWhenHungry from data will zero the roster within a few dozen turns.
     for (let i = 0; i < 40; i += 1) {
       const result = runCommand(state, { type: "rest" });
       expect(result.ok).toBe(true);
@@ -76,24 +81,26 @@ describe("core simulation", () => {
       ...state,
       resources: { ...state.resources, fuel: 0 },
     };
+    const destination = getNeighbors(state.locationId)[0]!.to;
     const result = runCommand(state, {
       type: "move",
-      destinationId: "ash-crossroads",
+      destinationId: destination,
     });
     expect(result.ok).toBe(false);
     expect(result.error).toMatch(/Stranded/i);
     expect(result.turnAdvanced).toBe(false);
   });
 
-  it("moves along stub map links and burns fuel", () => {
+  it("moves along highways and burns fuel", () => {
     const game = new Game(8);
     const fuelBefore = game.getState().resources.fuel;
+    const destination = "colorado-springs-co";
     const result = game.dispatch({
       type: "move",
-      destinationId: "ash-crossroads",
+      destinationId: destination,
     });
     expect(result.ok).toBe(true);
-    expect(game.getState().locationId).toBe("ash-crossroads");
+    expect(game.getState().locationId).toBe(destination);
     expect(game.getState().resources.fuel).toBeLessThan(fuelBefore);
     expect(game.getState().turn).toBe(2);
   });
@@ -101,7 +108,6 @@ describe("core simulation", () => {
   it("repairs vehicles using spare parts", () => {
     const game = new Game(11);
     const vehicle = game.getState().vehicles[0]!;
-    // Damage via direct state clone through dispatch failure path — mutate via JSON
     const damaged = deserializeState(game.toJSON());
     damaged.vehicles[0]!.durability = 10;
     const g2 = new Game(damaged);
@@ -137,7 +143,7 @@ describe("core simulation", () => {
     const topped = deserializeState(game.toJSON());
     topped.resources.food = 100;
     const g2 = new Game(topped);
-    const loot = g2.dispatch({ type: "loot", cacheId });
+    const loot = g2.dispatch({ type: "retrieve", cacheId });
     expect(loot.ok).toBe(true);
     expect(g2.getState().caches).toHaveLength(0);
     expect(loot.events.some((e) => e.kind === "loot")).toBe(true);
@@ -145,7 +151,6 @@ describe("core simulation", () => {
 
   it("respects vehicle cap on scavenge/capture stubs", () => {
     let state = createInitialState(14);
-    // Fill to cap
     while (state.vehicles.length < balance.maxVehicles) {
       const result = runCommand(state, {
         type: "scavengeVehicle",

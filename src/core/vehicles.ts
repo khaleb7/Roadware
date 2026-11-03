@@ -33,7 +33,7 @@ export function addVehicle(
   return vehicle;
 }
 
-/** Fuel cost for a move — data rates, driver specialist softens via efficiency bump in caller. */
+/** Legacy flat estimate — prefer computeTravelCost in map.ts for real moves. */
 export function moveFuelCost(state: GameState): number {
   const c = balance.consumption;
   return c.fuelPerMoveFlat + c.fuelPerVehicleOnMove * state.vehicles.length;

@@ -1,65 +1,82 @@
 # Design notes
 
-Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.ts`. Product strings in Electron builder (`productName`) and `index.html` / `document.title` mirror that value for Milestone 1; gameplay UI must import the constant.
+Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.ts`. Product strings in Electron builder (`productName`) and `index.html` / `document.title` mirror that value; gameplay UI must import the constant.
 
 ## Stack choices
 
 - **Phaser 3 + Vite + TypeScript strict** for the renderer; offline-only at runtime (no network calls from game code).
 - **Electron** shells the game for a Windows desktop target; `contextIsolation` + `sandbox` on; empty preload bridge for now.
-- **electron-builder** targets Windows x64 **NSIS** (installer) and **portable**. Packaging is configured now; full installer artifacts require a Windows host (or wine tooling). Linux CI can still run lint, test, Vite build, and Electron main compile.
+- **electron-builder** targets Windows x64 **NSIS** (installer) and **portable**. Full installer artifacts need Windows (or Wine).
 - **Vitest** for unit tests of pure logic (`src/core`).
 - **ESLint flat config + Prettier** for CI-ready lint/format.
 
 ## Architecture
 
-| Path          | Role                                                         |
-| ------------- | ------------------------------------------------------------ |
-| `src/core/`   | Pure TS simulation — **no Phaser imports**                   |
-| `src/scenes/` | Phaser scenes (Boot, MainMenu, Map, Combat, …)               |
-| `src/ui/`     | Reusable UI helpers / HUD widgets                            |
-| `data/`       | Balance + tables (`balance.json`, `vehicle-classes.json`, …) |
-| `electron/`   | Main process + preload                                       |
-| `assets/`     | Images/audio; `manifest.json` describes packs                |
+| Path          | Role                                                                     |
+| ------------- | ------------------------------------------------------------------------ |
+| `src/core/`   | Pure TS simulation — **no Phaser imports**                               |
+| `src/scenes/` | Phaser scenes (Boot, MainMenu, StrategicMap, …)                          |
+| `src/ui/`     | HTML/DOM helpers (status overlay)                                        |
+| `data/`       | Balance, cities graph, terrain, factions, vehicle/specialist tables      |
+| `electron/`   | Main process + preload                                                   |
+| `assets/`     | Images/audio; `manifest.json` describes packs                            |
+| `scripts/`    | Offline generators (e.g. `generate-cities.mjs`) — not shipped to runtime |
 
 ## Milestone 2 — simulation decisions
 
 ### Command model
 
-- `GameState` is a plain JSON-serializable object. **All mutation goes through `applyCommand`** (or `Game.dispatch`), which clones, mutates the clone, and returns a new state.
-- **One command per turn**, except **`status`**, which is free (no upkeep, no turn advance) so the UI/debug runner can inspect without burning a day.
-- Command surface: `move`, `search`, `loot`, `repair`, `heal`, `cache`, `rest`, `attack`, `status`, plus stubs `scavengeVehicle` / `captureVehicle`.
-- Strategic **move** uses a tiny stub map in `data/balance.json` (`stubMap`). Real map travel arrives in Milestone 3.
-- **attack** is a stub: spends ammo, rolls a data-driven victory chance, grants combat XP. Full encounter/tactical combat comes later.
+- `GameState` is JSON-serializable. **All mutation goes through `applyCommand`** / `Game.dispatch`.
+- **One command per turn**, except **`status`** (free).
+- Command surface: `move`, `search`, `loot`, `retrieve`, `repair`, `heal`, `cache`, `rest`, `attack`, `status`, `scavengeVehicle`, `captureVehicle`.
+- **attack** remains a stub pending Milestone 4 encounters.
 
 ### RNG
 
-- **Mulberry32** in `src/core/rng.ts`. One instance is rehydrated from `GameState.rngState` each command and written back afterward.
-- Campaign `seed` is preserved for display / new-game replay; **saves must persist `rngState`** for mid-run reproducibility.
+- **Mulberry32**; persist `rngState` for mid-run reproducibility. Campaign `seed` is for display / new games.
 
 ### Balance data only
 
-- Numeric rates, thresholds, XP, loot tables, starting convoy, vehicle stats, and specialist metadata live under `/data` JSON.
-- Core logic may know **structural** ids (`food`, `medic`, command type names) but not balance literals (costs, chances, caps). Caps like `maxVehicles` are read from JSON.
+- Rates, thresholds, XP, loot, travel, city generation, vehicle stats live under `/data` JSON.
+- Core may know structural ids (`food`, `medic`, terrain ids) but not numeric balance literals.
 
 ### Resources & teeth
 
-- Resources: food, fuel, tires, medicine, guns, ammunition, spare parts.
-- Every turn-consuming command runs **end-of-turn upkeep**: food per living crew. Shortfall raises `hungerStreak`, deals survival damage, and rolls **desertion**. Empty roster → `phase: "lost"`.
-- **Stranded**: move fails (and sets `stranded`) with insufficient fuel or zero tires. Search/loot/rest still possible so the player can dig out.
+- Food upkeep → hunger → desertion → loss. Fuel/tire shortages **strand** movement only.
 
-### Crew
+### Crew / vehicles
 
-- Ratings: **combat / survival / leadership** (no class levels). **XP banks** convert into rating bumps via thresholds in `balance.experience`.
-- Specialists: medic, mechanic, driver, scout, negotiator, gunner, plus a **leader** role for the starting convoy captain (flavor + future leadership hooks).
+- Ratings + XP banks (no levels). Specialists as before. Vehicle cap from data.
 
-### Vehicles
+## Milestone 3 — strategic map decisions
 
-- Cap `maxVehicles` from data (15). Classes and stats in `vehicle-classes.json`. Scavenge/capture are stubs that add a vehicle when under cap.
+### City graph
+
+- ~110 real continental U.S. cities in `data/cities.json` with highway edges, miles (haversine), and terrain tags.
+- Regenerable via `node scripts/generate-cities.mjs` (committed JSON is the source of truth at runtime).
+- Start city: **Denver, CO** (`denver-co`) — central hub for early routes.
+
+### Terrain
+
+- Types in `data/terrain.json`: highway, secondary, mountain, desert, coastal, ruined.
+- Affect **fuel** (`fuelMultiplier / speedMultiplier`) and **tire wear chance** (scaled by miles). Move still costs **one turn** regardless of miles — speed is a cost modifier, not a multi-turn travel clock (keeps the one-command-per-turn loop readable for M3).
+
+### Hidden city state
+
+- Runtime `GameState.cities[id]` holds population, danger, faction, loot piles, vehicle yard, recruits, special locations.
+- **Visit** (arrive via move, or start city): reveals population + danger.
+- **Search**: reveals faction, loot, yard, recruits, specials; may hire a recruit; may skim city loot.
+- **Loot**: drains revealed city loot when present; otherwise falls back to the generic table. **`retrieve`** is the explicit cache-pull alias (same handler as `loot` with `cacheId`).
+- Unrevealed fields stay in state for determinism but status/UI shows `null` / "??".
+
+### Status UI
+
+- HTML overlay (`src/ui/statusOverlay.ts`) over a thin Phaser `StrategicMapScene` — intentional: full drawn map comes later; overlay keeps status readable now.
+- Keyboard: `1` search, `2` loot, `3` rest, `4` attack, `M` move along first listed road, `S` refresh status.
 
 ### Fun + readable bias
 
-- Prefer short event messages on the state log over opaque codes.
-- Failures return `{ ok: false, error }` without mutating state — easier to bind to UI.
+- Short log lines; status lists roads with miles/terrain/fuel cost so moves feel informed.
 
 ## Clean-room
 

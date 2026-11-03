@@ -1,4 +1,15 @@
-export { balance, specialists, vehicleClasses, getVehicleClass } from "./data";
+export {
+  balance,
+  citiesData,
+  specialists,
+  vehicleClasses,
+  terrain,
+  factions,
+  getVehicleClass,
+  getCityDef,
+  getTerrain,
+  getFaction,
+} from "./data";
 export { SeededRng } from "./rng";
 export {
   createInitialState,
@@ -10,4 +21,12 @@ export { applyCommand } from "./commands";
 export { Game, runCommand } from "./game";
 export { livingCrew, hasSpecialist, grantXp } from "./crew";
 export { moveFuelCost, canAddVehicle } from "./vehicles";
+export {
+  getNeighbors,
+  findRoad,
+  computeTravelCost,
+  graphStats,
+  cityStatusView,
+  neighborStatus,
+} from "./map";
 export type * from "./types";

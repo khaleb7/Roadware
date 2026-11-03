@@ -1,4 +1,5 @@
-import { balance, emptyResources, getVehicleClass } from "./data";
+import { balance, citiesData, emptyResources, getVehicleClass } from "./data";
+import { generateAllCities, markCityVisited } from "./map";
 import { SeededRng } from "./rng";
 import type { CrewMember, GameEvent, GameState, Resources, Vehicle } from "./types";
 import { RESOURCE_IDS } from "./types";
@@ -39,8 +40,13 @@ export function createInitialState(seed: number): GameState {
     };
   });
 
-  // Warm the RNG once so rngState differs from seed in saves (documents serial state).
-  rng.next();
+  const cities = generateAllCities(rng);
+  const startId = balance.startingConvoy.locationId || citiesData.startCityId;
+  const startCity = cities[startId];
+  if (!startCity) {
+    throw new Error(`Start city missing: ${startId}`);
+  }
+  markCityVisited(startCity);
 
   return {
     seed,
@@ -48,11 +54,12 @@ export function createInitialState(seed: number): GameState {
     turn: 1,
     phase: "playing",
     lossReason: null,
-    locationId: balance.startingConvoy.locationId,
+    locationId: startId,
     resources,
     crew,
     vehicles,
     caches: [],
+    cities,
     hungerStreak: 0,
     stranded: false,
     nextEntityId,
@@ -60,7 +67,7 @@ export function createInitialState(seed: number): GameState {
       {
         turn: 1,
         kind: "boot",
-        message: "Convoy assembled. The road does not care.",
+        message: `Convoy assembled in ${startId}. The road does not care.`,
       },
     ],
   };
@@ -88,6 +95,9 @@ export function assertGameState(state: GameState): void {
   }
   if (!Array.isArray(state.crew) || !Array.isArray(state.vehicles)) {
     throw new Error("Invalid crew/vehicles arrays");
+  }
+  if (!state.cities || typeof state.cities !== "object") {
+    throw new Error("Invalid cities map");
   }
 }
 

@@ -1,0 +1,44 @@
+{
+  "highway": {
+    "id": "highway",
+    "label": "Highway",
+    "speedMultiplier": 1.0,
+    "fuelMultiplier": 1.0,
+    "tireWearMultiplier": 1.0
+  },
+  "secondary": {
+    "id": "secondary",
+    "label": "Secondary Road",
+    "speedMultiplier": 0.75,
+    "fuelMultiplier": 1.15,
+    "tireWearMultiplier": 1.25
+  },
+  "mountain": {
+    "id": "mountain",
+    "label": "Mountain Pass",
+    "speedMultiplier": 0.55,
+    "fuelMultiplier": 1.45,
+    "tireWearMultiplier": 1.6
+  },
+  "desert": {
+    "id": "desert",
+    "label": "Desert Highway",
+    "speedMultiplier": 0.85,
+    "fuelMultiplier": 1.35,
+    "tireWearMultiplier": 1.4
+  },
+  "coastal": {
+    "id": "coastal",
+    "label": "Coastal Road",
+    "speedMultiplier": 0.8,
+    "fuelMultiplier": 1.1,
+    "tireWearMultiplier": 1.15
+  },
+  "ruined": {
+    "id": "ruined",
+    "label": "Ruined Corridor",
+    "speedMultiplier": 0.45,
+    "fuelMultiplier": 1.6,
+    "tireWearMultiplier": 2.0
+  }
+}

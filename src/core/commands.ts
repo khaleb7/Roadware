@@ -1,4 +1,12 @@
-import { balance, emptyResources, getVehicleClass, vehicleClasses } from "./data";
+import {
+  balance,
+  emptyResources,
+  getCityDef,
+  getFaction,
+  getTerrain,
+  getVehicleClass,
+  vehicleClasses,
+} from "./data";
 import {
   clampHealth,
   findCrew,
@@ -8,6 +16,15 @@ import {
   livingCrew,
 } from "./crew";
 import { applyEndOfTurn } from "./endTurn";
+import {
+  cityStatusView,
+  computeTravelCost,
+  findRoad,
+  markCitySearched,
+  markCityVisited,
+  neighborStatus,
+  sumLoot,
+} from "./map";
 import type { SeededRng } from "./rng";
 import {
   allocateId,
@@ -27,7 +44,7 @@ import type {
   VehicleClassId,
 } from "./types";
 import { RESOURCE_IDS } from "./types";
-import { addVehicle, canAddVehicle, findVehicle, moveFuelCost } from "./vehicles";
+import { addVehicle, canAddVehicle, findVehicle } from "./vehicles";
 
 export function applyCommand(state: GameState, command: GameCommand): CommandResult {
   if (command.type === "status") {
@@ -36,7 +53,7 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
       state,
       events: [],
       turnAdvanced: false,
-      status: snapshot(state),
+      status: buildStatus(state),
     };
   }
 
@@ -57,6 +74,9 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
         events.push(...cmdSearch(next, rng));
         break;
       case "loot":
+        events.push(...cmdLoot(next, rng, command.cacheId));
+        break;
+      case "retrieve":
         events.push(...cmdLoot(next, rng, command.cacheId));
         break;
       case "repair":
@@ -109,17 +129,30 @@ function fail(state: GameState, error: string): CommandResult {
   return { ok: false, state, events: [], turnAdvanced: false, error };
 }
 
-function snapshot(state: GameState): StatusSnapshot {
+function buildStatus(state: GameState): StatusSnapshot {
+  const city = state.cities[state.locationId];
+  if (!city) {
+    throw new Error(`Missing city runtime: ${state.locationId}`);
+  }
+  const def = getCityDef(state.locationId);
+  const driver = hasSpecialist(state.crew, "driver");
   return {
     turn: state.turn,
     phase: state.phase,
     locationId: state.locationId,
+    locationName: `${def.name}, ${def.state}`,
     resources: { ...state.resources },
     crewCount: state.crew.length,
     vehicleCount: state.vehicles.length,
     hungerStreak: state.hungerStreak,
     stranded: state.stranded,
     lossReason: state.lossReason,
+    neighbors: neighborStatus(state, driver),
+    city: cityStatusView(city),
+    cachesHere: state.caches
+      .filter((c) => c.locationId === state.locationId)
+      .map((c) => ({ id: c.id, resources: { ...c.resources } })),
+    recentLog: state.log.slice(-8),
   };
 }
 
@@ -127,30 +160,36 @@ function ev(state: GameState, kind: string, message: string): GameEvent {
   return { turn: state.turn, kind, message };
 }
 
+function currentCity(state: GameState) {
+  const city = state.cities[state.locationId];
+  if (!city) throw new Error(`Unknown city runtime: ${state.locationId}`);
+  return city;
+}
+
 function cmdMove(state: GameState, rng: SeededRng, destinationId: string): GameEvent[] {
-  const here = balance.stubMap[state.locationId];
-  if (!here) throw new Error(`Unknown location: ${state.locationId}`);
-  if (!here.links.includes(destinationId)) {
-    throw new Error(`No road from ${state.locationId} to ${destinationId}`);
+  const road = findRoad(state.locationId, destinationId);
+  if (!road) {
+    throw new Error(`No highway from ${state.locationId} to ${destinationId}`);
   }
-  if (!balance.stubMap[destinationId]) {
-    throw new Error(`Unknown destination: ${destinationId}`);
-  }
+  const dest = state.cities[destinationId];
+  if (!dest) throw new Error(`Unknown destination: ${destinationId}`);
 
-  let fuelCost = moveFuelCost(state);
-  if (hasSpecialist(state.crew, "driver")) {
-    fuelCost = Math.max(
-      balance.consumption.minFuelCost,
-      Math.ceil(fuelCost * balance.consumption.driverFuelMultiplier),
-    );
-  }
-
+  const driver = hasSpecialist(state.crew, "driver");
+  const { fuelCost, tireWearChance } = computeTravelCost(
+    state,
+    road.miles,
+    road.terrain,
+    driver,
+  );
+  const terrainLabel = getTerrain(road.terrain).label;
   const needFuel = balance.stranded.blockMoveWithoutFuel;
   const needTires = balance.stranded.blockMoveWithoutTires;
 
   if (needFuel && state.resources.fuel < fuelCost) {
     state.stranded = true;
-    throw new Error(`Stranded: need ${fuelCost} fuel, have ${state.resources.fuel}`);
+    throw new Error(
+      `Stranded: need ${fuelCost} fuel for ${road.miles} mi ${terrainLabel}, have ${state.resources.fuel}`,
+    );
   }
   if (needTires && state.resources.tires <= 0) {
     state.stranded = true;
@@ -158,15 +197,16 @@ function cmdMove(state: GameState, rng: SeededRng, destinationId: string): GameE
   }
 
   state.resources.fuel -= fuelCost;
+  const destDef = getCityDef(destinationId);
   const events: GameEvent[] = [
     ev(
       state,
       "move",
-      `Rolled to ${balance.stubMap[destinationId]!.name} (burned ${fuelCost} fuel).`,
+      `Rolled ${road.miles} mi via ${terrainLabel} to ${destDef.name} (burned ${fuelCost} fuel).`,
     ),
   ];
 
-  if (rng.chance(balance.consumption.tireWearChanceOnMove)) {
+  if (rng.chance(tireWearChance)) {
     const used = Math.min(
       balance.consumption.tiresConsumedOnWear,
       state.resources.tires,
@@ -180,6 +220,7 @@ function cmdMove(state: GameState, rng: SeededRng, destinationId: string): GameE
   }
 
   state.locationId = destinationId;
+  markCityVisited(dest);
   if (state.resources.fuel > 0 && state.resources.tires > 0) {
     state.stranded = false;
   }
@@ -191,6 +232,9 @@ function cmdMove(state: GameState, rng: SeededRng, destinationId: string): GameE
 }
 
 function cmdSearch(state: GameState, rng: SeededRng): GameEvent[] {
+  const city = currentCity(state);
+  markCitySearched(city);
+
   let chance = balance.search.baseFindChance;
   if (hasSpecialist(state.crew, "scout")) {
     chance += balance.search.scoutBonusFindChance;
@@ -199,14 +243,75 @@ function cmdSearch(state: GameState, rng: SeededRng): GameEvent[] {
     survival: balance.experience.searchXp,
   });
 
+  const events: GameEvent[] = [
+    ev(
+      state,
+      "search",
+      `Swept ${getCityDef(city.id).name}. Faction: ${getFaction(city.factionId).label}.`,
+    ),
+  ];
+
+  if (city.specialLocations.length > 0) {
+    events.push(
+      ev(state, "specials", `Noted sites: ${city.specialLocations.join(", ")}.`),
+    );
+  }
+
+  // Recruit attempt
+  let hireChance = balance.recruit.searchHireChance;
+  if (hasSpecialist(state.crew, "negotiator")) {
+    hireChance += balance.recruit.negotiatorHireBonus;
+  }
+  if (
+    city.recruits.length > 0 &&
+    state.crew.length < balance.recruit.maxCrewSoftCap &&
+    rng.chance(hireChance)
+  ) {
+    const recruit = city.recruits.shift()!;
+    state.crew.push({
+      id: allocateId(state, "crew"),
+      name: recruit.name,
+      specialist: recruit.specialist,
+      health: balance.crewDefaults.startingHealth,
+      combat: recruit.combat,
+      survival: recruit.survival,
+      leadership: recruit.leadership,
+      xp: 0,
+      combatXpBank: 0,
+      survivalXpBank: 0,
+      leadershipXpBank: 0,
+    });
+    events.push(
+      ev(state, "recruit", `${recruit.name} joins as ${recruit.specialist}.`),
+    );
+  }
+
   if (!rng.chance(chance)) {
-    return [ev(state, "search", "Search turns up dust and old paint.")];
+    events.push(ev(state, "search", "No easy scrap in the open."));
+    return events;
+  }
+
+  if (sumLoot(city.loot) > 0) {
+    const entry = rng.pickWeighted(balance.search.lootTable);
+    const available = city.loot[entry.resource];
+    if (available > 0) {
+      const amount = Math.min(available, rng.int(entry.min, entry.max));
+      city.loot[entry.resource] -= amount;
+      state.resources[entry.resource] += amount;
+      events.push(
+        ev(state, "search", `Pulled ${amount} ${entry.resource} from city stocks.`),
+      );
+      return events;
+    }
   }
 
   const entry = rng.pickWeighted(balance.search.lootTable);
   const amount = rng.int(entry.min, entry.max);
   state.resources[entry.resource] += amount;
-  return [ev(state, "search", `Found ${amount} ${entry.resource} while searching.`)];
+  events.push(
+    ev(state, "search", `Found ${amount} ${entry.resource} while searching.`),
+  );
+  return events;
 }
 
 function cmdLoot(
@@ -229,7 +334,30 @@ function cmdLoot(
       state.resources[id] += cache.resources[id] ?? 0;
     }
     state.caches.splice(idx, 1);
-    return [ev(state, "loot", `Pulled supplies from cache ${cacheId}.`)];
+    return [ev(state, "loot", `Retrieved cache ${cacheId}.`)];
+  }
+
+  const city = currentCity(state);
+  if (!city.revealed.loot) {
+    markCitySearched(city);
+  }
+
+  if (sumLoot(city.loot) > 0) {
+    let chance = balance.loot.baseFindChance;
+    if (hasSpecialist(state.crew, "negotiator")) {
+      chance += balance.loot.negotiatorBonusFindChance;
+    }
+    if (!rng.chance(chance)) {
+      return [ev(state, "loot", "Guards or rubble — loot run empty-handed.")];
+    }
+
+    const positive = RESOURCE_IDS.filter((id) => city.loot[id] > 0);
+    const resource = positive[rng.int(0, positive.length - 1)]!;
+    const mult = rng.int(balance.loot.multiplierMin, balance.loot.multiplierMax);
+    const amount = Math.min(city.loot[resource], Math.max(1, rng.int(1, 5) * mult));
+    city.loot[resource] -= amount;
+    state.resources[resource] += amount;
+    return [ev(state, "loot", `Looted ${amount} ${resource} from ${city.id}.`)];
   }
 
   let chance = balance.loot.baseFindChance;
@@ -365,16 +493,23 @@ function cmdAttack(state: GameState, rng: SeededRng): GameEvent[] {
     chance += balance.attack.gunnerBonusVictoryChance;
   }
 
+  const city = currentCity(state);
+  chance -= city.danger * balance.attack.dangerVictoryPenaltyPerPoint;
+
   grantXpToAll(state.crew, balance.experience.attackXp, {
     combat: balance.experience.attackXp,
   });
 
-  if (rng.chance(chance)) {
+  if (rng.chance(Math.max(balance.attack.minVictoryChance, chance))) {
     const entry = rng.pickWeighted(balance.search.lootTable);
     const amount = rng.int(entry.min, entry.max);
     state.resources[entry.resource] += amount;
     return [
-      ev(state, "attack", `Won the scrap (stub). Took ${amount} ${entry.resource}.`),
+      ev(
+        state,
+        "attack",
+        `Won the scrap in ${getCityDef(city.id).name} (stub). Took ${amount} ${entry.resource}.`,
+      ),
     ];
   }
 
@@ -406,13 +541,25 @@ function cmdScavengeVehicle(
   if (!canAddVehicle(state)) {
     throw new Error(`Vehicle cap (${balance.maxVehicles}) reached`);
   }
-  const id = pickClass(rng, classId);
+  const city = currentCity(state);
+  let id: VehicleClassId;
+  if (classId) {
+    id = classId;
+    const yardIdx = city.vehicleYard.indexOf(classId);
+    if (yardIdx >= 0) city.vehicleYard.splice(yardIdx, 1);
+  } else if (city.vehicleYard.length > 0) {
+    id = city.vehicleYard.shift()!;
+  } else {
+    id = pickClass(rng);
+  }
+
   const cls = getVehicleClass(id);
   const vehicle = addVehicle(state, id, `Scavenged ${cls.label}`);
   const minF = balance.scavenge.minDurabilityFraction;
   const maxF = balance.scavenge.maxDurabilityFraction;
   const fraction = minF + rng.next() * (maxF - minF);
   vehicle.durability = Math.max(1, Math.floor(vehicle.maxDurability * fraction));
+  city.revealed.vehicles = true;
   return [
     ev(
       state,

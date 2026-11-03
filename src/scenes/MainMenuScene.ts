@@ -10,8 +10,6 @@ export class MainMenuScene extends Phaser.Scene {
     const { width, height } = this.scale;
 
     this.add.rectangle(width / 2, height / 2, width, height, 0x0b0d10);
-
-    // Subtle horizon band — atmosphere without assets
     this.add.rectangle(width / 2, height * 0.62, width, 2, 0x2a2318, 0.6);
 
     this.add
@@ -24,7 +22,7 @@ export class MainMenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(width / 2, height * 0.48, "Convoy strategy — Milestone 1", {
+      .text(width / 2, height * 0.48, "Convoy strategy — strategic map online", {
         fontFamily: "system-ui, sans-serif",
         fontSize: "18px",
         color: "#9aa3ad",
@@ -32,7 +30,7 @@ export class MainMenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(width / 2, height * 0.72, "Press any key to continue (stub)", {
+      .text(width / 2, height * 0.72, "Press any key to roll out of Denver", {
         fontFamily: "system-ui, sans-serif",
         fontSize: "14px",
         color: "#6b737c",
@@ -48,7 +46,7 @@ export class MainMenuScene extends Phaser.Scene {
       .setOrigin(0, 0.5);
 
     this.input.keyboard?.once("keydown", () => {
-      // Milestone 1: acknowledge input only — campaign starts later
+      this.scene.start("StrategicMap", { seed: 2026 });
     });
   }
 }

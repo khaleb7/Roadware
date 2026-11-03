@@ -1,0 +1,42 @@
+{
+  "freehold": {
+    "id": "freehold",
+    "label": "Freehold League",
+    "attitude": "wary"
+  },
+  "road-kings": {
+    "id": "road-kings",
+    "label": "Road Kings",
+    "attitude": "hostile"
+  },
+  "scavengers": {
+    "id": "scavengers",
+    "label": "Scavenger Clans",
+    "attitude": "neutral"
+  },
+  "cartel": {
+    "id": "cartel",
+    "label": "Dust Cartel",
+    "attitude": "hostile"
+  },
+  "desert-wolves": {
+    "id": "desert-wolves",
+    "label": "Desert Wolves",
+    "attitude": "hostile"
+  },
+  "militia": {
+    "id": "militia",
+    "label": "Heartland Militia",
+    "attitude": "wary"
+  },
+  "syndicate": {
+    "id": "syndicate",
+    "label": "Coast Syndicate",
+    "attitude": "wary"
+  },
+  "unknown": {
+    "id": "unknown",
+    "label": "Unknown",
+    "attitude": "unknown"
+  }
+}

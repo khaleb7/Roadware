@@ -11,9 +11,9 @@
     "spareParts"
   ],
   "startingResources": {
-    "food": 48,
-    "fuel": 30,
-    "tires": 6,
+    "food": 60,
+    "fuel": 80,
+    "tires": 10,
     "medicine": 8,
     "guns": 10,
     "ammunition": 40,
@@ -21,12 +21,44 @@
   },
   "consumption": {
     "foodPerCrewPerTurn": 1,
-    "fuelPerMoveFlat": 2,
+    "fuelPerMoveFlat": 0,
     "fuelPerVehicleOnMove": 1,
-    "tireWearChanceOnMove": 0.12,
+    "tireWearChanceOnMove": 0.08,
     "tiresConsumedOnWear": 1,
     "driverFuelMultiplier": 0.85,
     "minFuelCost": 1
+  },
+  "travel": {
+    "milesPerFuelUnit": 45,
+    "referenceMilesForTireWear": 120,
+    "maxTireWearChance": 0.85
+  },
+  "cityGeneration": {
+    "lootPileCountMin": 2,
+    "lootPileCountMax": 5,
+    "vehicleYardChance": 0.45,
+    "vehicleYardMin": 0,
+    "vehicleYardMax": 2,
+    "recruitCountMin": 0,
+    "recruitCountMax": 3,
+    "specialLocationChance": 0.55,
+    "specialLocationMax": 2,
+    "dangerJitter": 2,
+    "populationJitterFraction": 0.2,
+    "minPopulation": 1000,
+    "minDanger": 1,
+    "maxDanger": 10,
+    "recruitCombatMin": 25,
+    "recruitCombatMax": 55,
+    "recruitSurvivalMin": 25,
+    "recruitSurvivalMax": 55,
+    "recruitLeadershipMin": 15,
+    "recruitLeadershipMax": 45
+  },
+  "recruit": {
+    "searchHireChance": 0.4,
+    "negotiatorHireBonus": 0.15,
+    "maxCrewSoftCap": 24
   },
   "scavenge": {
     "minDurabilityFraction": 0.4,
@@ -94,7 +126,9 @@
     "gunsRequired": 1,
     "stubDamageToEnemy": 10,
     "stubVictoryChance": 0.7,
-    "gunnerBonusVictoryChance": 0.15
+    "gunnerBonusVictoryChance": 0.15,
+    "dangerVictoryPenaltyPerPoint": 0.02,
+    "minVictoryChance": 0.05
   },
   "cache": {
     "minDepositTotal": 1
@@ -109,7 +143,7 @@
     "startingXp": 0
   },
   "startingConvoy": {
-    "locationId": "outpost-ridge",
+    "locationId": "denver-co",
     "crew": [
       {
         "name": "Rhea Cole",
@@ -159,23 +193,5 @@
       { "classId": "hauler", "name": "Iron Pantry" },
       { "classId": "bike", "name": "Whisper" }
     ]
-  },
-  "stubMap": {
-    "outpost-ridge": {
-      "name": "Outpost Ridge",
-      "links": ["ash-crossroads", "dry-culvert"]
-    },
-    "ash-crossroads": {
-      "name": "Ash Crossroads",
-      "links": ["outpost-ridge", "scrap-yard"]
-    },
-    "dry-culvert": {
-      "name": "Dry Culvert",
-      "links": ["outpost-ridge", "scrap-yard"]
-    },
-    "scrap-yard": {
-      "name": "Scrap Yard",
-      "links": ["ash-crossroads", "dry-culvert"]
-    }
   }
 }
