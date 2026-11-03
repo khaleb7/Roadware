@@ -1,0 +1,2214 @@
+{
+  "version": 1,
+  "startCityId": "denver-co",
+  "cities": [
+    {
+      "id": "seattle-wa",
+      "name": "Seattle",
+      "state": "WA",
+      "lat": 47.6,
+      "lon": -122.3,
+      "region": "nw",
+      "basePopulation": 869180,
+      "baseDanger": 4
+    },
+    {
+      "id": "spokane-wa",
+      "name": "Spokane",
+      "state": "WA",
+      "lat": 47.7,
+      "lon": -117.4,
+      "region": "nw",
+      "basePopulation": 675116,
+      "baseDanger": 6
+    },
+    {
+      "id": "portland-or",
+      "name": "Portland",
+      "state": "OR",
+      "lat": 45.5,
+      "lon": -122.7,
+      "region": "nw",
+      "basePopulation": 438636,
+      "baseDanger": 6
+    },
+    {
+      "id": "eugene-or",
+      "name": "Eugene",
+      "state": "OR",
+      "lat": 44.1,
+      "lon": -123.1,
+      "region": "nw",
+      "basePopulation": 837541,
+      "baseDanger": 8
+    },
+    {
+      "id": "boise-id",
+      "name": "Boise",
+      "state": "ID",
+      "lat": 43.6,
+      "lon": -116.2,
+      "region": "nw",
+      "basePopulation": 772717,
+      "baseDanger": 4
+    },
+    {
+      "id": "sacramento-ca",
+      "name": "Sacramento",
+      "state": "CA",
+      "lat": 38.6,
+      "lon": -121.5,
+      "region": "west",
+      "basePopulation": 400070,
+      "baseDanger": 4
+    },
+    {
+      "id": "san-francisco-ca",
+      "name": "San Francisco",
+      "state": "CA",
+      "lat": 37.8,
+      "lon": -122.4,
+      "region": "west",
+      "basePopulation": 64141,
+      "baseDanger": 4
+    },
+    {
+      "id": "oakland-ca",
+      "name": "Oakland",
+      "state": "CA",
+      "lat": 37.8,
+      "lon": -122.3,
+      "region": "west",
+      "basePopulation": 64141,
+      "baseDanger": 4
+    },
+    {
+      "id": "san-jose-ca",
+      "name": "San Jose",
+      "state": "CA",
+      "lat": 37.3,
+      "lon": -121.9,
+      "region": "west",
+      "basePopulation": 155482,
+      "baseDanger": 1
+    },
+    {
+      "id": "fresno-ca",
+      "name": "Fresno",
+      "state": "CA",
+      "lat": 36.7,
+      "lon": -119.8,
+      "region": "west",
+      "basePopulation": 797118,
+      "baseDanger": 7
+    },
+    {
+      "id": "bakersfield-ca",
+      "name": "Bakersfield",
+      "state": "CA",
+      "lat": 35.4,
+      "lon": -119,
+      "region": "west",
+      "basePopulation": 907260,
+      "baseDanger": 10
+    },
+    {
+      "id": "los-angeles-ca",
+      "name": "Los Angeles",
+      "state": "CA",
+      "lat": 34.1,
+      "lon": -118.2,
+      "region": "west",
+      "basePopulation": 949663,
+      "baseDanger": 9
+    },
+    {
+      "id": "san-diego-ca",
+      "name": "San Diego",
+      "state": "CA",
+      "lat": 32.7,
+      "lon": -117.2,
+      "region": "west",
+      "basePopulation": 127430,
+      "baseDanger": 9
+    },
+    {
+      "id": "reno-nv",
+      "name": "Reno",
+      "state": "NV",
+      "lat": 39.5,
+      "lon": -119.8,
+      "region": "west",
+      "basePopulation": 850801,
+      "baseDanger": 7
+    },
+    {
+      "id": "las-vegas-nv",
+      "name": "Las Vegas",
+      "state": "NV",
+      "lat": 36.2,
+      "lon": -115.1,
+      "region": "west",
+      "basePopulation": 723865,
+      "baseDanger": 9
+    },
+    {
+      "id": "phoenix-az",
+      "name": "Phoenix",
+      "state": "AZ",
+      "lat": 33.4,
+      "lon": -112.1,
+      "region": "sw",
+      "basePopulation": 649268,
+      "baseDanger": 5
+    },
+    {
+      "id": "tucson-az",
+      "name": "Tucson",
+      "state": "AZ",
+      "lat": 32.2,
+      "lon": -110.9,
+      "region": "sw",
+      "basePopulation": 245814,
+      "baseDanger": 5
+    },
+    {
+      "id": "flagstaff-az",
+      "name": "Flagstaff",
+      "state": "AZ",
+      "lat": 35.2,
+      "lon": -111.7,
+      "region": "sw",
+      "basePopulation": 543061,
+      "baseDanger": 3
+    },
+    {
+      "id": "salt-lake-city-ut",
+      "name": "Salt Lake City",
+      "state": "UT",
+      "lat": 40.8,
+      "lon": -111.9,
+      "region": "mtn",
+      "basePopulation": 704845,
+      "baseDanger": 10
+    },
+    {
+      "id": "provo-ut",
+      "name": "Provo",
+      "state": "UT",
+      "lat": 40.2,
+      "lon": -111.7,
+      "region": "mtn",
+      "basePopulation": 898226,
+      "baseDanger": 3
+    },
+    {
+      "id": "denver-co",
+      "name": "Denver",
+      "state": "CO",
+      "lat": 39.7,
+      "lon": -105,
+      "region": "mtn",
+      "basePopulation": 930665,
+      "baseDanger": 6
+    },
+    {
+      "id": "colorado-springs-co",
+      "name": "Colorado Springs",
+      "state": "CO",
+      "lat": 38.8,
+      "lon": -104.8,
+      "region": "mtn",
+      "basePopulation": 300522,
+      "baseDanger": 9
+    },
+    {
+      "id": "pueblo-co",
+      "name": "Pueblo",
+      "state": "CO",
+      "lat": 38.3,
+      "lon": -104.6,
+      "region": "mtn",
+      "basePopulation": 183514,
+      "baseDanger": 4
+    },
+    {
+      "id": "albuquerque-nm",
+      "name": "Albuquerque",
+      "state": "NM",
+      "lat": 35.1,
+      "lon": -106.6,
+      "region": "sw",
+      "basePopulation": 924420,
+      "baseDanger": 10
+    },
+    {
+      "id": "santa-fe-nm",
+      "name": "Santa Fe",
+      "state": "NM",
+      "lat": 35.7,
+      "lon": -105.9,
+      "region": "sw",
+      "basePopulation": 638676,
+      "baseDanger": 5
+    },
+    {
+      "id": "el-paso-tx",
+      "name": "El Paso",
+      "state": "TX",
+      "lat": 31.8,
+      "lon": -106.4,
+      "region": "sw",
+      "basePopulation": 949938,
+      "baseDanger": 2
+    },
+    {
+      "id": "billings-mt",
+      "name": "Billings",
+      "state": "MT",
+      "lat": 45.8,
+      "lon": -108.5,
+      "region": "mtn",
+      "basePopulation": 804841,
+      "baseDanger": 8
+    },
+    {
+      "id": "missoula-mt",
+      "name": "Missoula",
+      "state": "MT",
+      "lat": 46.9,
+      "lon": -114,
+      "region": "mtn",
+      "basePopulation": 883187,
+      "baseDanger": 5
+    },
+    {
+      "id": "cheyenne-wy",
+      "name": "Cheyenne",
+      "state": "WY",
+      "lat": 41.1,
+      "lon": -104.8,
+      "region": "mtn",
+      "basePopulation": 286949,
+      "baseDanger": 9
+    },
+    {
+      "id": "casper-wy",
+      "name": "Casper",
+      "state": "WY",
+      "lat": 42.9,
+      "lon": -106.3,
+      "region": "mtn",
+      "basePopulation": 155566,
+      "baseDanger": 8
+    },
+    {
+      "id": "fargo-nd",
+      "name": "Fargo",
+      "state": "ND",
+      "lat": 46.9,
+      "lon": -96.8,
+      "region": "plains",
+      "basePopulation": 883187,
+      "baseDanger": 8
+    },
+    {
+      "id": "bismarck-nd",
+      "name": "Bismarck",
+      "state": "ND",
+      "lat": 46.8,
+      "lon": -100.8,
+      "region": "plains",
+      "basePopulation": 649206,
+      "baseDanger": 8
+    },
+    {
+      "id": "sioux-falls-sd",
+      "name": "Sioux Falls",
+      "state": "SD",
+      "lat": 43.5,
+      "lon": -96.7,
+      "region": "plains",
+      "basePopulation": 797071,
+      "baseDanger": 2
+    },
+    {
+      "id": "rapid-city-sd",
+      "name": "Rapid City",
+      "state": "SD",
+      "lat": 44.1,
+      "lon": -103.2,
+      "region": "plains",
+      "basePopulation": 837541,
+      "baseDanger": 8
+    },
+    {
+      "id": "omaha-ne",
+      "name": "Omaha",
+      "state": "NE",
+      "lat": 41.3,
+      "lon": -96,
+      "region": "plains",
+      "basePopulation": 781031,
+      "baseDanger": 10
+    },
+    {
+      "id": "lincoln-ne",
+      "name": "Lincoln",
+      "state": "NE",
+      "lat": 40.8,
+      "lon": -96.7,
+      "region": "plains",
+      "basePopulation": 704845,
+      "baseDanger": 2
+    },
+    {
+      "id": "wichita-ks",
+      "name": "Wichita",
+      "state": "KS",
+      "lat": 37.7,
+      "lon": -97.3,
+      "region": "plains",
+      "basePopulation": 902862,
+      "baseDanger": 10
+    },
+    {
+      "id": "kansas-city-mo",
+      "name": "Kansas City",
+      "state": "MO",
+      "lat": 39.1,
+      "lon": -94.6,
+      "region": "midwest",
+      "basePopulation": 286868,
+      "baseDanger": 8
+    },
+    {
+      "id": "st-louis-mo",
+      "name": "St. Louis",
+      "state": "MO",
+      "lat": 38.6,
+      "lon": -90.2,
+      "region": "midwest",
+      "basePopulation": 400070,
+      "baseDanger": 9
+    },
+    {
+      "id": "springfield-mo",
+      "name": "Springfield",
+      "state": "MO",
+      "lat": 37.2,
+      "lon": -93.3,
+      "region": "midwest",
+      "basePopulation": 857138,
+      "baseDanger": 9
+    },
+    {
+      "id": "des-moines-ia",
+      "name": "Des Moines",
+      "state": "IA",
+      "lat": 41.6,
+      "lon": -93.6,
+      "region": "midwest",
+      "basePopulation": 400147,
+      "baseDanger": 2
+    },
+    {
+      "id": "minneapolis-mn",
+      "name": "Minneapolis",
+      "state": "MN",
+      "lat": 44.98,
+      "lon": -93.3,
+      "region": "midwest",
+      "basePopulation": 344781,
+      "baseDanger": 9
+    },
+    {
+      "id": "duluth-mn",
+      "name": "Duluth",
+      "state": "MN",
+      "lat": 46.8,
+      "lon": -92.1,
+      "region": "midwest",
+      "basePopulation": 649206,
+      "baseDanger": 9
+    },
+    {
+      "id": "milwaukee-wi",
+      "name": "Milwaukee",
+      "state": "WI",
+      "lat": 43,
+      "lon": -87.9,
+      "region": "midwest",
+      "basePopulation": 857101,
+      "baseDanger": 5
+    },
+    {
+      "id": "madison-wi",
+      "name": "Madison",
+      "state": "WI",
+      "lat": 43.1,
+      "lon": -89.4,
+      "region": "midwest",
+      "basePopulation": 695093,
+      "baseDanger": 10
+    },
+    {
+      "id": "chicago-il",
+      "name": "Chicago",
+      "state": "IL",
+      "lat": 41.9,
+      "lon": -87.6,
+      "region": "midwest",
+      "basePopulation": 183431,
+      "baseDanger": 10
+    },
+    {
+      "id": "springfield-il",
+      "name": "Springfield",
+      "state": "IL",
+      "lat": 39.8,
+      "lon": -89.6,
+      "region": "midwest",
+      "basePopulation": 519232,
+      "baseDanger": 1
+    },
+    {
+      "id": "indianapolis-in",
+      "name": "Indianapolis",
+      "state": "IN",
+      "lat": 39.8,
+      "lon": -86.2,
+      "region": "midwest",
+      "basePopulation": 519232,
+      "baseDanger": 8
+    },
+    {
+      "id": "fort-wayne-in",
+      "name": "Fort Wayne",
+      "state": "IN",
+      "lat": 41.1,
+      "lon": -85.1,
+      "region": "midwest",
+      "basePopulation": 286949,
+      "baseDanger": 6
+    },
+    {
+      "id": "detroit-mi",
+      "name": "Detroit",
+      "state": "MI",
+      "lat": 42.3,
+      "lon": -83,
+      "region": "midwest",
+      "basePopulation": 893438,
+      "baseDanger": 3
+    },
+    {
+      "id": "grand-rapids-mi",
+      "name": "Grand Rapids",
+      "state": "MI",
+      "lat": 42.96,
+      "lon": -85.7,
+      "region": "midwest",
+      "basePopulation": 573250,
+      "baseDanger": 6
+    },
+    {
+      "id": "cleveland-oh",
+      "name": "Cleveland",
+      "state": "OH",
+      "lat": 41.5,
+      "lon": -81.7,
+      "region": "midwest",
+      "basePopulation": 948444,
+      "baseDanger": 5
+    },
+    {
+      "id": "columbus-oh",
+      "name": "Columbus",
+      "state": "OH",
+      "lat": 40,
+      "lon": -83,
+      "region": "midwest",
+      "basePopulation": 898254,
+      "baseDanger": 3
+    },
+    {
+      "id": "cincinnati-oh",
+      "name": "Cincinnati",
+      "state": "OH",
+      "lat": 39.1,
+      "lon": -84.5,
+      "region": "midwest",
+      "basePopulation": 286868,
+      "baseDanger": 10
+    },
+    {
+      "id": "toledo-oh",
+      "name": "Toledo",
+      "state": "OH",
+      "lat": 41.7,
+      "lon": -83.6,
+      "region": "midwest",
+      "basePopulation": 714380,
+      "baseDanger": 10
+    },
+    {
+      "id": "oklahoma-city-ok",
+      "name": "Oklahoma City",
+      "state": "OK",
+      "lat": 35.5,
+      "lon": -97.5,
+      "region": "south",
+      "basePopulation": 78236,
+      "baseDanger": 5
+    },
+    {
+      "id": "tulsa-ok",
+      "name": "Tulsa",
+      "state": "OK",
+      "lat": 36.2,
+      "lon": -95.9,
+      "region": "south",
+      "basePopulation": 723865,
+      "baseDanger": 7
+    },
+    {
+      "id": "dallas-tx",
+      "name": "Dallas",
+      "state": "TX",
+      "lat": 32.8,
+      "lon": -96.8,
+      "region": "south",
+      "basePopulation": 920975,
+      "baseDanger": 8
+    },
+    {
+      "id": "fort-worth-tx",
+      "name": "Fort Worth",
+      "state": "TX",
+      "lat": 32.8,
+      "lon": -97.3,
+      "region": "south",
+      "basePopulation": 920975,
+      "baseDanger": 10
+    },
+    {
+      "id": "houston-tx",
+      "name": "Houston",
+      "state": "TX",
+      "lat": 29.8,
+      "lon": -95.4,
+      "region": "south",
+      "basePopulation": 819868,
+      "baseDanger": 4
+    },
+    {
+      "id": "austin-tx",
+      "name": "Austin",
+      "state": "TX",
+      "lat": 30.3,
+      "lon": -97.7,
+      "region": "south",
+      "basePopulation": 874952,
+      "baseDanger": 8
+    },
+    {
+      "id": "san-antonio-tx",
+      "name": "San Antonio",
+      "state": "TX",
+      "lat": 29.4,
+      "lon": -98.5,
+      "region": "south",
+      "basePopulation": 347460,
+      "baseDanger": 4
+    },
+    {
+      "id": "corpus-christi-tx",
+      "name": "Corpus Christi",
+      "state": "TX",
+      "lat": 27.8,
+      "lon": -97.4,
+      "region": "south",
+      "basePopulation": 476419,
+      "baseDanger": 9
+    },
+    {
+      "id": "lubbock-tx",
+      "name": "Lubbock",
+      "state": "TX",
+      "lat": 33.6,
+      "lon": -101.9,
+      "region": "south",
+      "basePopulation": 938423,
+      "baseDanger": 6
+    },
+    {
+      "id": "amarillo-tx",
+      "name": "Amarillo",
+      "state": "TX",
+      "lat": 35.2,
+      "lon": -101.8,
+      "region": "south",
+      "basePopulation": 543061,
+      "baseDanger": 10
+    },
+    {
+      "id": "little-rock-ar",
+      "name": "Little Rock",
+      "state": "AR",
+      "lat": 34.7,
+      "lon": -92.3,
+      "region": "south",
+      "basePopulation": 438712,
+      "baseDanger": 4
+    },
+    {
+      "id": "memphis-tn",
+      "name": "Memphis",
+      "state": "TN",
+      "lat": 35.1,
+      "lon": -90,
+      "region": "south",
+      "basePopulation": 924420,
+      "baseDanger": 4
+    },
+    {
+      "id": "nashville-tn",
+      "name": "Nashville",
+      "state": "TN",
+      "lat": 36.2,
+      "lon": -86.8,
+      "region": "south",
+      "basePopulation": 723865,
+      "baseDanger": 9
+    },
+    {
+      "id": "knoxville-tn",
+      "name": "Knoxville",
+      "state": "TN",
+      "lat": 35.96,
+      "lon": -83.9,
+      "region": "south",
+      "basePopulation": 599359,
+      "baseDanger": 4
+    },
+    {
+      "id": "chattanooga-tn",
+      "name": "Chattanooga",
+      "state": "TN",
+      "lat": 35,
+      "lon": -85.3,
+      "region": "south",
+      "basePopulation": 141468,
+      "baseDanger": 8
+    },
+    {
+      "id": "louisville-ky",
+      "name": "Louisville",
+      "state": "KY",
+      "lat": 38.3,
+      "lon": -85.8,
+      "region": "south",
+      "basePopulation": 183514,
+      "baseDanger": 10
+    },
+    {
+      "id": "lexington-ky",
+      "name": "Lexington",
+      "state": "KY",
+      "lat": 38,
+      "lon": -84.5,
+      "region": "south",
+      "basePopulation": 627939,
+      "baseDanger": 10
+    },
+    {
+      "id": "birmingham-al",
+      "name": "Birmingham",
+      "state": "AL",
+      "lat": 33.5,
+      "lon": -86.8,
+      "region": "south",
+      "basePopulation": 482559,
+      "baseDanger": 9
+    },
+    {
+      "id": "montgomery-al",
+      "name": "Montgomery",
+      "state": "AL",
+      "lat": 32.4,
+      "lon": -86.3,
+      "region": "south",
+      "basePopulation": 451380,
+      "baseDanger": 10
+    },
+    {
+      "id": "mobile-al",
+      "name": "Mobile",
+      "state": "AL",
+      "lat": 30.7,
+      "lon": -88,
+      "region": "south",
+      "basePopulation": 572112,
+      "baseDanger": 9
+    },
+    {
+      "id": "jackson-ms",
+      "name": "Jackson",
+      "state": "MS",
+      "lat": 32.3,
+      "lon": -90.2,
+      "region": "south",
+      "basePopulation": 943368,
+      "baseDanger": 9
+    },
+    {
+      "id": "new-orleans-la",
+      "name": "New Orleans",
+      "state": "LA",
+      "lat": 30,
+      "lon": -90.1,
+      "region": "south",
+      "basePopulation": 941550,
+      "baseDanger": 4
+    },
+    {
+      "id": "baton-rouge-la",
+      "name": "Baton Rouge",
+      "state": "LA",
+      "lat": 30.5,
+      "lon": -91.1,
+      "region": "south",
+      "basePopulation": 917316,
+      "baseDanger": 9
+    },
+    {
+      "id": "shreveport-la",
+      "name": "Shreveport",
+      "state": "LA",
+      "lat": 32.5,
+      "lon": -93.8,
+      "region": "south",
+      "basePopulation": 675055,
+      "baseDanger": 10
+    },
+    {
+      "id": "atlanta-ga",
+      "name": "Atlanta",
+      "state": "GA",
+      "lat": 33.7,
+      "lon": -84.4,
+      "region": "south",
+      "basePopulation": 211331,
+      "baseDanger": 7
+    },
+    {
+      "id": "savannah-ga",
+      "name": "Savannah",
+      "state": "GA",
+      "lat": 32.1,
+      "lon": -81.1,
+      "region": "south",
+      "basePopulation": 812471,
+      "baseDanger": 7
+    },
+    {
+      "id": "jacksonville-fl",
+      "name": "Jacksonville",
+      "state": "FL",
+      "lat": 30.3,
+      "lon": -81.7,
+      "region": "south",
+      "basePopulation": 874952,
+      "baseDanger": 5
+    },
+    {
+      "id": "orlando-fl",
+      "name": "Orlando",
+      "state": "FL",
+      "lat": 28.5,
+      "lon": -81.4,
+      "region": "south",
+      "basePopulation": 919189,
+      "baseDanger": 10
+    },
+    {
+      "id": "tampa-fl",
+      "name": "Tampa",
+      "state": "FL",
+      "lat": 28,
+      "lon": -82.5,
+      "region": "south",
+      "basePopulation": 880487,
+      "baseDanger": 2
+    },
+    {
+      "id": "miami-fl",
+      "name": "Miami",
+      "state": "FL",
+      "lat": 25.8,
+      "lon": -80.2,
+      "region": "south",
+      "basePopulation": 85219,
+      "baseDanger": 7
+    },
+    {
+      "id": "tallahassee-fl",
+      "name": "Tallahassee",
+      "state": "FL",
+      "lat": 30.4,
+      "lon": -84.3,
+      "region": "south",
+      "basePopulation": 113374,
+      "baseDanger": 2
+    },
+    {
+      "id": "pittsburgh-pa",
+      "name": "Pittsburgh",
+      "state": "PA",
+      "lat": 40.4,
+      "lon": -80,
+      "region": "east",
+      "basePopulation": 519160,
+      "baseDanger": 8
+    },
+    {
+      "id": "philadelphia-pa",
+      "name": "Philadelphia",
+      "state": "PA",
+      "lat": 39.95,
+      "lon": -75.2,
+      "region": "east",
+      "basePopulation": 916366,
+      "baseDanger": 10
+    },
+    {
+      "id": "harrisburg-pa",
+      "name": "Harrisburg",
+      "state": "PA",
+      "lat": 40.3,
+      "lon": -76.9,
+      "region": "east",
+      "basePopulation": 617060,
+      "baseDanger": 8
+    },
+    {
+      "id": "buffalo-ny",
+      "name": "Buffalo",
+      "state": "NY",
+      "lat": 42.9,
+      "lon": -78.9,
+      "region": "east",
+      "basePopulation": 155566,
+      "baseDanger": 6
+    },
+    {
+      "id": "rochester-ny",
+      "name": "Rochester",
+      "state": "NY",
+      "lat": 43.2,
+      "lon": -77.6,
+      "region": "east",
+      "basePopulation": 425872,
+      "baseDanger": 4
+    },
+    {
+      "id": "albany-ny",
+      "name": "Albany",
+      "state": "NY",
+      "lat": 42.7,
+      "lon": -73.8,
+      "region": "east",
+      "basePopulation": 531134,
+      "baseDanger": 8
+    },
+    {
+      "id": "new-york-ny",
+      "name": "New York",
+      "state": "NY",
+      "lat": 40.7,
+      "lon": -74,
+      "region": "east",
+      "basePopulation": 850763,
+      "baseDanger": 8
+    },
+    {
+      "id": "boston-ma",
+      "name": "Boston",
+      "state": "MA",
+      "lat": 42.4,
+      "lon": -71.1,
+      "region": "east",
+      "basePopulation": 64057,
+      "baseDanger": 6
+    },
+    {
+      "id": "providence-ri",
+      "name": "Providence",
+      "state": "RI",
+      "lat": 41.8,
+      "lon": -71.4,
+      "region": "east",
+      "basePopulation": 844268,
+      "baseDanger": 5
+    },
+    {
+      "id": "hartford-ct",
+      "name": "Hartford",
+      "state": "CT",
+      "lat": 41.8,
+      "lon": -72.7,
+      "region": "east",
+      "basePopulation": 844268,
+      "baseDanger": 6
+    },
+    {
+      "id": "burlington-vt",
+      "name": "Burlington",
+      "state": "VT",
+      "lat": 44.5,
+      "lon": -73.2,
+      "region": "east",
+      "basePopulation": 638612,
+      "baseDanger": 3
+    },
+    {
+      "id": "portland-me",
+      "name": "Portland",
+      "state": "ME",
+      "lat": 43.7,
+      "lon": -70.3,
+      "region": "east",
+      "basePopulation": 313952,
+      "baseDanger": 9
+    },
+    {
+      "id": "concord-nh",
+      "name": "Concord",
+      "state": "NH",
+      "lat": 43.2,
+      "lon": -71.5,
+      "region": "east",
+      "basePopulation": 425872,
+      "baseDanger": 4
+    },
+    {
+      "id": "baltimore-md",
+      "name": "Baltimore",
+      "state": "MD",
+      "lat": 39.3,
+      "lon": -76.6,
+      "region": "east",
+      "basePopulation": 413092,
+      "baseDanger": 9
+    },
+    {
+      "id": "washington-dc",
+      "name": "Washington",
+      "state": "DC",
+      "lat": 38.9,
+      "lon": -77,
+      "region": "east",
+      "basePopulation": 780982,
+      "baseDanger": 10
+    },
+    {
+      "id": "richmond-va",
+      "name": "Richmond",
+      "state": "VA",
+      "lat": 37.5,
+      "lon": -77.4,
+      "region": "east",
+      "basePopulation": 531205,
+      "baseDanger": 10
+    },
+    {
+      "id": "norfolk-va",
+      "name": "Norfolk",
+      "state": "VA",
+      "lat": 36.9,
+      "lon": -76.3,
+      "region": "east",
+      "basePopulation": 946346,
+      "baseDanger": 3
+    },
+    {
+      "id": "roanoke-va",
+      "name": "Roanoke",
+      "state": "VA",
+      "lat": 37.3,
+      "lon": -79.9,
+      "region": "east",
+      "basePopulation": 155482,
+      "baseDanger": 3
+    },
+    {
+      "id": "charleston-wv",
+      "name": "Charleston",
+      "state": "WV",
+      "lat": 38.3,
+      "lon": -81.6,
+      "region": "east",
+      "basePopulation": 183514,
+      "baseDanger": 3
+    },
+    {
+      "id": "charlotte-nc",
+      "name": "Charlotte",
+      "state": "NC",
+      "lat": 35.2,
+      "lon": -80.8,
+      "region": "south",
+      "basePopulation": 543061,
+      "baseDanger": 4
+    },
+    {
+      "id": "raleigh-nc",
+      "name": "Raleigh",
+      "state": "NC",
+      "lat": 35.8,
+      "lon": -78.6,
+      "region": "south",
+      "basePopulation": 494869,
+      "baseDanger": 5
+    },
+    {
+      "id": "greensboro-nc",
+      "name": "Greensboro",
+      "state": "NC",
+      "lat": 36.1,
+      "lon": -79.8,
+      "region": "south",
+      "basePopulation": 837500,
+      "baseDanger": 5
+    },
+    {
+      "id": "columbia-sc",
+      "name": "Columbia",
+      "state": "SC",
+      "lat": 34,
+      "lon": -81,
+      "region": "south",
+      "basePopulation": 373924,
+      "baseDanger": 10
+    },
+    {
+      "id": "charleston-sc",
+      "name": "Charleston",
+      "state": "SC",
+      "lat": 32.8,
+      "lon": -79.9,
+      "region": "south",
+      "basePopulation": 920975,
+      "baseDanger": 3
+    },
+    {
+      "id": "newark-nj",
+      "name": "Newark",
+      "state": "NJ",
+      "lat": 40.7,
+      "lon": -74.2,
+      "region": "east",
+      "basePopulation": 850763,
+      "baseDanger": 6
+    }
+  ],
+  "edges": [
+    {
+      "from": "seattle-wa",
+      "to": "portland-or",
+      "terrain": "highway",
+      "miles": 146
+    },
+    {
+      "from": "portland-or",
+      "to": "eugene-or",
+      "terrain": "highway",
+      "miles": 99
+    },
+    {
+      "from": "eugene-or",
+      "to": "sacramento-ca",
+      "terrain": "secondary",
+      "miles": 389
+    },
+    {
+      "from": "sacramento-ca",
+      "to": "oakland-ca",
+      "terrain": "highway",
+      "miles": 70
+    },
+    {
+      "from": "oakland-ca",
+      "to": "san-francisco-ca",
+      "terrain": "coastal",
+      "miles": 40
+    },
+    {
+      "from": "oakland-ca",
+      "to": "san-jose-ca",
+      "terrain": "highway",
+      "miles": 41
+    },
+    {
+      "from": "san-jose-ca",
+      "to": "fresno-ca",
+      "terrain": "highway",
+      "miles": 123
+    },
+    {
+      "from": "fresno-ca",
+      "to": "bakersfield-ca",
+      "terrain": "highway",
+      "miles": 100
+    },
+    {
+      "from": "bakersfield-ca",
+      "to": "los-angeles-ca",
+      "terrain": "highway",
+      "miles": 101
+    },
+    {
+      "from": "los-angeles-ca",
+      "to": "san-diego-ca",
+      "terrain": "highway",
+      "miles": 113
+    },
+    {
+      "from": "seattle-wa",
+      "to": "spokane-wa",
+      "terrain": "highway",
+      "miles": 228
+    },
+    {
+      "from": "portland-or",
+      "to": "boise-id",
+      "terrain": "secondary",
+      "miles": 346
+    },
+    {
+      "from": "boise-id",
+      "to": "salt-lake-city-ut",
+      "terrain": "highway",
+      "miles": 293
+    },
+    {
+      "from": "sacramento-ca",
+      "to": "reno-nv",
+      "terrain": "mountain",
+      "miles": 110
+    },
+    {
+      "from": "reno-nv",
+      "to": "salt-lake-city-ut",
+      "terrain": "desert",
+      "miles": 427
+    },
+    {
+      "from": "salt-lake-city-ut",
+      "to": "provo-ut",
+      "terrain": "highway",
+      "miles": 43
+    },
+    {
+      "from": "salt-lake-city-ut",
+      "to": "cheyenne-wy",
+      "terrain": "highway",
+      "miles": 371
+    },
+    {
+      "from": "cheyenne-wy",
+      "to": "omaha-ne",
+      "terrain": "highway",
+      "miles": 458
+    },
+    {
+      "from": "omaha-ne",
+      "to": "des-moines-ia",
+      "terrain": "highway",
+      "miles": 126
+    },
+    {
+      "from": "des-moines-ia",
+      "to": "chicago-il",
+      "terrain": "highway",
+      "miles": 310
+    },
+    {
+      "from": "chicago-il",
+      "to": "cleveland-oh",
+      "terrain": "highway",
+      "miles": 306
+    },
+    {
+      "from": "cleveland-oh",
+      "to": "buffalo-ny",
+      "terrain": "highway",
+      "miles": 173
+    },
+    {
+      "from": "buffalo-ny",
+      "to": "albany-ny",
+      "terrain": "secondary",
+      "miles": 259
+    },
+    {
+      "from": "albany-ny",
+      "to": "boston-ma",
+      "terrain": "highway",
+      "miles": 139
+    },
+    {
+      "from": "spokane-wa",
+      "to": "missoula-mt",
+      "terrain": "mountain",
+      "miles": 169
+    },
+    {
+      "from": "missoula-mt",
+      "to": "billings-mt",
+      "terrain": "secondary",
+      "miles": 273
+    },
+    {
+      "from": "billings-mt",
+      "to": "bismarck-nd",
+      "terrain": "secondary",
+      "miles": 374
+    },
+    {
+      "from": "bismarck-nd",
+      "to": "fargo-nd",
+      "terrain": "highway",
+      "miles": 189
+    },
+    {
+      "from": "fargo-nd",
+      "to": "minneapolis-mn",
+      "terrain": "highway",
+      "miles": 214
+    },
+    {
+      "from": "minneapolis-mn",
+      "to": "milwaukee-wi",
+      "terrain": "highway",
+      "miles": 301
+    },
+    {
+      "from": "milwaukee-wi",
+      "to": "chicago-il",
+      "terrain": "highway",
+      "miles": 78
+    },
+    {
+      "from": "minneapolis-mn",
+      "to": "duluth-mn",
+      "terrain": "secondary",
+      "miles": 138
+    },
+    {
+      "from": "minneapolis-mn",
+      "to": "madison-wi",
+      "terrain": "secondary",
+      "miles": 233
+    },
+    {
+      "from": "madison-wi",
+      "to": "milwaukee-wi",
+      "terrain": "highway",
+      "miles": 76
+    },
+    {
+      "from": "las-vegas-nv",
+      "to": "los-angeles-ca",
+      "terrain": "desert",
+      "miles": 227
+    },
+    {
+      "from": "las-vegas-nv",
+      "to": "flagstaff-az",
+      "terrain": "desert",
+      "miles": 203
+    },
+    {
+      "from": "flagstaff-az",
+      "to": "phoenix-az",
+      "terrain": "secondary",
+      "miles": 126
+    },
+    {
+      "from": "phoenix-az",
+      "to": "tucson-az",
+      "terrain": "desert",
+      "miles": 108
+    },
+    {
+      "from": "phoenix-az",
+      "to": "albuquerque-nm",
+      "terrain": "desert",
+      "miles": 335
+    },
+    {
+      "from": "flagstaff-az",
+      "to": "albuquerque-nm",
+      "terrain": "secondary",
+      "miles": 288
+    },
+    {
+      "from": "albuquerque-nm",
+      "to": "santa-fe-nm",
+      "terrain": "secondary",
+      "miles": 57
+    },
+    {
+      "from": "albuquerque-nm",
+      "to": "denver-co",
+      "terrain": "mountain",
+      "miles": 330
+    },
+    {
+      "from": "denver-co",
+      "to": "colorado-springs-co",
+      "terrain": "highway",
+      "miles": 63
+    },
+    {
+      "from": "colorado-springs-co",
+      "to": "pueblo-co",
+      "terrain": "highway",
+      "miles": 40
+    },
+    {
+      "from": "denver-co",
+      "to": "cheyenne-wy",
+      "terrain": "highway",
+      "miles": 97
+    },
+    {
+      "from": "denver-co",
+      "to": "kansas-city-mo",
+      "terrain": "highway",
+      "miles": 557
+    },
+    {
+      "from": "kansas-city-mo",
+      "to": "st-louis-mo",
+      "terrain": "highway",
+      "miles": 239
+    },
+    {
+      "from": "st-louis-mo",
+      "to": "indianapolis-in",
+      "terrain": "highway",
+      "miles": 230
+    },
+    {
+      "from": "indianapolis-in",
+      "to": "columbus-oh",
+      "terrain": "highway",
+      "miles": 170
+    },
+    {
+      "from": "columbus-oh",
+      "to": "pittsburgh-pa",
+      "terrain": "highway",
+      "miles": 161
+    },
+    {
+      "from": "pittsburgh-pa",
+      "to": "harrisburg-pa",
+      "terrain": "secondary",
+      "miles": 163
+    },
+    {
+      "from": "harrisburg-pa",
+      "to": "philadelphia-pa",
+      "terrain": "highway",
+      "miles": 93
+    },
+    {
+      "from": "philadelphia-pa",
+      "to": "newark-nj",
+      "terrain": "highway",
+      "miles": 74
+    },
+    {
+      "from": "newark-nj",
+      "to": "new-york-ny",
+      "terrain": "highway",
+      "miles": 40
+    },
+    {
+      "from": "albuquerque-nm",
+      "to": "amarillo-tx",
+      "terrain": "desert",
+      "miles": 271
+    },
+    {
+      "from": "amarillo-tx",
+      "to": "oklahoma-city-ok",
+      "terrain": "highway",
+      "miles": 243
+    },
+    {
+      "from": "oklahoma-city-ok",
+      "to": "little-rock-ar",
+      "terrain": "highway",
+      "miles": 299
+    },
+    {
+      "from": "little-rock-ar",
+      "to": "memphis-tn",
+      "terrain": "highway",
+      "miles": 133
+    },
+    {
+      "from": "memphis-tn",
+      "to": "nashville-tn",
+      "terrain": "highway",
+      "miles": 195
+    },
+    {
+      "from": "nashville-tn",
+      "to": "knoxville-tn",
+      "terrain": "highway",
+      "miles": 163
+    },
+    {
+      "from": "los-angeles-ca",
+      "to": "phoenix-az",
+      "terrain": "desert",
+      "miles": 354
+    },
+    {
+      "from": "tucson-az",
+      "to": "el-paso-tx",
+      "terrain": "desert",
+      "miles": 265
+    },
+    {
+      "from": "el-paso-tx",
+      "to": "san-antonio-tx",
+      "terrain": "desert",
+      "miles": 498
+    },
+    {
+      "from": "san-antonio-tx",
+      "to": "houston-tx",
+      "terrain": "highway",
+      "miles": 188
+    },
+    {
+      "from": "houston-tx",
+      "to": "baton-rouge-la",
+      "terrain": "coastal",
+      "miles": 261
+    },
+    {
+      "from": "baton-rouge-la",
+      "to": "new-orleans-la",
+      "terrain": "coastal",
+      "miles": 69
+    },
+    {
+      "from": "new-orleans-la",
+      "to": "mobile-al",
+      "terrain": "coastal",
+      "miles": 134
+    },
+    {
+      "from": "mobile-al",
+      "to": "tallahassee-fl",
+      "terrain": "coastal",
+      "miles": 221
+    },
+    {
+      "from": "tallahassee-fl",
+      "to": "jacksonville-fl",
+      "terrain": "highway",
+      "miles": 155
+    },
+    {
+      "from": "el-paso-tx",
+      "to": "lubbock-tx",
+      "terrain": "desert",
+      "miles": 290
+    },
+    {
+      "from": "lubbock-tx",
+      "to": "amarillo-tx",
+      "terrain": "secondary",
+      "miles": 111
+    },
+    {
+      "from": "amarillo-tx",
+      "to": "dallas-tx",
+      "terrain": "highway",
+      "miles": 331
+    },
+    {
+      "from": "dallas-tx",
+      "to": "fort-worth-tx",
+      "terrain": "highway",
+      "miles": 40
+    },
+    {
+      "from": "fort-worth-tx",
+      "to": "austin-tx",
+      "terrain": "secondary",
+      "miles": 174
+    },
+    {
+      "from": "austin-tx",
+      "to": "san-antonio-tx",
+      "terrain": "highway",
+      "miles": 79
+    },
+    {
+      "from": "houston-tx",
+      "to": "dallas-tx",
+      "terrain": "highway",
+      "miles": 223
+    },
+    {
+      "from": "houston-tx",
+      "to": "corpus-christi-tx",
+      "terrain": "coastal",
+      "miles": 184
+    },
+    {
+      "from": "dallas-tx",
+      "to": "oklahoma-city-ok",
+      "terrain": "highway",
+      "miles": 191
+    },
+    {
+      "from": "oklahoma-city-ok",
+      "to": "tulsa-ok",
+      "terrain": "highway",
+      "miles": 102
+    },
+    {
+      "from": "tulsa-ok",
+      "to": "kansas-city-mo",
+      "terrain": "secondary",
+      "miles": 213
+    },
+    {
+      "from": "oklahoma-city-ok",
+      "to": "wichita-ks",
+      "terrain": "highway",
+      "miles": 152
+    },
+    {
+      "from": "wichita-ks",
+      "to": "kansas-city-mo",
+      "terrain": "highway",
+      "miles": 175
+    },
+    {
+      "from": "cheyenne-wy",
+      "to": "casper-wy",
+      "terrain": "secondary",
+      "miles": 146
+    },
+    {
+      "from": "casper-wy",
+      "to": "rapid-city-sd",
+      "terrain": "secondary",
+      "miles": 176
+    },
+    {
+      "from": "rapid-city-sd",
+      "to": "sioux-falls-sd",
+      "terrain": "secondary",
+      "miles": 327
+    },
+    {
+      "from": "sioux-falls-sd",
+      "to": "omaha-ne",
+      "terrain": "highway",
+      "miles": 156
+    },
+    {
+      "from": "omaha-ne",
+      "to": "lincoln-ne",
+      "terrain": "highway",
+      "miles": 50
+    },
+    {
+      "from": "lincoln-ne",
+      "to": "wichita-ks",
+      "terrain": "secondary",
+      "miles": 217
+    },
+    {
+      "from": "sioux-falls-sd",
+      "to": "minneapolis-mn",
+      "terrain": "highway",
+      "miles": 197
+    },
+    {
+      "from": "omaha-ne",
+      "to": "kansas-city-mo",
+      "terrain": "highway",
+      "miles": 169
+    },
+    {
+      "from": "boise-id",
+      "to": "missoula-mt",
+      "terrain": "mountain",
+      "miles": 252
+    },
+    {
+      "from": "spokane-wa",
+      "to": "boise-id",
+      "terrain": "secondary",
+      "miles": 289
+    },
+    {
+      "from": "provo-ut",
+      "to": "flagstaff-az",
+      "terrain": "desert",
+      "miles": 345
+    },
+    {
+      "from": "pueblo-co",
+      "to": "albuquerque-nm",
+      "terrain": "mountain",
+      "miles": 247
+    },
+    {
+      "from": "santa-fe-nm",
+      "to": "amarillo-tx",
+      "terrain": "secondary",
+      "miles": 233
+    },
+    {
+      "from": "chicago-il",
+      "to": "indianapolis-in",
+      "terrain": "highway",
+      "miles": 162
+    },
+    {
+      "from": "chicago-il",
+      "to": "springfield-il",
+      "terrain": "secondary",
+      "miles": 179
+    },
+    {
+      "from": "springfield-il",
+      "to": "st-louis-mo",
+      "terrain": "highway",
+      "miles": 89
+    },
+    {
+      "from": "st-louis-mo",
+      "to": "springfield-mo",
+      "terrain": "secondary",
+      "miles": 195
+    },
+    {
+      "from": "springfield-mo",
+      "to": "tulsa-ok",
+      "terrain": "secondary",
+      "miles": 160
+    },
+    {
+      "from": "springfield-mo",
+      "to": "little-rock-ar",
+      "terrain": "secondary",
+      "miles": 182
+    },
+    {
+      "from": "chicago-il",
+      "to": "detroit-mi",
+      "terrain": "highway",
+      "miles": 237
+    },
+    {
+      "from": "detroit-mi",
+      "to": "toledo-oh",
+      "terrain": "highway",
+      "miles": 52
+    },
+    {
+      "from": "toledo-oh",
+      "to": "cleveland-oh",
+      "terrain": "highway",
+      "miles": 99
+    },
+    {
+      "from": "detroit-mi",
+      "to": "grand-rapids-mi",
+      "terrain": "secondary",
+      "miles": 145
+    },
+    {
+      "from": "grand-rapids-mi",
+      "to": "chicago-il",
+      "terrain": "secondary",
+      "miles": 121
+    },
+    {
+      "from": "fort-wayne-in",
+      "to": "detroit-mi",
+      "terrain": "secondary",
+      "miles": 136
+    },
+    {
+      "from": "fort-wayne-in",
+      "to": "indianapolis-in",
+      "terrain": "highway",
+      "miles": 107
+    },
+    {
+      "from": "indianapolis-in",
+      "to": "cincinnati-oh",
+      "terrain": "highway",
+      "miles": 103
+    },
+    {
+      "from": "cincinnati-oh",
+      "to": "louisville-ky",
+      "terrain": "highway",
+      "miles": 89
+    },
+    {
+      "from": "cincinnati-oh",
+      "to": "columbus-oh",
+      "terrain": "highway",
+      "miles": 101
+    },
+    {
+      "from": "columbus-oh",
+      "to": "cleveland-oh",
+      "terrain": "highway",
+      "miles": 124
+    },
+    {
+      "from": "louisville-ky",
+      "to": "lexington-ky",
+      "terrain": "highway",
+      "miles": 74
+    },
+    {
+      "from": "louisville-ky",
+      "to": "nashville-tn",
+      "terrain": "highway",
+      "miles": 155
+    },
+    {
+      "from": "lexington-ky",
+      "to": "knoxville-tn",
+      "terrain": "mountain",
+      "miles": 145
+    },
+    {
+      "from": "memphis-tn",
+      "to": "jackson-ms",
+      "terrain": "highway",
+      "miles": 194
+    },
+    {
+      "from": "jackson-ms",
+      "to": "new-orleans-la",
+      "terrain": "secondary",
+      "miles": 159
+    },
+    {
+      "from": "jackson-ms",
+      "to": "birmingham-al",
+      "terrain": "secondary",
+      "miles": 214
+    },
+    {
+      "from": "shreveport-la",
+      "to": "dallas-tx",
+      "terrain": "highway",
+      "miles": 176
+    },
+    {
+      "from": "shreveport-la",
+      "to": "little-rock-ar",
+      "terrain": "secondary",
+      "miles": 175
+    },
+    {
+      "from": "shreveport-la",
+      "to": "baton-rouge-la",
+      "terrain": "secondary",
+      "miles": 211
+    },
+    {
+      "from": "birmingham-al",
+      "to": "montgomery-al",
+      "terrain": "highway",
+      "miles": 81
+    },
+    {
+      "from": "montgomery-al",
+      "to": "mobile-al",
+      "terrain": "secondary",
+      "miles": 154
+    },
+    {
+      "from": "birmingham-al",
+      "to": "atlanta-ga",
+      "terrain": "highway",
+      "miles": 139
+    },
+    {
+      "from": "birmingham-al",
+      "to": "chattanooga-tn",
+      "terrain": "secondary",
+      "miles": 134
+    },
+    {
+      "from": "chattanooga-tn",
+      "to": "atlanta-ga",
+      "terrain": "highway",
+      "miles": 103
+    },
+    {
+      "from": "chattanooga-tn",
+      "to": "knoxville-tn",
+      "terrain": "highway",
+      "miles": 103
+    },
+    {
+      "from": "nashville-tn",
+      "to": "chattanooga-tn",
+      "terrain": "highway",
+      "miles": 118
+    },
+    {
+      "from": "atlanta-ga",
+      "to": "savannah-ga",
+      "terrain": "highway",
+      "miles": 221
+    },
+    {
+      "from": "atlanta-ga",
+      "to": "columbia-sc",
+      "terrain": "highway",
+      "miles": 196
+    },
+    {
+      "from": "atlanta-ga",
+      "to": "charlotte-nc",
+      "terrain": "highway",
+      "miles": 230
+    },
+    {
+      "from": "savannah-ga",
+      "to": "charleston-sc",
+      "terrain": "coastal",
+      "miles": 85
+    },
+    {
+      "from": "charleston-sc",
+      "to": "columbia-sc",
+      "terrain": "secondary",
+      "miles": 104
+    },
+    {
+      "from": "columbia-sc",
+      "to": "charlotte-nc",
+      "terrain": "highway",
+      "miles": 84
+    },
+    {
+      "from": "charlotte-nc",
+      "to": "greensboro-nc",
+      "terrain": "highway",
+      "miles": 84
+    },
+    {
+      "from": "greensboro-nc",
+      "to": "raleigh-nc",
+      "terrain": "highway",
+      "miles": 70
+    },
+    {
+      "from": "raleigh-nc",
+      "to": "richmond-va",
+      "terrain": "highway",
+      "miles": 135
+    },
+    {
+      "from": "charlotte-nc",
+      "to": "roanoke-va",
+      "terrain": "mountain",
+      "miles": 154
+    },
+    {
+      "from": "jacksonville-fl",
+      "to": "orlando-fl",
+      "terrain": "highway",
+      "miles": 126
+    },
+    {
+      "from": "orlando-fl",
+      "to": "tampa-fl",
+      "terrain": "highway",
+      "miles": 75
+    },
+    {
+      "from": "orlando-fl",
+      "to": "miami-fl",
+      "terrain": "highway",
+      "miles": 201
+    },
+    {
+      "from": "tampa-fl",
+      "to": "miami-fl",
+      "terrain": "coastal",
+      "miles": 208
+    },
+    {
+      "from": "jacksonville-fl",
+      "to": "savannah-ga",
+      "terrain": "coastal",
+      "miles": 129
+    },
+    {
+      "from": "miami-fl",
+      "to": "jacksonville-fl",
+      "terrain": "highway",
+      "miles": 324
+    },
+    {
+      "from": "raleigh-nc",
+      "to": "norfolk-va",
+      "terrain": "secondary",
+      "miles": 149
+    },
+    {
+      "from": "norfolk-va",
+      "to": "richmond-va",
+      "terrain": "highway",
+      "miles": 73
+    },
+    {
+      "from": "richmond-va",
+      "to": "washington-dc",
+      "terrain": "highway",
+      "miles": 99
+    },
+    {
+      "from": "washington-dc",
+      "to": "baltimore-md",
+      "terrain": "highway",
+      "miles": 40
+    },
+    {
+      "from": "baltimore-md",
+      "to": "philadelphia-pa",
+      "terrain": "highway",
+      "miles": 87
+    },
+    {
+      "from": "philadelphia-pa",
+      "to": "new-york-ny",
+      "terrain": "highway",
+      "miles": 82
+    },
+    {
+      "from": "new-york-ny",
+      "to": "hartford-ct",
+      "terrain": "highway",
+      "miles": 102
+    },
+    {
+      "from": "hartford-ct",
+      "to": "providence-ri",
+      "terrain": "highway",
+      "miles": 67
+    },
+    {
+      "from": "providence-ri",
+      "to": "boston-ma",
+      "terrain": "highway",
+      "miles": 44
+    },
+    {
+      "from": "boston-ma",
+      "to": "concord-nh",
+      "terrain": "secondary",
+      "miles": 59
+    },
+    {
+      "from": "concord-nh",
+      "to": "portland-me",
+      "terrain": "highway",
+      "miles": 69
+    },
+    {
+      "from": "albany-ny",
+      "to": "burlington-vt",
+      "terrain": "mountain",
+      "miles": 128
+    },
+    {
+      "from": "buffalo-ny",
+      "to": "rochester-ny",
+      "terrain": "highway",
+      "miles": 69
+    },
+    {
+      "from": "rochester-ny",
+      "to": "albany-ny",
+      "terrain": "secondary",
+      "miles": 195
+    },
+    {
+      "from": "pittsburgh-pa",
+      "to": "charleston-wv",
+      "terrain": "mountain",
+      "miles": 168
+    },
+    {
+      "from": "charleston-wv",
+      "to": "roanoke-va",
+      "terrain": "mountain",
+      "miles": 116
+    },
+    {
+      "from": "roanoke-va",
+      "to": "richmond-va",
+      "terrain": "secondary",
+      "miles": 138
+    },
+    {
+      "from": "pittsburgh-pa",
+      "to": "cleveland-oh",
+      "terrain": "highway",
+      "miles": 117
+    },
+    {
+      "from": "pittsburgh-pa",
+      "to": "buffalo-ny",
+      "terrain": "secondary",
+      "miles": 182
+    },
+    {
+      "from": "washington-dc",
+      "to": "harrisburg-pa",
+      "terrain": "secondary",
+      "miles": 97
+    },
+    {
+      "from": "knoxville-tn",
+      "to": "roanoke-va",
+      "terrain": "mountain",
+      "miles": 240
+    },
+    {
+      "from": "greensboro-nc",
+      "to": "roanoke-va",
+      "terrain": "secondary",
+      "miles": 83
+    },
+    {
+      "from": "las-vegas-nv",
+      "to": "reno-nv",
+      "terrain": "desert",
+      "miles": 343
+    },
+    {
+      "from": "san-diego-ca",
+      "to": "phoenix-az",
+      "terrain": "desert",
+      "miles": 299
+    },
+    {
+      "from": "billings-mt",
+      "to": "rapid-city-sd",
+      "terrain": "secondary",
+      "miles": 284
+    },
+    {
+      "from": "billings-mt",
+      "to": "casper-wy",
+      "terrain": "secondary",
+      "miles": 228
+    },
+    {
+      "from": "des-moines-ia",
+      "to": "kansas-city-mo",
+      "terrain": "secondary",
+      "miles": 181
+    },
+    {
+      "from": "des-moines-ia",
+      "to": "minneapolis-mn",
+      "terrain": "highway",
+      "miles": 234
+    },
+    {
+      "from": "st-louis-mo",
+      "to": "memphis-tn",
+      "terrain": "highway",
+      "miles": 242
+    },
+    {
+      "from": "st-louis-mo",
+      "to": "louisville-ky",
+      "terrain": "highway",
+      "miles": 239
+    },
+    {
+      "from": "indianapolis-in",
+      "to": "louisville-ky",
+      "terrain": "highway",
+      "miles": 106
+    },
+    {
+      "from": "columbus-oh",
+      "to": "charleston-wv",
+      "terrain": "secondary",
+      "miles": 139
+    },
+    {
+      "from": "memphis-tn",
+      "to": "birmingham-al",
+      "terrain": "secondary",
+      "miles": 213
+    },
+    {
+      "from": "tampa-fl",
+      "to": "tallahassee-fl",
+      "terrain": "secondary",
+      "miles": 198
+    },
+    {
+      "from": "new-york-ny",
+      "to": "albany-ny",
+      "terrain": "highway",
+      "miles": 139
+    }
+  ],
+  "specialLocationPool": [
+    "hospital",
+    "fuel-depot",
+    "scrapyard",
+    "arena",
+    "bunker-entrance",
+    "radio-tower",
+    "rail-yard",
+    "university",
+    "prison",
+    "mall"
+  ],
+  "regionFactionPools": {
+    "nw": ["freehold", "road-kings", "scavengers"],
+    "west": ["road-kings", "scavengers", "cartel"],
+    "sw": ["cartel", "desert-wolves", "scavengers"],
+    "mtn": ["freehold", "desert-wolves", "militia"],
+    "plains": ["militia", "freehold", "scavengers"],
+    "midwest": ["militia", "road-kings", "freehold"],
+    "south": ["cartel", "militia", "scavengers"],
+    "east": ["syndicate", "militia", "freehold"]
+  }
+}

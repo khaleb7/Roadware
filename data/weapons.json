@@ -1,0 +1,42 @@
+{
+  "mounted-mg": {
+    "id": "mounted-mg",
+    "label": "Mounted MG",
+    "range": 5,
+    "damage": 10,
+    "ammoPerShot": 2,
+    "accuracy": 0.72,
+    "tireHitChance": 0.18,
+    "crewHitChance": 0.12
+  },
+  "carbine": {
+    "id": "carbine",
+    "label": "Carbine",
+    "range": 4,
+    "damage": 7,
+    "ammoPerShot": 1,
+    "accuracy": 0.68,
+    "tireHitChance": 0.1,
+    "crewHitChance": 0.2
+  },
+  "shotgun": {
+    "id": "shotgun",
+    "label": "Road Shotgun",
+    "range": 2,
+    "damage": 12,
+    "ammoPerShot": 1,
+    "accuracy": 0.8,
+    "tireHitChance": 0.08,
+    "crewHitChance": 0.25
+  },
+  "handgun": {
+    "id": "handgun",
+    "label": "Sidearm",
+    "range": 2,
+    "damage": 4,
+    "ammoPerShot": 1,
+    "accuracy": 0.6,
+    "tireHitChance": 0.05,
+    "crewHitChance": 0.15
+  }
+}

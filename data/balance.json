@@ -1,0 +1,309 @@
+{
+  "maxVehicles": 15,
+  "maxLogEntries": 60,
+  "resourceOrder": [
+    "food",
+    "fuel",
+    "tires",
+    "medicine",
+    "guns",
+    "ammunition",
+    "spareParts"
+  ],
+  "startingResources": {
+    "food": 280,
+    "fuel": 180,
+    "tires": 22,
+    "medicine": 18,
+    "guns": 12,
+    "ammunition": 65,
+    "spareParts": 18
+  },
+  "consumption": {
+    "foodPerCrewPerTurn": 1,
+    "fuelPerMoveFlat": 0,
+    "fuelPerVehicleOnMove": 1,
+    "tireWearChanceOnMove": 0.08,
+    "tiresConsumedOnWear": 1,
+    "driverFuelMultiplier": 0.85,
+    "minFuelCost": 1
+  },
+  "travel": {
+    "milesPerFuelUnit": 70,
+    "referenceMilesForTireWear": 140,
+    "maxTireWearChance": 0.75
+  },
+  "cityGeneration": {
+    "lootPileCountMin": 3,
+    "lootPileCountMax": 6,
+    "vehicleYardChance": 0.45,
+    "vehicleYardMin": 0,
+    "vehicleYardMax": 2,
+    "recruitCountMin": 0,
+    "recruitCountMax": 3,
+    "specialLocationChance": 0.55,
+    "specialLocationMax": 2,
+    "dangerJitter": 2,
+    "populationJitterFraction": 0.2,
+    "minPopulation": 1000,
+    "minDanger": 1,
+    "maxDanger": 10,
+    "recruitCombatMin": 25,
+    "recruitCombatMax": 55,
+    "recruitSurvivalMin": 25,
+    "recruitSurvivalMax": 55,
+    "recruitLeadershipMin": 15,
+    "recruitLeadershipMax": 45
+  },
+  "recruit": {
+    "searchHireChance": 0.55,
+    "negotiatorHireBonus": 0.2,
+    "maxCrewSoftCap": 24
+  },
+  "scavenge": {
+    "minDurabilityFraction": 0.4,
+    "maxDurabilityFraction": 0.8
+  },
+  "starvation": {
+    "healthLossWhenHungry": 2,
+    "desertionChancePerHungryCrew": 0.05,
+    "hungerStreakBeforeDesertion": 3
+  },
+  "stranded": {
+    "blockMoveWithoutFuel": true,
+    "blockMoveWithoutTires": true
+  },
+  "heal": {
+    "medicineCost": 1,
+    "healthRestored": 25,
+    "medicBonusHealth": 10
+  },
+  "repair": {
+    "sparePartsCost": 1,
+    "durabilityRestored": 20,
+    "mechanicBonusDurability": 10
+  },
+  "rest": {
+    "healthRestored": 5,
+    "leadershipMoraleHint": true,
+    "forageFoodMin": 2,
+    "forageFoodMax": 5
+  },
+  "search": {
+    "baseFindChance": 0.72,
+    "scoutBonusFindChance": 0.18,
+    "guaranteedFoodMin": 4,
+    "guaranteedFoodMax": 9,
+    "guaranteedFuelMin": 3,
+    "guaranteedFuelMax": 8,
+    "lootTable": [
+      { "resource": "food", "min": 10, "max": 22, "weight": 6 },
+      { "resource": "fuel", "min": 5, "max": 14, "weight": 4 },
+      { "resource": "tires", "min": 1, "max": 3, "weight": 1 },
+      { "resource": "medicine", "min": 1, "max": 3, "weight": 2 },
+      { "resource": "guns", "min": 1, "max": 2, "weight": 1 },
+      { "resource": "ammunition", "min": 5, "max": 14, "weight": 2 },
+      { "resource": "spareParts", "min": 1, "max": 4, "weight": 2 }
+    ]
+  },
+  "loot": {
+    "baseFindChance": 0.85,
+    "negotiatorBonusFindChance": 0.12,
+    "multiplierMin": 1,
+    "multiplierMax": 2
+  },
+  "attack": {
+    "ammunitionCost": 5,
+    "gunsRequired": 1,
+    "stubDamageToEnemy": 10,
+    "stubVictoryChance": 0.7,
+    "gunnerBonusVictoryChance": 0.15,
+    "dangerVictoryPenaltyPerPoint": 0.02,
+    "minVictoryChance": 0.05
+  },
+  "encounters": {
+    "roadBaseChance": 0.26,
+    "cityAttackBaseChance": 1,
+    "dangerChancePerPoint": 0.025,
+    "scoutAvoidBonus": 0.12,
+    "maxChance": 0.8,
+    "lootRollsOnWinMin": 1,
+    "lootRollsOnWinMax": 3,
+    "fightAmmoBase": 4,
+    "fightAmmoPerGunner": 1
+  },
+  "quickCombat": {
+    "crewCombatWeight": 1,
+    "gunWeight": 3,
+    "vehicleArmorWeight": 4,
+    "gunnerBonus": 12,
+    "leadershipMoraleWeight": 0.5,
+    "leaderSpecialistBonus": 8,
+    "enemyStrengthWeight": 1,
+    "enemyMoraleWeight": 0.6,
+    "terrainPlayerBonus": {
+      "highway": 2,
+      "secondary": 0,
+      "mountain": -4,
+      "desert": -2,
+      "coastal": 1,
+      "ruined": -6
+    },
+    "terrainEnemyBonus": {
+      "highway": 0,
+      "secondary": 1,
+      "mountain": 3,
+      "desert": 2,
+      "coastal": 0,
+      "ruined": 5
+    },
+    "rngJitter": 12,
+    "ammoSpendOnFight": true,
+    "outcomes": [
+      {
+        "id": "decisive",
+        "minRatio": 0.72,
+        "damageMin": 0,
+        "damageMax": 6,
+        "vehicleDamageChance": 0.04,
+        "xp": 6
+      },
+      {
+        "id": "win",
+        "minRatio": 0.55,
+        "damageMin": 2,
+        "damageMax": 10,
+        "vehicleDamageChance": 0.1,
+        "xp": 5
+      },
+      {
+        "id": "pyrrhic",
+        "minRatio": 0.45,
+        "damageMin": 6,
+        "damageMax": 16,
+        "vehicleDamageChance": 0.22,
+        "xp": 4
+      },
+      {
+        "id": "loss",
+        "minRatio": 0.28,
+        "damageMin": 8,
+        "damageMax": 22,
+        "vehicleDamageChance": 0.3,
+        "xp": 2
+      },
+      {
+        "id": "rout",
+        "minRatio": 0,
+        "damageMin": 12,
+        "damageMax": 32,
+        "vehicleDamageChance": 0.4,
+        "xp": 1
+      }
+    ],
+    "vehicleDamageAmount": 12,
+    "winLootOn": ["decisive", "win", "pyrrhic"],
+    "resourceLossOnDefeat": {
+      "food": { "min": 1, "max": 4 },
+      "fuel": { "min": 0, "max": 3 },
+      "ammunition": { "min": 2, "max": 8 }
+    }
+  },
+  "encounterActions": {
+    "evadeBaseChance": 0.55,
+    "scoutEvadeBonus": 0.22,
+    "driverEvadeBonus": 0.12,
+    "survivalEvadeScale": 0.0025,
+    "enemyMoraleEvadePenaltyScale": 0.0008,
+    "evadeFailDamageMin": 2,
+    "evadeFailDamageMax": 8,
+    "negotiateBaseChance": 0.42,
+    "negotiatorBonus": 0.28,
+    "leadershipNegotiateScale": 0.0035,
+    "enemyMoraleNegotiatePenaltyScale": 0.0035,
+    "negotiateTributeFood": 2,
+    "negotiateFailForceFight": false
+  },
+  "experience": {
+    "restXp": 1,
+    "searchXp": 2,
+    "lootXp": 2,
+    "repairXp": 3,
+    "healXp": 3,
+    "moveXp": 1,
+    "attackXp": 4,
+    "surviveHungryTurnXp": 2,
+    "evadeXp": 2,
+    "negotiateXp": 3,
+    "tradeXp": 2,
+    "xpPerCombatRating": 12,
+    "xpPerSurvivalRating": 10,
+    "xpPerLeadershipRating": 14,
+    "ratingGain": 1,
+    "maxRating": 100
+  },
+  "cache": {
+    "minDepositTotal": 1
+  },
+  "crewDefaults": {
+    "startingHealth": 100,
+    "minHealth": 0,
+    "maxHealth": 100,
+    "startingCombat": 40,
+    "startingSurvival": 40,
+    "startingLeadership": 35,
+    "startingXp": 0
+  },
+  "startingConvoy": {
+    "locationId": "denver-co",
+    "crew": [
+      {
+        "name": "Rhea Cole",
+        "specialist": "leader",
+        "combat": 45,
+        "survival": 42,
+        "leadership": 55
+      },
+      {
+        "name": "Jex Morin",
+        "specialist": "driver",
+        "combat": 38,
+        "survival": 44,
+        "leadership": 30
+      },
+      {
+        "name": "Samira Okonkwo",
+        "specialist": "medic",
+        "combat": 28,
+        "survival": 50,
+        "leadership": 40
+      },
+      {
+        "name": "Theo Brant",
+        "specialist": "mechanic",
+        "combat": 32,
+        "survival": 48,
+        "leadership": 28
+      },
+      {
+        "name": "Nia Voss",
+        "specialist": "scout",
+        "combat": 40,
+        "survival": 52,
+        "leadership": 26
+      },
+      {
+        "name": "Harlan Pike",
+        "specialist": "gunner",
+        "combat": 58,
+        "survival": 36,
+        "leadership": 24
+      }
+    ],
+    "vehicles": [
+      { "classId": "hardtop", "name": "Ash Runner" },
+      { "classId": "hauler", "name": "Iron Pantry" },
+      { "classId": "bike", "name": "Whisper" }
+    ]
+  }
+}

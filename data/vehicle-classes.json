@@ -1,0 +1,68 @@
+{
+  "bike": {
+    "id": "bike",
+    "label": "Bike",
+    "maxCrew": 2,
+    "cargo": 4,
+    "armor": 1,
+    "speed": 9,
+    "fuelEfficiency": 1.4,
+    "maxDurability": 40,
+    "captureWeight": 1
+  },
+  "hardtop": {
+    "id": "hardtop",
+    "label": "Hardtop",
+    "maxCrew": 4,
+    "cargo": 12,
+    "armor": 3,
+    "speed": 6,
+    "fuelEfficiency": 1.0,
+    "maxDurability": 70,
+    "captureWeight": 2
+  },
+  "hauler": {
+    "id": "hauler",
+    "label": "Hauler",
+    "maxCrew": 3,
+    "cargo": 28,
+    "armor": 2,
+    "speed": 4,
+    "fuelEfficiency": 0.7,
+    "maxDurability": 80,
+    "captureWeight": 3
+  },
+  "bus": {
+    "id": "bus",
+    "label": "Bus",
+    "maxCrew": 10,
+    "cargo": 18,
+    "armor": 2,
+    "speed": 3,
+    "fuelEfficiency": 0.6,
+    "maxDurability": 90,
+    "captureWeight": 4
+  },
+  "tanker": {
+    "id": "tanker",
+    "label": "Tanker",
+    "maxCrew": 2,
+    "cargo": 8,
+    "armor": 2,
+    "speed": 3,
+    "fuelEfficiency": 0.5,
+    "maxDurability": 75,
+    "captureWeight": 3
+  },
+  "armored": {
+    "id": "armored",
+    "label": "Armored Wagon",
+    "maxCrew": 5,
+    "cargo": 10,
+    "armor": 6,
+    "speed": 3,
+    "fuelEfficiency": 0.55,
+    "maxDurability": 110,
+    "captureWeight": 5
+  }
+}

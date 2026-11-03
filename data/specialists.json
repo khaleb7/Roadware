@@ -1,0 +1,37 @@
+{
+  "leader": {
+    "id": "leader",
+    "label": "Leader",
+    "description": "Keeps the convoy pointed the same direction."
+  },
+  "medic": {
+    "id": "medic",
+    "label": "Medic",
+    "description": "Stretches medicine and pulls people back from the brink."
+  },
+  "mechanic": {
+    "id": "mechanic",
+    "label": "Mechanic",
+    "description": "Turns scrap into roadworthy metal."
+  },
+  "driver": {
+    "id": "driver",
+    "label": "Driver",
+    "description": "Burns less fuel when the convoy rolls."
+  },
+  "scout": {
+    "id": "scout",
+    "label": "Scout",
+    "description": "Finds caches others walk past."
+  },
+  "negotiator": {
+    "id": "negotiator",
+    "label": "Negotiator",
+    "description": "Talks salvage into the hold."
+  },
+  "gunner": {
+    "id": "gunner",
+    "label": "Gunner",
+    "description": "Makes ammunition count in a scrap."
+  }
+}
