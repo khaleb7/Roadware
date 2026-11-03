@@ -16,9 +16,15 @@ import type { GameSettings } from "../settings/types";
 export class SettingsScene extends Phaser.Scene {
   private settings!: GameSettings;
   private lines: Phaser.GameObjects.GameObject[] = [];
+  /** Scene to resume on Back — MainMenu by default, StrategicMap when opened mid-run. */
+  private returnScene: string = "MainMenu";
 
   constructor() {
     super({ key: "Settings" });
+  }
+
+  init(data?: { returnScene?: string }): void {
+    this.returnScene = data?.returnScene ?? "MainMenu";
   }
 
   create(): void {
@@ -29,6 +35,11 @@ export class SettingsScene extends Phaser.Scene {
     this.settings = await loadSettings();
     this.registry.set("settings", this.settings);
     this.redraw();
+  }
+
+  private goBack(): void {
+    playSfx("ui-cancel");
+    this.scene.start(this.returnScene);
   }
 
   private clear(): void {
@@ -107,10 +118,9 @@ export class SettingsScene extends Phaser.Scene {
       /* keyboard handles */
     });
 
-    this.toggle(y + 40, "Back to menu [Esc]", () => {
-      playSfx("ui-cancel");
-      this.scene.start("MainMenu");
-    });
+    const backLabel =
+      this.returnScene === "StrategicMap" ? "Back to convoy [Esc]" : "Back to menu [Esc]";
+    this.toggle(y + 40, backLabel, () => this.goBack());
 
     this.input.keyboard?.off("keydown");
     this.input.keyboard?.on("keydown", (ev: KeyboardEvent) => {
@@ -148,7 +158,7 @@ export class SettingsScene extends Phaser.Scene {
 
   private async onKey(key: string): Promise<void> {
     if (key === "escape" || key === "backspace") {
-      this.scene.start("MainMenu");
+      this.goBack();
       return;
     }
     if (key === "=" || key === "+") {

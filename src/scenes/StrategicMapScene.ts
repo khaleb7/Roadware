@@ -113,7 +113,7 @@ export class StrategicMapScene extends Phaser.Scene {
       onSave: () => void this.manualSave(),
       onOpenSettings: () => {
         destroyStatusOverlay();
-        this.scene.start("Settings");
+        this.scene.start("Settings", { returnScene: "StrategicMap" });
       },
     });
 
@@ -183,9 +183,18 @@ export class StrategicMapScene extends Phaser.Scene {
     renderStatusOverlay(this.sim);
   }
 
+  private openSettings(): void {
+    destroyStatusOverlay();
+    this.scene.start("Settings", { returnScene: "StrategicMap" });
+  }
+
   private handleKey(key: string, event: KeyboardEvent): void {
     if (key === "enter") {
       void this.confirmStaged();
+      return;
+    }
+    if (key === "o") {
+      this.openSettings();
       return;
     }
     if (key === "u" || key === "escape") {
@@ -223,7 +232,7 @@ export class StrategicMapScene extends Phaser.Scene {
     switch (key) {
       case "s":
         if (event.shiftKey) {
-          this.scene.start("Settings");
+          this.openSettings();
           break;
         }
         renderStatusOverlay(this.sim);

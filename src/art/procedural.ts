@@ -79,8 +79,7 @@ export function drawVehicleSilhouette(
   if (!ctx) return;
   const w = canvas.width;
   const h = canvas.height;
-  ctx.fillStyle = "#0B0D10";
-  ctx.fillRect(0, 0, w, h);
+  ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = "#8B4513";
   ctx.strokeStyle = "#C2A878";
   ctx.lineWidth = 2;

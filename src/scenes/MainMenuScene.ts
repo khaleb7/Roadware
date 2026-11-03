@@ -181,11 +181,13 @@ export class MainMenuScene extends Phaser.Scene {
       y,
       `Fullscreen: ${settings.fullscreen ? "ON" : "OFF"}`,
       () => {
-        void this.scene.start("Settings");
+        void this.scene.start("Settings", { returnScene: "MainMenu" });
       },
     );
     y += 52;
-    this.addMenuButton(y, "Open full settings…", () => this.scene.start("Settings"));
+    this.addMenuButton(y, "Open full settings…", () =>
+      this.scene.start("Settings", { returnScene: "MainMenu" }),
+    );
     y += 52;
     this.addMenuButton(y, "Back", () => void this.showRoot());
   }
@@ -211,7 +213,8 @@ export class MainMenuScene extends Phaser.Scene {
       if (key === "n") await this.showDifficulty();
       if (key === "c") await this.continueAutosave();
       if (key === "l") await this.showLoad();
-      if (key === "o" || key === "s") this.scene.start("Settings");
+      if (key === "o" || key === "s")
+        this.scene.start("Settings", { returnScene: "MainMenu" });
     } else if (key === "escape" || key === "backspace") {
       await this.showRoot();
     }

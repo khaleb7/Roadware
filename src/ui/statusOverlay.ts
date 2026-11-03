@@ -31,17 +31,38 @@ function ensurePanel(): HTMLDivElement {
     el.setAttribute(
       "style",
       [
-        "position:absolute",
+        "position:fixed",
         "inset:0",
-        "pointer-events:none",
+        // Root must accept hits: some Chromium/automation paths ignore
+        // pointer-events:auto descendants under a none ancestor.
+        "pointer-events:auto",
         "font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace",
         `color:${PALETTE_CSS.sand}`,
-        "z-index:5",
+        // Above Phaser canvas (FIT letterboxing) so Save/Settings clicks land on DOM buttons
+        "z-index:1000",
       ].join(";"),
     );
-    const host = document.getElementById("game") ?? document.body;
-    host.style.position = host.style.position || "relative";
-    host.appendChild(el);
+    // Attach to body so canvas transform/margins cannot swallow overlay hit-testing
+    document.body.appendChild(el);
+    // Event delegation — survives innerHTML rewrites via renderStatusOverlay
+    el.addEventListener(
+      "click",
+      (ev) => {
+        const target = (ev.target as HTMLElement | null)?.closest?.(
+          "button[data-action]",
+        ) as HTMLButtonElement | null;
+        if (!target || !el!.contains(target)) return;
+        ev.preventDefault();
+        ev.stopPropagation();
+        try {
+          playSfx("ui-click");
+        } catch {
+          /* ignore */
+        }
+        handleAction(target.dataset.action ?? "");
+      },
+      true,
+    );
   }
   return el;
 }
@@ -207,17 +228,7 @@ export function renderStatusOverlay(game: Game): StatusSnapshot {
     </div>
   `;
 
-  wireButtons(panel);
   return status;
-}
-
-function wireButtons(panel: HTMLDivElement): void {
-  panel.querySelectorAll<HTMLButtonElement>("button[data-action]").forEach((el) => {
-    el.addEventListener("click", () => {
-      playSfx("ui-click");
-      handleAction(el.dataset.action ?? "");
-    });
-  });
 }
 
 function handleAction(action: string): void {
