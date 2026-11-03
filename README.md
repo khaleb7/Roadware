@@ -2,7 +2,7 @@
 
 Offline convoy strategy game (working title). Clean-room original — no original Roadwar assets, text, or names.
 
-Milestone 1: Vite + TypeScript + Phaser 3 + Electron scaffold with Boot / Main Menu scenes.
+**Milestone 2:** pure TypeScript core simulation (seeded RNG, resources, crew, vehicles, command turn loop) under `src/core`, with Vitest coverage. Phaser UI remains the Milestone 1 Boot / Main Menu shell.
 
 ## Requirements (Windows)
 
@@ -24,11 +24,19 @@ Opens an Electron window loading the Vite dev server:
 npm run dev
 ```
 
+Headless sim smoke (no window):
+
+```bash
+npm run sim
+npm run sim -- 12345
+```
+
 ## Scripts
 
 | Command             | Purpose                                                          |
 | ------------------- | ---------------------------------------------------------------- |
 | `npm run dev`       | Electron + Vite hot reload                                       |
+| `npm run sim`       | Console runner for the core simulation                           |
 | `npm run build`     | Typecheck renderer, Vite production build, compile Electron main |
 | `npm run dist`      | Build + package Windows x64 NSIS installer and portable exe      |
 | `npm run lint`      | ESLint                                                           |
@@ -39,14 +47,18 @@ npm run dev
 ## Project layout
 
 ```
-src/          Phaser game (scenes, core sim, ui)
+src/core/     Pure simulation (no Phaser) — state, RNG, commands
+src/scenes/   Phaser scenes
+src/ui/       UI helpers (stub)
+data/         Balance + vehicle/specialist tables (JSON)
 electron/     Electron main + preload
-data/         Static game data (tables, defs)
 assets/       Runtime assets + manifest.json
 dist/         Vite renderer output
 dist-electron/ Compiled Electron main process
 release/      electron-builder output (Windows)
 ```
+
+Balance numbers belong in `/data/*.json` — keep them out of `src/core` logic.
 
 ## Connecting a GitHub remote (later)
 
@@ -54,10 +66,10 @@ This repo was initialized locally with no remote. When you have a GitHub repo:
 
 ```bash
 git remote add origin git@github.com:<org-or-user>/<repo>.git
-git push -u origin cursor/milestone-1-scaffold-16dd
+git push -u origin HEAD
 ```
 
-Then open a PR from that branch against your default branch as usual.
+Then open a PR against your default branch as usual.
 
 ## License / credits
 

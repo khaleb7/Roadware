@@ -1,0 +1,181 @@
+{
+  "maxVehicles": 15,
+  "maxLogEntries": 40,
+  "resourceOrder": [
+    "food",
+    "fuel",
+    "tires",
+    "medicine",
+    "guns",
+    "ammunition",
+    "spareParts"
+  ],
+  "startingResources": {
+    "food": 48,
+    "fuel": 30,
+    "tires": 6,
+    "medicine": 8,
+    "guns": 10,
+    "ammunition": 40,
+    "spareParts": 10
+  },
+  "consumption": {
+    "foodPerCrewPerTurn": 1,
+    "fuelPerMoveFlat": 2,
+    "fuelPerVehicleOnMove": 1,
+    "tireWearChanceOnMove": 0.12,
+    "tiresConsumedOnWear": 1,
+    "driverFuelMultiplier": 0.85,
+    "minFuelCost": 1
+  },
+  "scavenge": {
+    "minDurabilityFraction": 0.4,
+    "maxDurabilityFraction": 0.8
+  },
+  "starvation": {
+    "healthLossWhenHungry": 8,
+    "desertionChancePerHungryCrew": 0.2,
+    "hungerStreakBeforeDesertion": 1
+  },
+  "stranded": {
+    "blockMoveWithoutFuel": true,
+    "blockMoveWithoutTires": true
+  },
+  "experience": {
+    "restXp": 1,
+    "searchXp": 2,
+    "lootXp": 2,
+    "repairXp": 3,
+    "healXp": 3,
+    "moveXp": 1,
+    "attackXp": 4,
+    "surviveHungryTurnXp": 2,
+    "xpPerCombatRating": 12,
+    "xpPerSurvivalRating": 10,
+    "xpPerLeadershipRating": 14,
+    "ratingGain": 1,
+    "maxRating": 100
+  },
+  "heal": {
+    "medicineCost": 1,
+    "healthRestored": 25,
+    "medicBonusHealth": 10
+  },
+  "repair": {
+    "sparePartsCost": 1,
+    "durabilityRestored": 20,
+    "mechanicBonusDurability": 10
+  },
+  "rest": {
+    "healthRestored": 5,
+    "leadershipMoraleHint": true
+  },
+  "search": {
+    "baseFindChance": 0.65,
+    "scoutBonusFindChance": 0.15,
+    "lootTable": [
+      { "resource": "food", "min": 2, "max": 8, "weight": 3 },
+      { "resource": "fuel", "min": 1, "max": 5, "weight": 3 },
+      { "resource": "tires", "min": 1, "max": 2, "weight": 1 },
+      { "resource": "medicine", "min": 1, "max": 3, "weight": 2 },
+      { "resource": "guns", "min": 1, "max": 2, "weight": 1 },
+      { "resource": "ammunition", "min": 4, "max": 12, "weight": 2 },
+      { "resource": "spareParts", "min": 1, "max": 4, "weight": 2 }
+    ]
+  },
+  "loot": {
+    "baseFindChance": 0.8,
+    "negotiatorBonusFindChance": 0.1,
+    "multiplierMin": 1,
+    "multiplierMax": 2
+  },
+  "attack": {
+    "ammunitionCost": 5,
+    "gunsRequired": 1,
+    "stubDamageToEnemy": 10,
+    "stubVictoryChance": 0.7,
+    "gunnerBonusVictoryChance": 0.15
+  },
+  "cache": {
+    "minDepositTotal": 1
+  },
+  "crewDefaults": {
+    "startingHealth": 100,
+    "minHealth": 0,
+    "maxHealth": 100,
+    "startingCombat": 40,
+    "startingSurvival": 40,
+    "startingLeadership": 35,
+    "startingXp": 0
+  },
+  "startingConvoy": {
+    "locationId": "outpost-ridge",
+    "crew": [
+      {
+        "name": "Rhea Cole",
+        "specialist": "leader",
+        "combat": 45,
+        "survival": 42,
+        "leadership": 55
+      },
+      {
+        "name": "Jex Morin",
+        "specialist": "driver",
+        "combat": 38,
+        "survival": 44,
+        "leadership": 30
+      },
+      {
+        "name": "Samira Okonkwo",
+        "specialist": "medic",
+        "combat": 28,
+        "survival": 50,
+        "leadership": 40
+      },
+      {
+        "name": "Theo Brant",
+        "specialist": "mechanic",
+        "combat": 32,
+        "survival": 48,
+        "leadership": 28
+      },
+      {
+        "name": "Nia Voss",
+        "specialist": "scout",
+        "combat": 40,
+        "survival": 52,
+        "leadership": 26
+      },
+      {
+        "name": "Harlan Pike",
+        "specialist": "gunner",
+        "combat": 58,
+        "survival": 36,
+        "leadership": 24
+      }
+    ],
+    "vehicles": [
+      { "classId": "hardtop", "name": "Ash Runner" },
+      { "classId": "hauler", "name": "Iron Pantry" },
+      { "classId": "bike", "name": "Whisper" }
+    ]
+  },
+  "stubMap": {
+    "outpost-ridge": {
+      "name": "Outpost Ridge",
+      "links": ["ash-crossroads", "dry-culvert"]
+    },
+    "ash-crossroads": {
+      "name": "Ash Crossroads",
+      "links": ["outpost-ridge", "scrap-yard"]
+    },
+    "dry-culvert": {
+      "name": "Dry Culvert",
+      "links": ["outpost-ridge", "scrap-yard"]
+    },
+    "scrap-yard": {
+      "name": "Scrap Yard",
+      "links": ["ash-crossroads", "dry-culvert"]
+    }
+  }
+}
