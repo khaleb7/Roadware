@@ -1,0 +1,82 @@
+{
+  "name": "asphalt-dominion",
+  "version": "0.1.0",
+  "description": "ASPHALT DOMINION — offline convoy strategy game",
+  "author": "ASPHALT DOMINION contributors",
+  "private": true,
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "npm run build:electron && concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
+    "build": "tsc --noEmit && vite build && npm run build:electron",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "dist": "npm run build && electron-builder --win",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.electron.json --noEmit"
+  },
+  "build": {
+    "appId": "com.asphaltdominion.game",
+    "productName": "ASPHALT DOMINION",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "phaser": "^4.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.6",
+    "concurrently": "^10.0.6",
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.10",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0",
+    "wait-on": "^9.5.1"
+  }
+}
