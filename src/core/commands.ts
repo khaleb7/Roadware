@@ -16,6 +16,13 @@ import {
   livingCrew,
 } from "./crew";
 import { applyEndOfTurn } from "./endTurn";
+import type { EncounterAction } from "./encounterTypes";
+import {
+  assertNoPending,
+  createPendingEncounter,
+  maybeSpawnRoadEncounter,
+  resolveEncounterAction,
+} from "./encounters";
 import {
   cityStatusView,
   computeTravelCost,
@@ -46,6 +53,11 @@ import type {
 import { RESOURCE_IDS } from "./types";
 import { addVehicle, canAddVehicle, findVehicle } from "./vehicles";
 
+const ALLOWED_WHILE_PENDING = new Set<GameCommand["type"]>([
+  "status",
+  "resolveEncounter",
+]);
+
 export function applyCommand(state: GameState, command: GameCommand): CommandResult {
   if (command.type === "status") {
     return {
@@ -61,6 +73,13 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
     return fail(state, `Game over: ${state.lossReason ?? state.phase}`);
   }
 
+  if (state.pendingEncounter && !ALLOWED_WHILE_PENDING.has(command.type)) {
+    return fail(
+      state,
+      `Resolve encounter with ${state.pendingEncounter.name} first (${state.pendingEncounter.actions.join("/")})`,
+    );
+  }
+
   const next = cloneState(state);
   const rng = rngFromState(next);
   const events: GameEvent[] = [];
@@ -68,36 +87,50 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
   try {
     switch (command.type) {
       case "move":
+        assertNoPending(next);
         events.push(...cmdMove(next, rng, command.destinationId));
         break;
       case "search":
+        assertNoPending(next);
         events.push(...cmdSearch(next, rng));
         break;
       case "loot":
+        assertNoPending(next);
         events.push(...cmdLoot(next, rng, command.cacheId));
         break;
       case "retrieve":
+        assertNoPending(next);
         events.push(...cmdLoot(next, rng, command.cacheId));
         break;
       case "repair":
+        assertNoPending(next);
         events.push(...cmdRepair(next, command.vehicleId));
         break;
       case "heal":
+        assertNoPending(next);
         events.push(...cmdHeal(next, command.crewId));
         break;
       case "cache":
+        assertNoPending(next);
         events.push(...cmdCache(next, command.deposit));
         break;
       case "rest":
+        assertNoPending(next);
         events.push(...cmdRest(next));
         break;
       case "attack":
+        assertNoPending(next);
         events.push(...cmdAttack(next, rng));
         break;
+      case "resolveEncounter":
+        events.push(...cmdResolveEncounter(next, rng, command.action));
+        break;
       case "scavengeVehicle":
+        assertNoPending(next);
         events.push(...cmdScavengeVehicle(next, rng, command.classId));
         break;
       case "captureVehicle":
+        assertNoPending(next);
         events.push(...cmdCaptureVehicle(next, rng, command.classId));
         break;
       default: {
@@ -152,6 +185,12 @@ function buildStatus(state: GameState): StatusSnapshot {
     cachesHere: state.caches
       .filter((c) => c.locationId === state.locationId)
       .map((c) => ({ id: c.id, resources: { ...c.resources } })),
+    pendingEncounter: state.pendingEncounter
+      ? structuredClone(state.pendingEncounter)
+      : null,
+    lastBattleReport: state.lastBattleReport
+      ? structuredClone(state.lastBattleReport)
+      : null,
     recentLog: state.log.slice(-8),
   };
 }
@@ -220,6 +259,7 @@ function cmdMove(state: GameState, rng: SeededRng, destinationId: string): GameE
   }
 
   state.locationId = destinationId;
+  state.lastTravelTerrainId = road.terrain;
   markCityVisited(dest);
   if (state.resources.fuel > 0 && state.resources.tires > 0) {
     state.stranded = false;
@@ -228,6 +268,8 @@ function cmdMove(state: GameState, rng: SeededRng, destinationId: string): GameE
   grantXpToAll(state.crew, balance.experience.moveXp, {
     survival: balance.experience.moveXp,
   });
+
+  events.push(...maybeSpawnRoadEncounter(state, rng, road.terrain));
   return events;
 }
 
@@ -479,46 +521,42 @@ function cmdRest(state: GameState): GameEvent[] {
   return [ev(state, "rest", "Convoy rests. Wounds ease a little.")];
 }
 
+/**
+ * Attack probes the current city for a hostile contact and leaves a pending
+ * encounter to resolve (fight/evade/negotiate/trade as allowed).
+ */
 function cmdAttack(state: GameState, rng: SeededRng): GameEvent[] {
   if (state.resources.guns < balance.attack.gunsRequired) {
-    throw new Error("Need guns to attack");
+    throw new Error("Need guns to pick a fight");
   }
-  if (state.resources.ammunition < balance.attack.ammunitionCost) {
-    throw new Error("Not enough ammunition");
-  }
-
-  state.resources.ammunition -= balance.attack.ammunitionCost;
-  let chance = balance.attack.stubVictoryChance;
-  if (hasSpecialist(state.crew, "gunner")) {
-    chance += balance.attack.gunnerBonusVictoryChance;
-  }
-
   const city = currentCity(state);
-  chance -= city.danger * balance.attack.dangerVictoryPenaltyPerPoint;
-
+  const terrainId = state.lastTravelTerrainId ?? "ruined";
+  state.pendingEncounter = createPendingEncounter(rng, state, "city", terrainId);
+  const p = state.pendingEncounter;
   grantXpToAll(state.crew, balance.experience.attackXp, {
-    combat: balance.experience.attackXp,
+    combat: Math.floor(balance.experience.attackXp / 2),
   });
+  return [
+    ev(
+      state,
+      "attack",
+      `Picked a fight in ${getCityDef(city.id).name}: ${p.name} — ${p.description}`,
+    ),
+    ev(
+      state,
+      "encounter",
+      `Pending [${p.actions.join("/")}] str ${p.strength} / morale ${p.morale}.`,
+    ),
+  ];
+}
 
-  if (rng.chance(Math.max(balance.attack.minVictoryChance, chance))) {
-    const entry = rng.pickWeighted(balance.search.lootTable);
-    const amount = rng.int(entry.min, entry.max);
-    state.resources[entry.resource] += amount;
-    return [
-      ev(
-        state,
-        "attack",
-        `Won the scrap in ${getCityDef(city.id).name} (stub). Took ${amount} ${entry.resource}.`,
-      ),
-    ];
-  }
-
-  const victim = livingCrew(state.crew)[0];
-  if (victim) {
-    victim.health -= balance.attack.stubDamageToEnemy;
-    clampHealth(victim);
-  }
-  return [ev(state, "attack", "Ambush went badly (stub). Someone is hurt.")];
+function cmdResolveEncounter(
+  state: GameState,
+  rng: SeededRng,
+  action: EncounterAction,
+): GameEvent[] {
+  const { events } = resolveEncounterAction(state, rng, action);
+  return events;
 }
 
 function pickClass(rng: SeededRng, classId?: VehicleClassId): VehicleClassId {

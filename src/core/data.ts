@@ -1,9 +1,11 @@
 import balanceJson from "../../data/balance.json";
 import citiesJson from "../../data/cities.json";
+import encountersJson from "../../data/encounters.json";
 import factionsJson from "../../data/factions.json";
 import specialistsJson from "../../data/specialists.json";
 import terrainJson from "../../data/terrain.json";
 import vehicleClassesJson from "../../data/vehicle-classes.json";
+import type { EncounterArchetype } from "./encounterTypes";
 import type { ResourceId, SpecialistId, TerrainId, VehicleClassId } from "./types";
 
 export interface LootEntry {
@@ -81,11 +83,65 @@ export interface BalanceData {
     moveXp: number;
     attackXp: number;
     surviveHungryTurnXp: number;
+    evadeXp: number;
+    negotiateXp: number;
+    tradeXp: number;
     xpPerCombatRating: number;
     xpPerSurvivalRating: number;
     xpPerLeadershipRating: number;
     ratingGain: number;
     maxRating: number;
+  };
+  encounters: {
+    roadBaseChance: number;
+    cityAttackBaseChance: number;
+    dangerChancePerPoint: number;
+    scoutAvoidBonus: number;
+    maxChance: number;
+    lootRollsOnWinMin: number;
+    lootRollsOnWinMax: number;
+    fightAmmoBase: number;
+    fightAmmoPerGunner: number;
+  };
+  quickCombat: {
+    crewCombatWeight: number;
+    gunWeight: number;
+    vehicleArmorWeight: number;
+    gunnerBonus: number;
+    leadershipMoraleWeight: number;
+    leaderSpecialistBonus: number;
+    enemyStrengthWeight: number;
+    enemyMoraleWeight: number;
+    terrainPlayerBonus: Record<TerrainId, number>;
+    terrainEnemyBonus: Record<TerrainId, number>;
+    rngJitter: number;
+    ammoSpendOnFight: boolean;
+    outcomes: Array<{
+      id: string;
+      minRatio: number;
+      damageMin: number;
+      damageMax: number;
+      vehicleDamageChance: number;
+      xp: number;
+    }>;
+    vehicleDamageAmount: number;
+    winLootOn: string[];
+    resourceLossOnDefeat: Partial<Record<ResourceId, { min: number; max: number }>>;
+  };
+  encounterActions: {
+    evadeBaseChance: number;
+    scoutEvadeBonus: number;
+    driverEvadeBonus: number;
+    survivalEvadeScale: number;
+    enemyMoraleEvadePenaltyScale: number;
+    evadeFailDamageMin: number;
+    evadeFailDamageMax: number;
+    negotiateBaseChance: number;
+    negotiatorBonus: number;
+    leadershipNegotiateScale: number;
+    enemyMoraleNegotiatePenaltyScale: number;
+    negotiateTributeFood: number;
+    negotiateFailForceFight: boolean;
   };
   heal: {
     medicineCost: number;
@@ -209,11 +265,18 @@ export const balance = balanceJson as BalanceData;
 export const citiesData = citiesJson as CitiesData;
 export const terrain = terrainJson as Record<TerrainId, TerrainDef>;
 export const factions = factionsJson as Record<string, FactionDef>;
+export const encounters = encountersJson as Record<string, EncounterArchetype>;
 export const vehicleClasses = vehicleClassesJson as Record<
   VehicleClassId,
   VehicleClassDef
 >;
 export const specialists = specialistsJson as Record<SpecialistId, SpecialistDef>;
+
+export function getEncounter(id: string): EncounterArchetype {
+  const arch = encounters[id];
+  if (!arch) throw new Error(`Unknown encounter: ${id}`);
+  return arch;
+}
 
 export const cityById: Record<string, CityDef> = Object.fromEntries(
   citiesData.cities.map((c) => [c.id, c]),

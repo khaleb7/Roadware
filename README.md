@@ -2,7 +2,7 @@
 
 Offline convoy strategy game (working title). Clean-room original — no original Roadwar assets, text, or names.
 
-**Milestone 3:** continental U.S. strategic city graph (~110 cities), terrain-aware travel, hidden city intel, status overlay UI. Core sim remains pure TypeScript under `src/core`.
+**Milestone 4:** road/city encounters with original factions, fight/evade/negotiate/trade resolves, and seeded quick-resolve battle reports. Built on the M3 continental map + M2 core sim.
 
 ## Requirements (Windows)
 
@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-Press any key on the main menu to open the strategic map (starts in Denver). Status overlay keys: `1` search, `2` loot, `3` rest, `4` attack, `M` move, `S` refresh.
+Press any key on the main menu to open the strategic map (starts in Denver). Status overlay keys: `1` search, `2` loot, `3` rest, `4` attack, `M` move, `S` refresh. When an encounter is pending: `F` fight, `E` evade, `N` negotiate, `T` trade.
 
 Headless sim:
 
@@ -53,16 +53,16 @@ node scripts/generate-cities.mjs
 ## Project layout
 
 ```
-src/core/     Pure simulation (RNG, commands, map travel, city intel)
+src/core/     Pure simulation (RNG, commands, map, encounters, quick combat)
 src/scenes/   Phaser scenes (Boot, MainMenu, StrategicMap)
-src/ui/       HTML status overlay
-data/         balance, cities, terrain, factions, vehicle/specialist tables
+src/ui/       HTML status / encounter overlay
+data/         balance, cities, terrain, factions, encounters, vehicle/specialist tables
 scripts/      City graph generator
 electron/     Electron main + preload
 assets/       Runtime assets + manifest.json
 ```
 
-Balance and map numbers belong in `/data/*.json` — keep them out of `src/core` logic.
+Balance, map, and encounter numbers belong in `/data/*.json` — keep them out of `src/core` logic.
 
 ## Connecting a GitHub remote (later)
 

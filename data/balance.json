@@ -1,6 +1,6 @@
 {
   "maxVehicles": 15,
-  "maxLogEntries": 40,
+  "maxLogEntries": 60,
   "resourceOrder": [
     "food",
     "fuel",
@@ -73,21 +73,6 @@
     "blockMoveWithoutFuel": true,
     "blockMoveWithoutTires": true
   },
-  "experience": {
-    "restXp": 1,
-    "searchXp": 2,
-    "lootXp": 2,
-    "repairXp": 3,
-    "healXp": 3,
-    "moveXp": 1,
-    "attackXp": 4,
-    "surviveHungryTurnXp": 2,
-    "xpPerCombatRating": 12,
-    "xpPerSurvivalRating": 10,
-    "xpPerLeadershipRating": 14,
-    "ratingGain": 1,
-    "maxRating": 100
-  },
   "heal": {
     "medicineCost": 1,
     "healthRestored": 25,
@@ -129,6 +114,127 @@
     "gunnerBonusVictoryChance": 0.15,
     "dangerVictoryPenaltyPerPoint": 0.02,
     "minVictoryChance": 0.05
+  },
+  "encounters": {
+    "roadBaseChance": 0.35,
+    "cityAttackBaseChance": 1,
+    "dangerChancePerPoint": 0.03,
+    "scoutAvoidBonus": 0.1,
+    "maxChance": 0.85,
+    "lootRollsOnWinMin": 1,
+    "lootRollsOnWinMax": 3,
+    "fightAmmoBase": 4,
+    "fightAmmoPerGunner": 1
+  },
+  "quickCombat": {
+    "crewCombatWeight": 1,
+    "gunWeight": 3,
+    "vehicleArmorWeight": 4,
+    "gunnerBonus": 12,
+    "leadershipMoraleWeight": 0.5,
+    "leaderSpecialistBonus": 8,
+    "enemyStrengthWeight": 1,
+    "enemyMoraleWeight": 0.6,
+    "terrainPlayerBonus": {
+      "highway": 2,
+      "secondary": 0,
+      "mountain": -4,
+      "desert": -2,
+      "coastal": 1,
+      "ruined": -6
+    },
+    "terrainEnemyBonus": {
+      "highway": 0,
+      "secondary": 1,
+      "mountain": 3,
+      "desert": 2,
+      "coastal": 0,
+      "ruined": 5
+    },
+    "rngJitter": 12,
+    "ammoSpendOnFight": true,
+    "outcomes": [
+      {
+        "id": "decisive",
+        "minRatio": 0.72,
+        "damageMin": 0,
+        "damageMax": 8,
+        "vehicleDamageChance": 0.05,
+        "xp": 6
+      },
+      {
+        "id": "win",
+        "minRatio": 0.55,
+        "damageMin": 5,
+        "damageMax": 18,
+        "vehicleDamageChance": 0.15,
+        "xp": 5
+      },
+      {
+        "id": "pyrrhic",
+        "minRatio": 0.45,
+        "damageMin": 12,
+        "damageMax": 28,
+        "vehicleDamageChance": 0.35,
+        "xp": 4
+      },
+      {
+        "id": "loss",
+        "minRatio": 0.28,
+        "damageMin": 18,
+        "damageMax": 40,
+        "vehicleDamageChance": 0.45,
+        "xp": 2
+      },
+      {
+        "id": "rout",
+        "minRatio": 0,
+        "damageMin": 25,
+        "damageMax": 55,
+        "vehicleDamageChance": 0.6,
+        "xp": 1
+      }
+    ],
+    "vehicleDamageAmount": 15,
+    "winLootOn": ["decisive", "win", "pyrrhic"],
+    "resourceLossOnDefeat": {
+      "food": { "min": 1, "max": 4 },
+      "fuel": { "min": 0, "max": 3 },
+      "ammunition": { "min": 2, "max": 8 }
+    }
+  },
+  "encounterActions": {
+    "evadeBaseChance": 0.45,
+    "scoutEvadeBonus": 0.2,
+    "driverEvadeBonus": 0.1,
+    "survivalEvadeScale": 0.002,
+    "enemyMoraleEvadePenaltyScale": 0.001,
+    "evadeFailDamageMin": 5,
+    "evadeFailDamageMax": 16,
+    "negotiateBaseChance": 0.35,
+    "negotiatorBonus": 0.25,
+    "leadershipNegotiateScale": 0.003,
+    "enemyMoraleNegotiatePenaltyScale": 0.004,
+    "negotiateTributeFood": 3,
+    "negotiateFailForceFight": true
+  },
+  "experience": {
+    "restXp": 1,
+    "searchXp": 2,
+    "lootXp": 2,
+    "repairXp": 3,
+    "healXp": 3,
+    "moveXp": 1,
+    "attackXp": 4,
+    "surviveHungryTurnXp": 2,
+    "evadeXp": 2,
+    "negotiateXp": 3,
+    "tradeXp": 2,
+    "xpPerCombatRating": 12,
+    "xpPerSurvivalRating": 10,
+    "xpPerLeadershipRating": 14,
+    "ratingGain": 1,
+    "maxRating": 100
   },
   "cache": {
     "minDepositTotal": 1

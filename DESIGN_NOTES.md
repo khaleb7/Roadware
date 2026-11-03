@@ -78,6 +78,32 @@ Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.t
 
 - Short log lines; status lists roads with miles/terrain/fuel cost so moves feel informed.
 
+## Milestone 4 — encounters & quick resolve
+
+### Archetypes
+
+- Original groups in `data/encounters.json`: rival gangs (Ash Runners, Chrome Jackals), mutants (Glass Hounds), cannibals (Bone Pantry Pack), militia (Red Charter Guard), cult (Salt Choir), plague zone (Yellow Mile), friendly enclave (Lantern Circle), traders (Relay Barterers), healers (Iodine Sisters).
+- Each has strength/morale ranges, allowed actions, spawn weights, contexts (`road`/`city`), and loot tables. Optional `trade`, `giftOnNegotiate`, `healOnTrade`, `plague`.
+
+### Triggering
+
+- **Move**: after arrival, roll road encounter chance (danger + scout avoid) → may set `pendingEncounter`.
+- **Attack**: always creates a **city** pending encounter (uses guns as a “pick a fight” gate). Does not auto-fight.
+- While pending, only `status` and `resolveEncounter` are legal — keeps the one-command loop honest.
+
+### Resolve actions
+
+- `fight` → **quick resolve** (abstract): player strength (crew combat, guns, vehicle armor, gunner) + morale (leadership, leader) vs enemy strength/morale + terrain mods + RNG jitter → outcome band (decisive/win/pyrrhic/loss/rout) with casualties, possible vehicle damage, loot or spoils lost, short battle report on state + log.
+- `evade` → scout/driver/survival check; fail deals chip damage (and plague exposure if applicable).
+- `negotiate` → negotiator/leadership vs morale; may pay food tribute; gifts for friendly; fail can force a fight.
+- `trade` → fixed offer from archetype data (healers may restore health).
+
+### Ambiguity choices
+
+- Quick resolve is **not** tactical combat (that’s Milestone 5). Reports are log/overlay text, not a battle scene.
+- Attack spends a turn to _find_ trouble; resolving spends the next turn. Feels deliberate and keeps commands atomic.
+- Terrain for city attacks uses `lastTravelTerrainId` or falls back to `ruined`.
+
 ## Clean-room
 
 No original Roadwar 2000 / Roadwar Europa assets, dialogue, or proper names. Systems may be inspired by the genre (convoy, cities, road encounters) but content and naming are original.

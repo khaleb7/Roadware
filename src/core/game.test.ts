@@ -3,7 +3,20 @@ import { balance } from "./data";
 import { Game, runCommand } from "./game";
 import { getNeighbors } from "./map";
 import { createInitialState, deserializeState, serializeState } from "./state";
-import type { GameState } from "./types";
+import type { EncounterAction, GameState } from "./types";
+
+function clearEncounter(
+  state: GameState,
+  preferred: EncounterAction = "fight",
+): GameState {
+  if (!state.pendingEncounter) return state;
+  const action = state.pendingEncounter.actions.includes(preferred)
+    ? preferred
+    : state.pendingEncounter.actions[0]!;
+  const result = runCommand(state, { type: "resolveEncounter", action });
+  expect(result.ok).toBe(true);
+  return result.state;
+}
 
 describe("core simulation", () => {
   it("creates a serializable starting convoy from data", () => {
@@ -14,6 +27,7 @@ describe("core simulation", () => {
     expect(state.resources.food).toBe(balance.startingResources.food);
     expect(state.locationId).toBe(balance.startingConvoy.locationId);
     expect(Object.keys(state.cities).length).toBeGreaterThanOrEqual(100);
+    expect(state.pendingEncounter).toBeNull();
 
     const roundTrip = deserializeState(serializeState(state));
     expect(roundTrip).toEqual(state);
@@ -21,21 +35,21 @@ describe("core simulation", () => {
 
   it("replays identically from the same seed", () => {
     const destination = getNeighbors("denver-co")[0]!.to;
-    const commands = [
-      { type: "search" as const },
-      { type: "rest" as const },
-      { type: "move" as const, destinationId: destination },
-      { type: "loot" as const },
-      { type: "attack" as const },
-    ];
-
     const run = (seed: number): GameState => {
       let state = createInitialState(seed);
+      const commands = [
+        { type: "search" as const },
+        { type: "rest" as const },
+        { type: "move" as const, destinationId: destination },
+        { type: "loot" as const },
+      ];
       for (const cmd of commands) {
+        state = clearEncounter(state);
         const result = runCommand(state, cmd);
         expect(result.ok).toBe(true);
         state = result.state;
       }
+      state = clearEncounter(state);
       return state;
     };
 
@@ -152,6 +166,7 @@ describe("core simulation", () => {
   it("respects vehicle cap on scavenge/capture stubs", () => {
     let state = createInitialState(14);
     while (state.vehicles.length < balance.maxVehicles) {
+      state = clearEncounter(state);
       const result = runCommand(state, {
         type: "scavengeVehicle",
         classId: "bike",

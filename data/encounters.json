@@ -1,0 +1,217 @@
+{
+  "ash-runners": {
+    "id": "ash-runners",
+    "kind": "rival_gang",
+    "name": "Ash Runners",
+    "description": "Painted hardtops blocking the shoulder, engines idling like a dare.",
+    "attitude": "hostile",
+    "strengthMin": 45,
+    "strengthMax": 85,
+    "moraleMin": 35,
+    "moraleMax": 70,
+    "actions": ["fight", "evade", "negotiate"],
+    "spawnWeight": 4,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "fuel", "min": 2, "max": 6, "weight": 3 },
+      { "resource": "ammunition", "min": 4, "max": 10, "weight": 2 },
+      { "resource": "spareParts", "min": 1, "max": 3, "weight": 2 },
+      { "resource": "guns", "min": 0, "max": 1, "weight": 1 }
+    ]
+  },
+  "chrome-jackals": {
+    "id": "chrome-jackals",
+    "kind": "rival_gang",
+    "name": "Chrome Jackals",
+    "description": "Bike packs in mirrored helmets, circling for a weak bumper.",
+    "attitude": "hostile",
+    "strengthMin": 35,
+    "strengthMax": 75,
+    "moraleMin": 40,
+    "moraleMax": 75,
+    "actions": ["fight", "evade", "negotiate"],
+    "spawnWeight": 3,
+    "contexts": ["road"],
+    "lootTable": [
+      { "resource": "tires", "min": 1, "max": 3, "weight": 3 },
+      { "resource": "fuel", "min": 1, "max": 4, "weight": 2 },
+      { "resource": "ammunition", "min": 2, "max": 8, "weight": 2 }
+    ]
+  },
+  "glass-hounds": {
+    "id": "glass-hounds",
+    "kind": "mutants",
+    "name": "Glass Hounds",
+    "description": "Silica-scarred shapes lope from a heat shimmer, jaws clicking wrong.",
+    "attitude": "hostile",
+    "strengthMin": 50,
+    "strengthMax": 95,
+    "moraleMin": 20,
+    "moraleMax": 45,
+    "actions": ["fight", "evade"],
+    "spawnWeight": 2,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "medicine", "min": 1, "max": 3, "weight": 2 },
+      { "resource": "food", "min": 1, "max": 4, "weight": 2 },
+      { "resource": "spareParts", "min": 0, "max": 2, "weight": 1 }
+    ]
+  },
+  "bone-pantry": {
+    "id": "bone-pantry",
+    "kind": "cannibals",
+    "name": "Bone Pantry Pack",
+    "description": "Smoke from a roadside spit. The cooks are already counting heads.",
+    "attitude": "hostile",
+    "strengthMin": 40,
+    "strengthMax": 80,
+    "moraleMin": 45,
+    "moraleMax": 80,
+    "actions": ["fight", "evade", "negotiate"],
+    "spawnWeight": 2,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "food", "min": 3, "max": 9, "weight": 4 },
+      { "resource": "medicine", "min": 0, "max": 2, "weight": 1 },
+      { "resource": "guns", "min": 0, "max": 1, "weight": 1 }
+    ]
+  },
+  "red-charter": {
+    "id": "red-charter",
+    "kind": "militia",
+    "name": "Red Charter Guard",
+    "description": "Checkpoint plywood and armbands. They want papers you do not have.",
+    "attitude": "wary",
+    "strengthMin": 55,
+    "strengthMax": 90,
+    "moraleMin": 50,
+    "moraleMax": 85,
+    "actions": ["fight", "evade", "negotiate", "trade"],
+    "spawnWeight": 3,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "ammunition", "min": 5, "max": 14, "weight": 3 },
+      { "resource": "guns", "min": 1, "max": 2, "weight": 2 },
+      { "resource": "fuel", "min": 1, "max": 4, "weight": 2 }
+    ],
+    "trade": {
+      "give": { "resource": "food", "amount": 4 },
+      "receive": { "resource": "ammunition", "amount": 6 }
+    }
+  },
+  "salt-choir": {
+    "id": "salt-choir",
+    "kind": "cult",
+    "name": "Salt Choir",
+    "description": "White-dust pilgrims chanting lane markers into scripture.",
+    "attitude": "hostile",
+    "strengthMin": 30,
+    "strengthMax": 70,
+    "moraleMin": 70,
+    "moraleMax": 95,
+    "actions": ["fight", "evade", "negotiate"],
+    "spawnWeight": 2,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "medicine", "min": 1, "max": 4, "weight": 3 },
+      { "resource": "food", "min": 2, "max": 5, "weight": 2 },
+      { "resource": "fuel", "min": 0, "max": 2, "weight": 1 }
+    ]
+  },
+  "yellow-mile": {
+    "id": "yellow-mile",
+    "kind": "plague_zone",
+    "name": "Yellow Mile Quarantine",
+    "description": "Biohazard tape snaps in the wind. Coughing shapes beyond the cones.",
+    "attitude": "hazard",
+    "strengthMin": 20,
+    "strengthMax": 40,
+    "moraleMin": 10,
+    "moraleMax": 25,
+    "actions": ["fight", "evade", "negotiate"],
+    "spawnWeight": 2,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "medicine", "min": 2, "max": 5, "weight": 4 },
+      { "resource": "food", "min": 0, "max": 2, "weight": 1 }
+    ],
+    "plague": {
+      "exposureChance": 0.35,
+      "healthDamage": 15
+    }
+  },
+  "lantern-circle": {
+    "id": "lantern-circle",
+    "kind": "friendly_enclave",
+    "name": "Lantern Circle",
+    "description": "Courtyard fires and a hand-painted OPEN sign. Cautious smiles.",
+    "attitude": "friendly",
+    "strengthMin": 25,
+    "strengthMax": 50,
+    "moraleMin": 55,
+    "moraleMax": 80,
+    "actions": ["negotiate", "trade", "evade"],
+    "spawnWeight": 2,
+    "contexts": ["city"],
+    "lootTable": [
+      { "resource": "food", "min": 2, "max": 6, "weight": 3 },
+      { "resource": "medicine", "min": 1, "max": 3, "weight": 2 }
+    ],
+    "trade": {
+      "give": { "resource": "spareParts", "amount": 2 },
+      "receive": { "resource": "food", "amount": 8 }
+    },
+    "giftOnNegotiate": {
+      "resource": "medicine",
+      "amount": 2
+    }
+  },
+  "relay-barterers": {
+    "id": "relay-barterers",
+    "kind": "trader",
+    "name": "Relay Barterers",
+    "description": "A tarp bazaar between tanker trailers. Prices written in grease pencil.",
+    "attitude": "neutral",
+    "strengthMin": 20,
+    "strengthMax": 45,
+    "moraleMin": 40,
+    "moraleMax": 65,
+    "actions": ["trade", "negotiate", "evade", "fight"],
+    "spawnWeight": 3,
+    "contexts": ["road", "city"],
+    "lootTable": [
+      { "resource": "fuel", "min": 2, "max": 7, "weight": 3 },
+      { "resource": "tires", "min": 1, "max": 2, "weight": 2 },
+      { "resource": "spareParts", "min": 1, "max": 4, "weight": 2 }
+    ],
+    "trade": {
+      "give": { "resource": "ammunition", "amount": 8 },
+      "receive": { "resource": "fuel", "amount": 10 }
+    }
+  },
+  "iodine-sisters": {
+    "id": "iodine-sisters",
+    "kind": "healer",
+    "name": "Iodine Sisters",
+    "description": "Masked medics with a folding clinic and a strict donation bowl.",
+    "attitude": "friendly",
+    "strengthMin": 15,
+    "strengthMax": 35,
+    "moraleMin": 50,
+    "moraleMax": 75,
+    "actions": ["trade", "negotiate", "evade"],
+    "spawnWeight": 2,
+    "contexts": ["city", "road"],
+    "lootTable": [
+      { "resource": "medicine", "min": 2, "max": 6, "weight": 4 },
+      { "resource": "food", "min": 1, "max": 3, "weight": 1 }
+    ],
+    "trade": {
+      "give": { "resource": "food", "amount": 5 },
+      "receive": { "resource": "medicine", "amount": 4 }
+    },
+    "healOnTrade": {
+      "healthRestored": 20
+    }
+  }
+}

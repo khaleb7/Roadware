@@ -5,10 +5,12 @@ export {
   vehicleClasses,
   terrain,
   factions,
+  encounters,
   getVehicleClass,
   getCityDef,
   getTerrain,
   getFaction,
+  getEncounter,
 } from "./data";
 export { SeededRng } from "./rng";
 export {
@@ -29,4 +31,11 @@ export {
   cityStatusView,
   neighborStatus,
 } from "./map";
+export {
+  rollEncounterChance,
+  createPendingEncounter,
+  quickResolveFight,
+  resolveEncounterAction,
+} from "./encounters";
 export type * from "./types";
+export type * from "./encounterTypes";

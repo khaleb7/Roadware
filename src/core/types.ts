@@ -1,3 +1,7 @@
+import type { BattleReport, EncounterAction, PendingEncounter } from "./encounterTypes";
+
+export type { BattleReport, EncounterAction, PendingEncounter };
+
 /** Resource ids — structural enum, amounts/rates live in data JSON. */
 export const RESOURCE_IDS = [
   "food",
@@ -103,6 +107,9 @@ export interface GameState {
   vehicles: Vehicle[];
   caches: CacheDeposit[];
   cities: Record<string, CityRuntime>;
+  pendingEncounter: PendingEncounter | null;
+  lastBattleReport: BattleReport | null;
+  lastTravelTerrainId: TerrainId | null;
   hungerStreak: number;
   stranded: boolean;
   nextEntityId: number;
@@ -119,6 +126,7 @@ export type GameCommand =
   | { type: "cache"; deposit: Partial<Resources> }
   | { type: "rest" }
   | { type: "attack" }
+  | { type: "resolveEncounter"; action: EncounterAction }
   | { type: "status" }
   | { type: "scavengeVehicle"; classId?: VehicleClassId }
   | { type: "captureVehicle"; classId?: VehicleClassId };
@@ -170,5 +178,7 @@ export interface StatusSnapshot {
   neighbors: NeighborInfo[];
   city: CityStatusView;
   cachesHere: Array<{ id: string; resources: Partial<Resources> }>;
+  pendingEncounter: PendingEncounter | null;
+  lastBattleReport: BattleReport | null;
   recentLog: GameEvent[];
 }

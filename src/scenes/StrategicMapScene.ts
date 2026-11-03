@@ -1,11 +1,11 @@
 import Phaser from "phaser";
 import { WORKING_TITLE } from "../config";
+import type { EncounterAction, GameCommand } from "../core";
 import { Game } from "../core/game";
 import { destroyStatusOverlay, renderStatusOverlay } from "../ui/statusOverlay";
 
 /**
- * Thin Phaser shell — map/status interaction lives in the HTML overlay for M3.
- * Full drawn map arrives with later polish milestones.
+ * Thin Phaser shell — map/status/encounter interaction via HTML overlay.
  */
 export class StrategicMapScene extends Phaser.Scene {
   private sim!: Game;
@@ -30,7 +30,7 @@ export class StrategicMapScene extends Phaser.Scene {
       .setOrigin(0.5, 0);
 
     this.add
-      .text(width / 2, height * 0.55, "Continental roads — status overlay active", {
+      .text(width / 2, height * 0.55, "Roads & encounters — status overlay active", {
         fontFamily: "system-ui, sans-serif",
         fontSize: "14px",
         color: "#6b737c",
@@ -49,6 +49,17 @@ export class StrategicMapScene extends Phaser.Scene {
   }
 
   private handleKey(key: string): void {
+    const resolveKeys: Record<string, EncounterAction> = {
+      f: "fight",
+      e: "evade",
+      n: "negotiate",
+      t: "trade",
+    };
+    if (resolveKeys[key]) {
+      this.run({ type: "resolveEncounter", action: resolveKeys[key]! });
+      return;
+    }
+
     switch (key) {
       case "s":
         renderStatusOverlay(this.sim);
@@ -76,14 +87,7 @@ export class StrategicMapScene extends Phaser.Scene {
     }
   }
 
-  private run(
-    command:
-      | { type: "search" }
-      | { type: "loot" }
-      | { type: "rest" }
-      | { type: "attack" }
-      | { type: "move"; destinationId: string },
-  ): void {
+  private run(command: GameCommand): void {
     const result = this.sim.dispatch(command);
     if (!result.ok) {
       console.warn(result.error);
