@@ -23,5 +23,5 @@
       "@data/*": ["data/*"]
     }
   },
-  "include": ["src", "data", "vite.config.ts", "vitest.config.ts"]
+  "include": ["src", "data", "electron-env.d.ts", "vite.config.ts", "vitest.config.ts"]
 }

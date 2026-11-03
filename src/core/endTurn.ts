@@ -1,5 +1,6 @@
 import { applyCampaignUpkeep, campaignData } from "./campaign";
 import { balance } from "./data";
+import { getDifficulty } from "./difficulty";
 import { clampHealth, grantXp, livingCrew } from "./crew";
 import type { SeededRng } from "./rng";
 import type { GameEvent, GameState } from "./types";
@@ -13,8 +14,11 @@ export function applyEndOfTurn(state: GameState, rng: SeededRng): GameEvent[] {
   const events: GameEvent[] = [];
   if (state.phase !== "playing") return events;
 
+  const diff = getDifficulty(state.difficulty);
   const alive = livingCrew(state.crew);
-  const foodNeeded = balance.consumption.foodPerCrewPerTurn * alive.length;
+  const foodNeeded = Math.ceil(
+    balance.consumption.foodPerCrewPerTurn * diff.foodPerCrewMult * alive.length,
+  );
   const foodAvailable = state.resources.food;
   const fed = Math.min(foodAvailable, foodNeeded);
   state.resources.food -= fed;
@@ -31,7 +35,9 @@ export function applyEndOfTurn(state: GameState, rng: SeededRng): GameEvent[] {
     );
 
     for (const member of alive) {
-      member.health -= balance.starvation.healthLossWhenHungry;
+      member.health -= Math.ceil(
+        balance.starvation.healthLossWhenHungry * diff.starvationDamageMult,
+      );
       clampHealth(member);
       grantXp(member, balance.experience.surviveHungryTurnXp, {
         survival: balance.experience.surviveHungryTurnXp,

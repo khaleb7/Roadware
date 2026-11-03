@@ -6,6 +6,8 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   base: "./",
+  // Serves /assets contents at site root (svg/, manifest.json) for Vite + Electron dist
+  publicDir: path.resolve(rootDir, "assets"),
   resolve: {
     alias: {
       "@": path.resolve(rootDir, "src"),

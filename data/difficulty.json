@@ -1,0 +1,29 @@
+{
+  "default": "classic",
+  "profiles": {
+    "classic": {
+      "id": "classic",
+      "label": "Classic",
+      "blurb": "Baseline convoy life — fair roads, fair scrap.",
+      "startingResourceMult": 1,
+      "foodPerCrewMult": 1,
+      "encounterChanceMult": 1,
+      "lootMult": 1,
+      "enemyStrengthMult": 1,
+      "deadlineTurnsMult": 1,
+      "starvationDamageMult": 1
+    },
+    "road-weary": {
+      "id": "road-weary",
+      "label": "Road-Weary",
+      "blurb": "Thin rations, meaner roads, shorter remnant clock.",
+      "startingResourceMult": 0.7,
+      "foodPerCrewMult": 1.25,
+      "encounterChanceMult": 1.35,
+      "lootMult": 0.85,
+      "enemyStrengthMult": 1.2,
+      "deadlineTurnsMult": 0.75,
+      "starvationDamageMult": 1.25
+    }
+  }
+}

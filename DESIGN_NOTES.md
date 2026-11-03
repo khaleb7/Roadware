@@ -157,6 +157,35 @@ Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.t
 - Deadline is optional via `campaign.deadline.enabled` but on by default (120 turns after contact).
 - Extraction is a skill check (not a full tactical rescue scenario).
 
+## Milestone 7 — polish
+
+### Art & audio
+
+- Palette locked to rust / sand / oil / amber / faded green (`src/art/palette.ts`, `assets/manifest.json`).
+- Stylized map backdrop + vehicle silhouettes are **procedural canvas textures** plus original SVGs under `assets/svg/` — never original Roadwar art.
+- Audio hooks (engine, gunfire, UI) are **Web Audio procedural** tones; sources listed in `CREDITS.md`.
+
+### Save / load
+
+- Versioned JSON schema (`SAVE_SCHEMA_VERSION` in `src/persistence/types.ts`); 5 slots; slot 0 = autosave every turn when settings allow.
+- Electron writes under `app.getPath("userData")` (**%APPDATA%** on Windows) via preload IPC; browser/dev falls back to `localStorage`.
+
+### Settings & display
+
+- Windowed / fullscreen via Electron IPC (Fullscreen API fallback on web).
+- Logical canvas **1920×1080** with `Phaser.Scale.FIT` — resolution-independent target.
+
+### Difficulty
+
+- **Classic** vs **Road-Weary** in `data/difficulty.json` — starting scrap, food burn, encounter heat, enemy strength, loot, deadline length. Seeded map/scientists stay seed-stable across difficulties.
+
+### UX
+
+- Mouse-first action buttons on the status overlay; keyboard shortcuts retained.
+- Stat tooltips + rotating tutorial tips (togglable in Settings).
+- Expanded log/history panel.
+- **Stage → Confirm (Enter) / Undo (U)** for the last menu choice before the turn commits (`Game.stage` / `undoStage`).
+
 ## Clean-room
 
 No original Roadwar 2000 / Roadwar Europa assets, dialogue, or proper names. Systems may be inspired by the genre (convoy, cities, road encounters) but content and naming are original.

@@ -1,4 +1,5 @@
 import { balance, encounters, getEncounter, getVehicleClass } from "./data";
+import { getDifficulty } from "./difficulty";
 import { clampHealth, grantXpToAll, hasSpecialist, livingCrew } from "./crew";
 import type {
   BattleReport,
@@ -22,7 +23,9 @@ export function rollEncounterChance(
   danger: number,
 ): number {
   const cfg = balance.encounters;
+  const diff = getDifficulty(state.difficulty);
   let chance = context === "road" ? cfg.roadBaseChance : cfg.cityAttackBaseChance;
+  chance *= diff.encounterChanceMult;
   chance += danger * cfg.dangerChancePerPoint;
   if (hasSpecialist(state.crew, "scout")) {
     chance -= cfg.scoutAvoidBonus;
@@ -50,12 +53,14 @@ export function createPendingEncounter(
   archetype?: EncounterArchetype,
 ): PendingEncounter {
   const arch = archetype ?? pickEncounterArchetype(rng, context);
+  const diff = getDifficulty(state.difficulty);
+  const rawStr = rng.int(arch.strengthMin, arch.strengthMax);
   return {
     archetypeId: arch.id,
     kind: arch.kind,
     name: arch.name,
     description: arch.description,
-    strength: rng.int(arch.strengthMin, arch.strengthMax),
+    strength: Math.max(1, Math.round(rawStr * diff.enemyStrengthMult)),
     morale: rng.int(arch.moraleMin, arch.moraleMax),
     actions: [...arch.actions],
     terrainId,

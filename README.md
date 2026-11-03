@@ -2,7 +2,7 @@
 
 Offline convoy strategy game (working title). Clean-room original — no original Roadwar assets, text, or names.
 
-**Milestone 6:** campaign arc — survive until the Federal Remnant briefs you, then find and deliver eight seeded scientists to a secret bunker (win/loss + deadline).
+**Milestone 7:** art/audio polish, versioned save/load + autosave, settings (fullscreen / 1080p FIT), Classic vs Road-Weary, mouse-first UI with tooltips, log, staged undo, tutorial tips.
 
 ## Requirements (Windows)
 
@@ -22,19 +22,17 @@ npm install
 npm run dev
 ```
 
-Press any key on the main menu to open the strategic map (starts in Denver). Status overlay keys: `1` search, `2` loot, `3` rest, `4` attack, `M` move, `S` refresh, `X` extract scientist, `D` deliver at bunker. When an encounter is pending: `F` quick fight, `V` tactical fight, `E` evade, `N` negotiate, `T` trade. In tactical: `A` auto-deploy, `B` begin, click to move/select, `F` fire, `R` ram, `C` board, `E` end turn, `Q` flee.
+Main menu: **New Game** (pick Classic / Road-Weary), **Continue** (autosave), **Load**, **Settings**.
+
+Strategic overlay is mouse-first (action buttons + road buttons). Stage a choice, then **Enter** to commit or **U** / **Esc** to undo before the turn advances. Keys still work: `1` search, `2` loot, `3` rest, `4` attack, `M` move, `S` refresh, `X` extract, `D` deliver; encounters `F`/`V`/`E`/`N`/`T`.
+
+Saves: Electron → `%APPDATA%/<app>/saves/` (via `userData`); web/dev → `localStorage`. Slot 0 autosaves each turn.
 
 Headless sim:
 
 ```bash
 npm run sim
 npm run sim -- 12345
-```
-
-Regenerate the city graph (optional; committed `data/cities.json` is used at runtime):
-
-```bash
-node scripts/generate-cities.mjs
 ```
 
 ## Scripts
@@ -53,17 +51,17 @@ node scripts/generate-cities.mjs
 ## Project layout
 
 ```
-src/core/           Pure simulation (RNG, map, encounters, tactical rules)
-src/core/tactical/  Grid combat rules (no Phaser)
-src/scenes/         Boot, MainMenu, StrategicMap, TacticalCombat
-src/ui/             HTML status / encounter overlay
-data/               balance, cities, terrain, factions, encounters, weapons, tactical, campaign
-scripts/            City graph generator
-electron/           Electron main + preload
-assets/             Runtime assets + manifest.json
+src/core/           Pure simulation (RNG, map, encounters, tactical, campaign, difficulty)
+src/art/            Palette + procedural textures
+src/audio/          Procedural SFX hooks
+src/persistence/    Versioned saves + settings store (Electron / localStorage)
+src/settings/       Settings types/defaults
+src/scenes/         Boot, MainMenu, Settings, StrategicMap, TacticalCombat
+src/ui/             Status overlay (mouse + tooltips + tutorial)
+data/               balance, cities, difficulty, settings-defaults, campaign, …
+electron/           Main + preload (userData IPC)
+assets/             SVG + manifest.json (Vite publicDir)
 ```
-
-Balance, map, encounter, weapon, tactical, and campaign numbers belong in `/data/*.json`.
 
 ## Connecting a GitHub remote (later)
 

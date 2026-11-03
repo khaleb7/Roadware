@@ -15,6 +15,7 @@ import {
   hasSpecialist,
   livingCrew,
 } from "./crew";
+import { getDifficulty } from "./difficulty";
 import { applyEndOfTurn } from "./endTurn";
 import {
   campaignStatusView,
@@ -212,6 +213,7 @@ function buildStatus(state: GameState): StatusSnapshot {
   return {
     turn: state.turn,
     phase: state.phase,
+    difficulty: state.difficulty ?? "classic",
     locationId: state.locationId,
     locationName: `${def.name}, ${def.state}`,
     resources: { ...state.resources },
@@ -233,7 +235,7 @@ function buildStatus(state: GameState): StatusSnapshot {
       ? structuredClone(state.lastBattleReport)
       : null,
     campaign: campaignStatusView(state),
-    recentLog: state.log.slice(-8),
+    recentLog: state.log.slice(-16),
   };
 }
 
@@ -440,7 +442,11 @@ function cmdLoot(
     const positive = RESOURCE_IDS.filter((id) => city.loot[id] > 0);
     const resource = positive[rng.int(0, positive.length - 1)]!;
     const mult = rng.int(balance.loot.multiplierMin, balance.loot.multiplierMax);
-    const amount = Math.min(city.loot[resource], Math.max(1, rng.int(1, 5) * mult));
+    const lootScale = getDifficulty(state.difficulty).lootMult;
+    const amount = Math.min(
+      city.loot[resource],
+      Math.max(1, Math.round(rng.int(1, 5) * mult * lootScale)),
+    );
     city.loot[resource] -= amount;
     state.resources[resource] += amount;
     return [ev(state, "loot", `Looted ${amount} ${resource} from ${city.id}.`)];
@@ -456,7 +462,8 @@ function cmdLoot(
 
   const entry = rng.pickWeighted(balance.search.lootTable);
   const mult = rng.int(balance.loot.multiplierMin, balance.loot.multiplierMax);
-  const amount = rng.int(entry.min, entry.max) * mult;
+  const lootScale = getDifficulty(state.difficulty).lootMult;
+  const amount = Math.max(1, Math.round(rng.int(entry.min, entry.max) * mult * lootScale));
   state.resources[entry.resource] += amount;
   return [ev(state, "loot", `Looted ${amount} ${entry.resource}.`)];
 }

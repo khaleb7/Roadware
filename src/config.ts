@@ -4,7 +4,8 @@
  */
 export const WORKING_TITLE = "ASPHALT DOMINION" as const;
 
-export const GAME_WIDTH = 1280;
-export const GAME_HEIGHT = 720;
+/** Logical design resolution (1080p). Phaser Scale.FIT keeps this window-independent. */
+export const GAME_WIDTH = 1920;
+export const GAME_HEIGHT = 1080;
 
 export const VERSION = "0.1.0";

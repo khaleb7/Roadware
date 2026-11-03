@@ -1,10 +1,12 @@
 import type { CampaignState, CampaignStatusView } from "./campaignTypes";
+import type { DifficultyId } from "./difficulty";
 import type { BattleReport, EncounterAction, PendingEncounter } from "./encounterTypes";
 import type { TacticalAction, TacticalBattle } from "./tactical/types";
 
 export type { BattleReport, EncounterAction, PendingEncounter };
 export type { TacticalAction, TacticalBattle };
 export type { CampaignState, CampaignStatusView };
+export type { DifficultyId };
 
 /** Resource ids — structural enum, amounts/rates live in data JSON. */
 export const RESOURCE_IDS = [
@@ -101,6 +103,8 @@ export interface CityRuntime {
 
 export interface GameState {
   seed: number;
+  /** classic | road-weary — set at new game; persisted in saves. */
+  difficulty: DifficultyId;
   rngState: number;
   turn: number;
   phase: GamePhase;
@@ -178,6 +182,7 @@ export interface CommandResult {
 export interface StatusSnapshot {
   turn: number;
   phase: GamePhase;
+  difficulty: DifficultyId;
   locationId: string;
   locationName: string;
   resources: Resources;

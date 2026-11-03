@@ -1,13 +1,31 @@
 import { createCampaignState } from "./campaign";
 import { balance, citiesData, emptyResources, getVehicleClass } from "./data";
+import {
+  difficultyData,
+  getDifficulty,
+  scaleStartingResources,
+  type DifficultyId,
+} from "./difficulty";
 import { generateAllCities, markCityVisited } from "./map";
 import { SeededRng } from "./rng";
 import type { CrewMember, GameEvent, GameState, Resources, Vehicle } from "./types";
 import { RESOURCE_IDS } from "./types";
 
-export function createInitialState(seed: number): GameState {
+export interface NewGameOptions {
+  difficulty?: DifficultyId;
+}
+
+export function createInitialState(
+  seed: number,
+  options: NewGameOptions = {},
+): GameState {
+  const difficulty = options.difficulty ?? difficultyData.default;
+  const profile = getDifficulty(difficulty);
   const rng = new SeededRng(seed);
-  const resources = { ...emptyResources(), ...balance.startingResources };
+  const resources = scaleStartingResources(
+    { ...emptyResources(), ...balance.startingResources },
+    profile,
+  );
 
   let nextEntityId = 1;
   const allocId = (prefix: string): string => {
@@ -57,6 +75,7 @@ export function createInitialState(seed: number): GameState {
 
   return {
     seed,
+    difficulty,
     rngState: rng.getState(),
     turn: 1,
     phase: "playing",
@@ -79,7 +98,7 @@ export function createInitialState(seed: number): GameState {
       {
         turn: 1,
         kind: "boot",
-        message: `Convoy assembled in ${startId}. Survive first — the remnant watches.`,
+        message: `Convoy assembled in ${startId} (${profile.label}). Survive first — the remnant watches.`,
       },
     ],
   };
@@ -110,6 +129,9 @@ export function assertGameState(state: GameState): void {
   }
   if (!state.cities || typeof state.cities !== "object") {
     throw new Error("Invalid cities map");
+  }
+  if (!state.difficulty) {
+    state.difficulty = difficultyData.default;
   }
 }
 

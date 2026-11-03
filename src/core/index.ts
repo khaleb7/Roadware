@@ -19,8 +19,20 @@ export {
   serializeState,
   deserializeState,
 } from "./state";
+export type { NewGameOptions } from "./state";
 export { applyCommand } from "./commands";
 export { Game, runCommand } from "./game";
+export type { GameConstructOptions } from "./game";
+export {
+  difficultyData,
+  getDifficulty,
+  listDifficulties,
+  scaleStartingResources,
+  scaleDeadlineTurns,
+} from "./difficulty";
+export type { DifficultyId, DifficultyProfile } from "./difficulty";
+export { stageChoice, clearStaged } from "./undo";
+export type { StagedChoice } from "./undo";
 export { livingCrew, hasSpecialist, grantXp } from "./crew";
 export { moveFuelCost, canAddVehicle } from "./vehicles";
 export {

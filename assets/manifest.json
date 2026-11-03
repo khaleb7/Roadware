@@ -1,5 +1,60 @@
 {
   "version": 1,
-  "description": "Asset manifest placeholder — packs filled in later milestones",
-  "packs": []
+  "description": "ASPHALT DOMINION procedural + SVG art packs (clean-room; no Roadwar assets)",
+  "palette": {
+    "rust": "#8B4513",
+    "sand": "#C2A878",
+    "oil": "#1A1C1E",
+    "amber": "#D4A017",
+    "fadedGreen": "#6B7F5A",
+    "asphalt": "#2A2E32",
+    "dust": "#A89878",
+    "bloodRust": "#6A2E1F",
+    "chrome": "#9AA3AD",
+    "night": "#0B0D10"
+  },
+  "packs": [
+    {
+      "id": "ui-icons",
+      "kind": "svg",
+      "entries": [
+        { "key": "icon-food", "path": "svg/icon-food.svg" },
+        { "key": "icon-fuel", "path": "svg/icon-fuel.svg" },
+        { "key": "icon-gun", "path": "svg/icon-gun.svg" },
+        { "key": "icon-crew", "path": "svg/icon-crew.svg" }
+      ]
+    },
+    {
+      "id": "vehicles",
+      "kind": "svg",
+      "entries": [
+        { "key": "veh-bike", "path": "svg/veh-bike.svg" },
+        { "key": "veh-hardtop", "path": "svg/veh-hardtop.svg" },
+        { "key": "veh-hauler", "path": "svg/veh-hauler.svg" },
+        { "key": "veh-bus", "path": "svg/veh-bus.svg" },
+        { "key": "veh-tanker", "path": "svg/veh-tanker.svg" },
+        { "key": "veh-armored", "path": "svg/veh-armored.svg" }
+      ]
+    },
+    {
+      "id": "map",
+      "kind": "procedural",
+      "entries": [
+        { "key": "tex-map-dust", "generator": "mapDust" },
+        { "key": "tex-road", "generator": "roadStrip" },
+        { "key": "tex-city-node", "generator": "cityNode" }
+      ]
+    },
+    {
+      "id": "audio-hooks",
+      "kind": "procedural",
+      "entries": [
+        { "key": "sfx-ui-click", "generator": "uiClick" },
+        { "key": "sfx-engine", "generator": "engineIdle" },
+        { "key": "sfx-gunfire", "generator": "gunfire" },
+        { "key": "sfx-confirm", "generator": "uiConfirm" },
+        { "key": "sfx-cancel", "generator": "uiCancel" }
+      ]
+    }
+  ]
 }

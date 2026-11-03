@@ -7,6 +7,7 @@ import type {
   ScientistState,
   ScientistStatus,
 } from "./campaignTypes";
+import { getDifficulty, scaleDeadlineTurns } from "./difficulty";
 import { getNeighbors } from "./map";
 import type { SeededRng } from "./rng";
 import type { GameEvent, GameState } from "./types";
@@ -202,8 +203,11 @@ export function applyCampaignUpkeep(state: GameState): GameEvent[] {
     state.campaign.contactedFederal = true;
     state.campaign.stage = "briefed";
     if (campaignData.deadline.enabled) {
-      state.campaign.deadlineTurn =
-        state.turn + campaignData.deadline.turnsAfterContact;
+      const turns = scaleDeadlineTurns(
+        campaignData.deadline.turnsAfterContact,
+        getDifficulty(state.difficulty),
+      );
+      state.campaign.deadlineTurn = state.turn + turns;
     }
     if (campaignData.bunker.revealOnContact) {
       const bunker = state.cities[state.campaign.bunkerCityId];
