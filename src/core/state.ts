@@ -61,6 +61,7 @@ export function createInitialState(seed: number): GameState {
     caches: [],
     cities,
     pendingEncounter: null,
+    tacticalBattle: null,
     lastBattleReport: null,
     lastTravelTerrainId: null,
     hungerStreak: 0,

@@ -100,9 +100,39 @@ Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.t
 
 ### Ambiguity choices
 
-- Quick resolve is **not** tactical combat (that’s Milestone 5). Reports are log/overlay text, not a battle scene.
-- Attack spends a turn to _find_ trouble; resolving spends the next turn. Feels deliberate and keeps commands atomic.
+- Attack spends a turn to _find_ trouble; resolving spends the next turn (or starts tactical without upkeep until the fight ends).
 - Terrain for city attacks uses `lastTravelTerrainId` or falls back to `ruined`.
+
+## Milestone 5 — tactical road combat
+
+### Fight mode choice
+
+- `resolveEncounter { action: "fight", mode: "quick" | "tactical" }` — default **quick** for backward-compatible scripts/tests.
+- UI: **F** quick resolve, **V** tactical scene.
+- Starting tactical clears `pendingEncounter`, sets `tacticalBattle`, and **skips** strategic end-of-turn until the battle ends (then one upkeep fires).
+
+### Board & rules (pure TS in `src/core/tactical`)
+
+- Orthogonal **grid** road (not hex) — hex deferred; grid keeps LOS/adjacency tests readable.
+- Phases: **deploy** (place convoy / autoDeploy, assignCrew) → **combat** (move, rotate, shoot, ram, board, endTurn) → **ended**.
+- Facing N/E/S/W; shots apply front/side/rear damage multipliers from `data/tactical.json` plus armor mitigation from vehicle class.
+- Tire hits can immobilize; crew slots take casualties; hull 0 destroys the unit.
+- Enemy AI: shoot if in range, else advance / opportunistic ram.
+- Weapons in `data/weapons.json`; tactical numbers in `data/tactical.json`.
+
+### Salvage
+
+- On player victory, disabled/immobilized/boarded enemies may be salvaged into the convoy (under vehicle cap) with reduced durability; encounter loot table also rolls.
+
+### Phaser
+
+- `TacticalCombatScene` is a thin renderer/controller over the same command API (`tactical` actions). No combat math in the scene.
+
+### Ambiguity choices
+
+- Orthogonal grid instead of hex for M5 clarity.
+- `fleeQuick` aborts tactical as a loss-ish outcome with no salvage (escape hatch for UI/tests).
+- Player fire key targets a simple living enemy pick (full targeting polish later).
 
 ## Clean-room
 

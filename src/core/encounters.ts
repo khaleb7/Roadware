@@ -8,6 +8,7 @@ import type {
   PendingEncounter,
 } from "./encounterTypes";
 import type { SeededRng } from "./rng";
+import { createTacticalBattle } from "./tactical/createBattle";
 import type { GameEvent, GameState, TerrainId } from "./types";
 import { RESOURCE_IDS } from "./types";
 
@@ -84,6 +85,9 @@ export function maybeSpawnRoadEncounter(
 }
 
 export function assertNoPending(state: GameState): void {
+  if (state.tacticalBattle) {
+    throw new Error("Finish tactical combat first");
+  }
   if (state.pendingEncounter) {
     throw new Error(
       `Resolve encounter with ${state.pendingEncounter.name} first (${state.pendingEncounter.actions.join("/")})`,
@@ -288,7 +292,8 @@ export function resolveEncounterAction(
   state: GameState,
   rng: SeededRng,
   action: EncounterAction,
-): { events: GameEvent[]; report: BattleReport | null } {
+  mode: "quick" | "tactical" = "quick",
+): { events: GameEvent[]; report: BattleReport | null; startedTactical: boolean } {
   const pending = state.pendingEncounter;
   if (!pending) throw new Error("No pending encounter");
   if (!pending.actions.includes(action)) {
@@ -298,9 +303,23 @@ export function resolveEncounterAction(
   const arch = getEncounter(pending.archetypeId);
   const events: GameEvent[] = [];
   let report: BattleReport | null = null;
+  let startedTactical = false;
 
   switch (action) {
     case "fight": {
+      if (mode === "tactical") {
+        state.tacticalBattle = createTacticalBattle(state, pending, rng);
+        state.pendingEncounter = null;
+        startedTactical = true;
+        events.push(
+          ev(
+            state,
+            "tactical",
+            `Entering tactical road fight vs ${pending.name}. Deploy, then beginCombat.`,
+          ),
+        );
+        break;
+      }
       const result = quickResolveFight(state, rng, pending);
       events.push(...result.events);
       report = result.report;
@@ -326,9 +345,11 @@ export function resolveEncounterAction(
     }
   }
 
-  state.pendingEncounter = null;
-  state.lastBattleReport = report;
-  return { events, report };
+  if (!startedTactical) {
+    state.pendingEncounter = null;
+    state.lastBattleReport = report;
+  }
+  return { events, report, startedTactical };
 }
 
 function resolveEvade(

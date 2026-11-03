@@ -58,7 +58,7 @@ export function renderStatusOverlay(game: Game): StatusSnapshot {
         <b>ENCOUNTER:</b> ${escapeHtml(status.pendingEncounter.name)}
         <div style="opacity:0.9;margin-top:4px;">${escapeHtml(status.pendingEncounter.description)}</div>
         <div style="margin-top:4px;">str ${status.pendingEncounter.strength} · morale ${status.pendingEncounter.morale} · ${status.pendingEncounter.actions.join(" / ")}</div>
-        <div style="margin-top:4px;color:#c8b48a;">F fight · E evade · N negotiate · T trade</div>
+        <div style="margin-top:4px;color:#c8b48a;">F quick fight · V tactical · E evade · N negotiate · T trade</div>
       </div>`
     : "";
 
@@ -83,7 +83,7 @@ export function renderStatusOverlay(game: Game): StatusSnapshot {
       ${battle}
       <div style="font-size:11px;margin-top:10px;color:#9aa3ad;"><b style="color:#c8b48a;">Roads</b><br/>${neighbors || "(none)"}</div>
       <div style="font-size:10px;margin-top:10px;opacity:0.75;line-height:1.35;">${log}</div>
-      <div style="font-size:10px;margin-top:8px;color:#6b737c;">Keys: 1 search · 2 loot · 3 rest · 4 attack · M move · S refresh</div>
+      <div style="font-size:10px;margin-top:8px;color:#6b737c;">Keys: 1 search · 2 loot · 3 rest · 4 attack · M move · S refresh · F/V fight</div>
     </div>
   `;
 

@@ -3,6 +3,7 @@ import { GAME_HEIGHT, GAME_WIDTH, WORKING_TITLE } from "./config";
 import { BootScene } from "./scenes/BootScene";
 import { MainMenuScene } from "./scenes/MainMenuScene";
 import { StrategicMapScene } from "./scenes/StrategicMapScene";
+import { TacticalCombatScene } from "./scenes/TacticalCombatScene";
 
 document.title = WORKING_TITLE;
 
@@ -16,7 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, MainMenuScene, StrategicMapScene],
+  scene: [BootScene, MainMenuScene, StrategicMapScene, TacticalCombatScene],
 };
 
 const game = new Phaser.Game(config);

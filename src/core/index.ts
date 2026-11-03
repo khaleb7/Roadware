@@ -37,5 +37,13 @@ export {
   quickResolveFight,
   resolveEncounterAction,
 } from "./encounters";
+export {
+  createTacticalBattle,
+  applyTacticalAction,
+  applyTacticalResult,
+  tacticalBalance,
+  weapons,
+} from "./tactical";
 export type * from "./types";
 export type * from "./encounterTypes";
+export type * from "./tactical/types";

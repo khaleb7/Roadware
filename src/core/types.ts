@@ -1,6 +1,8 @@
 import type { BattleReport, EncounterAction, PendingEncounter } from "./encounterTypes";
+import type { TacticalAction, TacticalBattle } from "./tactical/types";
 
 export type { BattleReport, EncounterAction, PendingEncounter };
+export type { TacticalAction, TacticalBattle };
 
 /** Resource ids — structural enum, amounts/rates live in data JSON. */
 export const RESOURCE_IDS = [
@@ -108,6 +110,7 @@ export interface GameState {
   caches: CacheDeposit[];
   cities: Record<string, CityRuntime>;
   pendingEncounter: PendingEncounter | null;
+  tacticalBattle: TacticalBattle | null;
   lastBattleReport: BattleReport | null;
   lastTravelTerrainId: TerrainId | null;
   hungerStreak: number;
@@ -115,6 +118,8 @@ export interface GameState {
   nextEntityId: number;
   log: GameEvent[];
 }
+
+export type FightMode = "quick" | "tactical";
 
 export type GameCommand =
   | { type: "move"; destinationId: string }
@@ -126,7 +131,8 @@ export type GameCommand =
   | { type: "cache"; deposit: Partial<Resources> }
   | { type: "rest" }
   | { type: "attack" }
-  | { type: "resolveEncounter"; action: EncounterAction }
+  | { type: "resolveEncounter"; action: EncounterAction; mode?: FightMode }
+  | { type: "tactical"; action: TacticalAction }
   | { type: "status" }
   | { type: "scavengeVehicle"; classId?: VehicleClassId }
   | { type: "captureVehicle"; classId?: VehicleClassId };
@@ -179,6 +185,7 @@ export interface StatusSnapshot {
   city: CityStatusView;
   cachesHere: Array<{ id: string; resources: Partial<Resources> }>;
   pendingEncounter: PendingEncounter | null;
+  tacticalBattle: TacticalBattle | null;
   lastBattleReport: BattleReport | null;
   recentLog: GameEvent[];
 }

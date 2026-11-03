@@ -1,11 +1,11 @@
 import Phaser from "phaser";
 import { WORKING_TITLE } from "../config";
-import type { EncounterAction, GameCommand } from "../core";
+import type { EncounterAction, FightMode, GameCommand } from "../core";
 import { Game } from "../core/game";
 import { destroyStatusOverlay, renderStatusOverlay } from "../ui/statusOverlay";
 
 /**
- * Thin Phaser shell — map/status/encounter interaction via HTML overlay.
+ * Strategic map shell — launches tactical scene when a road fight goes tactical.
  */
 export class StrategicMapScene extends Phaser.Scene {
   private sim!: Game;
@@ -15,7 +15,13 @@ export class StrategicMapScene extends Phaser.Scene {
   }
 
   init(data: { seed?: number }): void {
-    this.sim = new Game(data.seed ?? 2026);
+    const existing = this.registry.get("sim") as Game | undefined;
+    if (existing && data.seed === undefined) {
+      this.sim = existing;
+    } else {
+      this.sim = new Game(data.seed ?? 2026);
+      this.registry.set("sim", this.sim);
+    }
   }
 
   create(): void {
@@ -37,6 +43,12 @@ export class StrategicMapScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
+    // Resume mid-tactical if needed
+    if (this.sim.getState().tacticalBattle) {
+      this.scene.start("TacticalCombat");
+      return;
+    }
+
     renderStatusOverlay(this.sim);
 
     this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
@@ -50,11 +62,18 @@ export class StrategicMapScene extends Phaser.Scene {
 
   private handleKey(key: string): void {
     const resolveKeys: Record<string, EncounterAction> = {
-      f: "fight",
       e: "evade",
       n: "negotiate",
       t: "trade",
     };
+    if (key === "f") {
+      this.resolveFight("quick");
+      return;
+    }
+    if (key === "v") {
+      this.resolveFight("tactical");
+      return;
+    }
     if (resolveKeys[key]) {
       this.run({ type: "resolveEncounter", action: resolveKeys[key]! });
       return;
@@ -84,6 +103,14 @@ export class StrategicMapScene extends Phaser.Scene {
       }
       default:
         break;
+    }
+  }
+
+  private resolveFight(mode: FightMode): void {
+    this.run({ type: "resolveEncounter", action: "fight", mode });
+    if (this.sim.getState().tacticalBattle) {
+      destroyStatusOverlay();
+      this.scene.start("TacticalCombat");
     }
   }
 

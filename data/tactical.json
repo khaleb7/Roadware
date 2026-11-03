@@ -1,0 +1,78 @@
+{
+  "gridWidth": 9,
+  "gridHeight": 14,
+  "playerDeployMinY": 10,
+  "playerDeployMaxY": 13,
+  "enemyDeployMinY": 0,
+  "enemyDeployMaxY": 3,
+  "facing": {
+    "frontDamageTaken": 0.55,
+    "sideDamageTaken": 0.85,
+    "rearDamageTaken": 1.25
+  },
+  "armorMitigationPerPoint": 0.08,
+  "maxArmorMitigation": 0.65,
+  "tireMax": 100,
+  "tireDestroyThreshold": 0,
+  "tireDamageOnHit": 35,
+  "hullDestroyAt": 0,
+  "movesPerTurnBase": 1,
+  "speedMovesDivisor": 3,
+  "attacksPerTurn": 1,
+  "ram": {
+    "adjacentOnly": true,
+    "baseDamage": 14,
+    "selfDamageFraction": 0.35,
+    "immobilizeChance": 0.25,
+    "requiresMove": true
+  },
+  "board": {
+    "adjacentOnly": true,
+    "baseChance": 0.4,
+    "combatScale": 0.004,
+    "targetCrewPenalty": 0.03,
+    "successCaptures": true
+  },
+  "enemyForce": {
+    "minVehicles": 1,
+    "maxVehicles": 4,
+    "strengthPerVehicle": 28,
+    "classWeights": [
+      { "classId": "bike", "weight": 3 },
+      { "classId": "hardtop", "weight": 3 },
+      { "classId": "hauler", "weight": 2 },
+      { "classId": "armored", "weight": 1 }
+    ],
+    "defaultWeapons": {
+      "bike": ["handgun"],
+      "hardtop": ["carbine", "handgun"],
+      "hauler": ["mounted-mg"],
+      "bus": ["carbine"],
+      "tanker": ["handgun"],
+      "armored": ["mounted-mg", "carbine"]
+    }
+  },
+  "playerDefaultWeapons": {
+    "bike": ["handgun"],
+    "hardtop": ["carbine", "handgun"],
+    "hauler": ["mounted-mg"],
+    "bus": ["carbine", "shotgun"],
+    "tanker": ["handgun"],
+    "armored": ["mounted-mg", "carbine"]
+  },
+  "salvage": {
+    "disabledChance": 0.75,
+    "boardedGuaranteed": true,
+    "durabilityFractionMin": 0.25,
+    "durabilityFractionMax": 0.55,
+    "lootRollsMin": 1,
+    "lootRollsMax": 3
+  },
+  "victoryXp": 6,
+  "defeatXp": 2,
+  "crewCasualtyHealthLoss": 25,
+  "ai": {
+    "preferShootRange": true,
+    "ramIfStronger": true
+  }
+}

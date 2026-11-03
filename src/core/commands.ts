@@ -16,7 +16,6 @@ import {
   livingCrew,
 } from "./crew";
 import { applyEndOfTurn } from "./endTurn";
-import type { EncounterAction } from "./encounterTypes";
 import {
   assertNoPending,
   createPendingEncounter,
@@ -41,13 +40,17 @@ import {
   sumResources,
   syncRng,
 } from "./state";
+import { applyTacticalAction } from "./tactical/actions";
+import { applyTacticalResult } from "./tactical/applyResult";
 import type {
   CommandResult,
+  FightMode,
   GameCommand,
   GameEvent,
   GameState,
   Resources,
   StatusSnapshot,
+  TacticalAction,
   VehicleClassId,
 } from "./types";
 import { RESOURCE_IDS } from "./types";
@@ -57,6 +60,8 @@ const ALLOWED_WHILE_PENDING = new Set<GameCommand["type"]>([
   "status",
   "resolveEncounter",
 ]);
+
+const ALLOWED_WHILE_TACTICAL = new Set<GameCommand["type"]>(["status", "tactical"]);
 
 export function applyCommand(state: GameState, command: GameCommand): CommandResult {
   if (command.type === "status") {
@@ -73,6 +78,10 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
     return fail(state, `Game over: ${state.lossReason ?? state.phase}`);
   }
 
+  if (state.tacticalBattle && !ALLOWED_WHILE_TACTICAL.has(command.type)) {
+    return fail(state, "Finish tactical combat first (tactical commands only)");
+  }
+
   if (state.pendingEncounter && !ALLOWED_WHILE_PENDING.has(command.type)) {
     return fail(
       state,
@@ -83,6 +92,7 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
   const next = cloneState(state);
   const rng = rngFromState(next);
   const events: GameEvent[] = [];
+  let skipStrategicUpkeep = false;
 
   try {
     switch (command.type) {
@@ -122,9 +132,21 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
         assertNoPending(next);
         events.push(...cmdAttack(next, rng));
         break;
-      case "resolveEncounter":
-        events.push(...cmdResolveEncounter(next, rng, command.action));
+      case "resolveEncounter": {
+        const mode: FightMode = command.mode ?? "quick";
+        const resolved = resolveEncounterAction(next, rng, command.action, mode);
+        events.push(...resolved.events);
+        if (resolved.startedTactical) {
+          skipStrategicUpkeep = true;
+        }
         break;
+      }
+      case "tactical": {
+        const tac = cmdTactical(next, rng, command.action);
+        events.push(...tac.events);
+        skipStrategicUpkeep = !tac.finished;
+        break;
+      }
       case "scavengeVehicle":
         assertNoPending(next);
         events.push(...cmdScavengeVehicle(next, rng, command.classId));
@@ -144,18 +166,22 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
   }
 
   syncRng(next, rng);
-  events.push(...applyEndOfTurn(next, rng));
-  syncRng(next, rng);
 
-  if (next.phase === "playing") {
-    next.turn += 1;
+  let turnAdvanced = false;
+  if (!skipStrategicUpkeep) {
+    events.push(...applyEndOfTurn(next, rng));
+    syncRng(next, rng);
+    if (next.phase === "playing") {
+      next.turn += 1;
+    }
+    turnAdvanced = true;
   }
 
   for (const e of events) {
     appendLog(next, e);
   }
 
-  return { ok: true, state: next, events, turnAdvanced: true };
+  return { ok: true, state: next, events, turnAdvanced };
 }
 
 function fail(state: GameState, error: string): CommandResult {
@@ -188,6 +214,7 @@ function buildStatus(state: GameState): StatusSnapshot {
     pendingEncounter: state.pendingEncounter
       ? structuredClone(state.pendingEncounter)
       : null,
+    tacticalBattle: state.tacticalBattle ? structuredClone(state.tacticalBattle) : null,
     lastBattleReport: state.lastBattleReport
       ? structuredClone(state.lastBattleReport)
       : null,
@@ -550,13 +577,34 @@ function cmdAttack(state: GameState, rng: SeededRng): GameEvent[] {
   ];
 }
 
-function cmdResolveEncounter(
+function cmdTactical(
   state: GameState,
-  rng: SeededRng,
-  action: EncounterAction,
-): GameEvent[] {
-  const { events } = resolveEncounterAction(state, rng, action);
-  return events;
+  _rng: SeededRng,
+  action: TacticalAction,
+): { events: GameEvent[]; finished: boolean } {
+  if (!state.tacticalBattle) {
+    throw new Error("No tactical battle in progress");
+  }
+  const result = applyTacticalAction(state.tacticalBattle, action);
+  if (!result.ok) {
+    throw new Error(result.error ?? "Tactical action failed");
+  }
+  state.tacticalBattle = result.battle;
+  state.rngState = result.battle.rngState;
+
+  const events: GameEvent[] = result.messages.map((message) => ({
+    turn: state.turn,
+    kind: "tactical",
+    message,
+  }));
+
+  if (result.battle.phase === "ended" && result.battle.result) {
+    const finishRng = rngFromState(state);
+    events.push(...applyTacticalResult(state, result.battle, finishRng));
+    state.rngState = finishRng.getState();
+    return { events, finished: true };
+  }
+  return { events, finished: false };
 }
 
 function pickClass(rng: SeededRng, classId?: VehicleClassId): VehicleClassId {
