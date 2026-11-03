@@ -134,6 +134,29 @@ Working title lives in **one** config constant: `WORKING_TITLE` in `src/config.t
 - `fleeQuick` aborts tactical as a loss-ish outcome with no salvage (escape hatch for UI/tests).
 - Player fire key targets a simple living enemy pick (full targeting polish later).
 
+## Milestone 6 — campaign arc
+
+### Survival → remnant contact
+
+- New games start in campaign stage **survival**. City/faction/loot variance remains seed-driven (M3); scientists + bunker are placed with the same RNG stream after city gen.
+- When gang **strength** (crew/vehicles/combat/guns — weights in `data/campaign.json`) clears configured mins + `strengthThreshold`, the **Federal Remnant** contacts the player: stage → **briefed**, bunker city revealed (special location), optional deadline starts.
+
+### Scientists & bunker
+
+- Exactly **8** scientists (count from data), each `hidden` / `guarded` / `faction_held`, city chosen per seed (not on bunker).
+- **Search** at their city may reveal them; hidden board immediately; guarded/faction need `extractScientist`.
+- **deliverScientists** at the bunker drops all aboard. **Win** when all eight are delivered (`phase: "won"`).
+
+### Loss
+
+- Gang wiped (existing upkeep), **leader dies** (starting captain id tracked), or **deadline** after contact if enabled in data.
+
+### Ambiguity choices
+
+- Leader is the first starting crew member (captain), not a separate entity.
+- Deadline is optional via `campaign.deadline.enabled` but on by default (120 turns after contact).
+- Extraction is a skill check (not a full tactical rescue scenario).
+
 ## Clean-room
 
 No original Roadwar 2000 / Roadwar Europa assets, dialogue, or proper names. Systems may be inspired by the genre (convoy, cities, road encounters) but content and naming are original.

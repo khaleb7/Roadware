@@ -1,10 +1,11 @@
+import { applyCampaignUpkeep, campaignData } from "./campaign";
 import { balance } from "./data";
 import { clampHealth, grantXp, livingCrew } from "./crew";
 import type { SeededRng } from "./rng";
 import type { GameEvent, GameState } from "./types";
 
 /**
- * End-of-turn upkeep: food burn, hunger damage, desertion rolls, loss check.
+ * End-of-turn upkeep: food burn, hunger, desertion, campaign hooks.
  * Call after a turn-consuming command succeeds. Does not mutate the log —
  * the command dispatcher appends returned events.
  */
@@ -68,10 +69,12 @@ export function applyEndOfTurn(state: GameState, rng: SeededRng): GameEvent[] {
 
   if (state.crew.length === 0) {
     state.phase = "lost";
-    state.lossReason = "All crew dead or deserted.";
+    state.lossReason = campaignData.loss.wiped;
     events.push(event(state, "loss", state.lossReason));
+    return events;
   }
 
+  events.push(...applyCampaignUpkeep(state));
   return events;
 }
 

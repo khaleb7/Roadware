@@ -34,6 +34,11 @@
     "label": "Coast Syndicate",
     "attitude": "wary"
   },
+  "federal-remnant": {
+    "id": "federal-remnant",
+    "label": "Federal Remnant",
+    "attitude": "allied"
+  },
   "unknown": {
     "id": "unknown",
     "label": "Unknown",

@@ -1,8 +1,10 @@
+import type { CampaignState, CampaignStatusView } from "./campaignTypes";
 import type { BattleReport, EncounterAction, PendingEncounter } from "./encounterTypes";
 import type { TacticalAction, TacticalBattle } from "./tactical/types";
 
 export type { BattleReport, EncounterAction, PendingEncounter };
 export type { TacticalAction, TacticalBattle };
+export type { CampaignState, CampaignStatusView };
 
 /** Resource ids — structural enum, amounts/rates live in data JSON. */
 export const RESOURCE_IDS = [
@@ -28,7 +30,7 @@ export type VehicleClassId =
 export type TerrainId =
   "highway" | "secondary" | "mountain" | "desert" | "coastal" | "ruined";
 
-export type GamePhase = "playing" | "lost";
+export type GamePhase = "playing" | "lost" | "won";
 
 export interface CrewMember {
   id: string;
@@ -113,6 +115,7 @@ export interface GameState {
   tacticalBattle: TacticalBattle | null;
   lastBattleReport: BattleReport | null;
   lastTravelTerrainId: TerrainId | null;
+  campaign: CampaignState;
   hungerStreak: number;
   stranded: boolean;
   nextEntityId: number;
@@ -134,6 +137,8 @@ export type GameCommand =
   | { type: "resolveEncounter"; action: EncounterAction; mode?: FightMode }
   | { type: "tactical"; action: TacticalAction }
   | { type: "status" }
+  | { type: "extractScientist"; scientistId: string }
+  | { type: "deliverScientists" }
   | { type: "scavengeVehicle"; classId?: VehicleClassId }
   | { type: "captureVehicle"; classId?: VehicleClassId };
 
@@ -187,5 +192,6 @@ export interface StatusSnapshot {
   pendingEncounter: PendingEncounter | null;
   tacticalBattle: TacticalBattle | null;
   lastBattleReport: BattleReport | null;
+  campaign: CampaignStatusView;
   recentLog: GameEvent[];
 }

@@ -69,21 +69,48 @@ export function renderStatusOverlay(game: Game): StatusSnapshot {
       </div>`
     : "";
 
+  const camp = status.campaign;
+  const campaignBlock = `<div style="margin-top:8px;font-size:10px;color:#a8b8c8;">
+      <b>Campaign</b> [${camp.stage}] strength ${camp.gangStrength}/${camp.strengthThreshold}
+      · sci ${camp.scientistsDelivered}/${camp.scientistsTotal} delivered
+      · aboard ${camp.scientistsAboard}
+      · found ${camp.scientistsRevealed}
+      ${camp.bunkerName ? `· bunker ${escapeHtml(camp.bunkerName)}` : "· remnant silent"}
+      ${camp.turnsRemaining !== null ? `· deadline ${camp.turnsRemaining}t` : ""}
+      ${
+        camp.scientistsHere.some((s) => s.revealed && !s.aboard && !s.delivered)
+          ? `<br/>Extract here: ${camp.scientistsHere
+              .filter((s) => s.revealed && !s.aboard && !s.delivered)
+              .map((s) => escapeHtml(s.name))
+              .join(", ")} (X)`
+          : ""
+      }
+      ${
+        camp.contactedFederal && camp.bunkerCityId === status.locationId
+          ? "<br/>At bunker — D deliver scientists aboard"
+          : ""
+      }
+    </div>`;
+
   const log = status.recentLog
     .map((e) => `[${e.turn}] ${e.kind}: ${escapeHtml(e.message)}`)
     .join("<br/>");
 
+  const phaseNote =
+    status.phase === "won" ? " · WON" : status.phase === "lost" ? " · LOST" : "";
+
   panel.innerHTML = `
     <div style="position:absolute;left:12px;top:12px;right:12px;padding:12px 14px;background:rgba(8,10,12,0.82);border:1px solid #3a3428;pointer-events:auto;max-height:48%;overflow:auto;">
       <div style="font-size:13px;letter-spacing:0.04em;color:#e6d3a3;">${escapeHtml(status.locationName)}</div>
-      <div style="font-size:11px;opacity:0.85;margin-top:4px;">Turn ${status.turn} · crew ${status.crewCount} · vehicles ${status.vehicleCount}${status.stranded ? " · STRANDED" : ""}</div>
+      <div style="font-size:11px;opacity:0.85;margin-top:4px;">Turn ${status.turn} · crew ${status.crewCount} · vehicles ${status.vehicleCount}${status.stranded ? " · STRANDED" : ""}${phaseNote}</div>
       <div style="font-size:11px;margin-top:8px;">${fmtResources(status)}</div>
       <div style="font-size:11px;margin-top:8px;opacity:0.9;">${escapeHtml(intel)}</div>
+      ${campaignBlock}
       ${encounter}
       ${battle}
       <div style="font-size:11px;margin-top:10px;color:#9aa3ad;"><b style="color:#c8b48a;">Roads</b><br/>${neighbors || "(none)"}</div>
       <div style="font-size:10px;margin-top:10px;opacity:0.75;line-height:1.35;">${log}</div>
-      <div style="font-size:10px;margin-top:8px;color:#6b737c;">Keys: 1 search · 2 loot · 3 rest · 4 attack · M move · S refresh · F/V fight</div>
+      <div style="font-size:10px;margin-top:8px;color:#6b737c;">Keys: 1 search · 2 loot · 3 rest · 4 attack · M move · S refresh · F/V fight · X extract · D deliver</div>
     </div>
   `;
 

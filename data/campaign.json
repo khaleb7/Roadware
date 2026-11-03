@@ -1,0 +1,78 @@
+{
+  "scientistCount": 8,
+  "scientistNames": [
+    "Dr. Mara Quill",
+    "Dr. Evan Holt",
+    "Dr. Sera Nyx",
+    "Dr. Jonah Vale",
+    "Dr. Priya Sen",
+    "Dr. Caleb Orth",
+    "Dr. Naomi Freyr",
+    "Dr. Idris Kane",
+    "Dr. Lila Moss",
+    "Dr. Theo Brandt"
+  ],
+  "placement": {
+    "minDistanceFromStart": 1,
+    "avoidBunker": true,
+    "statusWeights": [
+      { "status": "hidden", "weight": 3 },
+      { "status": "guarded", "weight": 3 },
+      { "status": "faction_held", "weight": 2 }
+    ]
+  },
+  "federalContact": {
+    "minCrew": 8,
+    "minVehicles": 4,
+    "minTotalCombat": 280,
+    "minGuns": 8,
+    "crewWeight": 12,
+    "vehicleWeight": 18,
+    "combatWeight": 1,
+    "gunWeight": 4,
+    "strengthThreshold": 420,
+    "factionId": "federal-remnant",
+    "factionLabel": "Federal Remnant",
+    "briefing": "A cracked federal freq crackles: recover eight vaccine scientists and bring them to the marked bunker. The plague does not negotiate."
+  },
+  "discovery": {
+    "hiddenFindChance": 0.75,
+    "scoutBonus": 0.15,
+    "guardedRevealChance": 0.7,
+    "factionRevealChance": 0.55,
+    "negotiatorRevealBonus": 0.2
+  },
+  "extract": {
+    "guardedBaseChance": 0.45,
+    "gunnerBonus": 0.15,
+    "combatScale": 0.0015,
+    "factionBaseChance": 0.4,
+    "negotiatorBonus": 0.25,
+    "leadershipScale": 0.002,
+    "failDamageMin": 6,
+    "failDamageMax": 18,
+    "ammoCostGuarded": 3
+  },
+  "deadline": {
+    "enabled": true,
+    "turnsAfterContact": 120
+  },
+  "bunker": {
+    "specialLocationId": "vaccine-bunker",
+    "revealOnContact": true
+  },
+  "win": {
+    "message": "All eight scientists sealed in the bunker. The vaccine work begins — you held the road long enough."
+  },
+  "loss": {
+    "wiped": "Gang wiped. The roads forget your name.",
+    "leaderDead": "Convoy leader down. The remnant freq goes silent.",
+    "deadline": "Deadline burned out. The bunker seals without your cargo."
+  },
+  "xp": {
+    "findScientist": 4,
+    "extractScientist": 5,
+    "deliverScientist": 6,
+    "contactBonus": 3
+  }
+}

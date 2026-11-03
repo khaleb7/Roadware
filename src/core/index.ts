@@ -44,6 +44,14 @@ export {
   tacticalBalance,
   weapons,
 } from "./tactical";
+export {
+  campaignData,
+  gangStrength,
+  meetsFederalContactThreshold,
+  createCampaignState,
+  campaignStatusView,
+} from "./campaign";
 export type * from "./types";
 export type * from "./encounterTypes";
 export type * from "./tactical/types";
+export type * from "./campaignTypes";

@@ -95,6 +95,17 @@ export class StrategicMapScene extends Phaser.Scene {
       case "4":
         this.run({ type: "attack" });
         break;
+      case "x": {
+        const status = this.sim.dispatch({ type: "status" }).status;
+        const target = status?.campaign.scientistsHere.find(
+          (s) => s.revealed && !s.aboard && !s.delivered,
+        );
+        if (target) this.run({ type: "extractScientist", scientistId: target.id });
+        break;
+      }
+      case "d":
+        this.run({ type: "deliverScientists" });
+        break;
       case "m": {
         const status = this.sim.dispatch({ type: "status" }).status;
         const first = status?.neighbors[0];

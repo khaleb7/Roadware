@@ -1,3 +1,4 @@
+import { createCampaignState } from "./campaign";
 import { balance, citiesData, emptyResources, getVehicleClass } from "./data";
 import { generateAllCities, markCityVisited } from "./map";
 import { SeededRng } from "./rng";
@@ -48,6 +49,12 @@ export function createInitialState(seed: number): GameState {
   }
   markCityVisited(startCity);
 
+  const leaderCrewId = crew[0]?.id;
+  if (!leaderCrewId) {
+    throw new Error("Starting convoy requires a leader");
+  }
+  const campaign = createCampaignState(rng, startId, leaderCrewId);
+
   return {
     seed,
     rngState: rng.getState(),
@@ -64,6 +71,7 @@ export function createInitialState(seed: number): GameState {
     tacticalBattle: null,
     lastBattleReport: null,
     lastTravelTerrainId: null,
+    campaign,
     hungerStreak: 0,
     stranded: false,
     nextEntityId,
@@ -71,7 +79,7 @@ export function createInitialState(seed: number): GameState {
       {
         turn: 1,
         kind: "boot",
-        message: `Convoy assembled in ${startId}. The road does not care.`,
+        message: `Convoy assembled in ${startId}. Survive first — the remnant watches.`,
       },
     ],
   };

@@ -85,8 +85,8 @@ describe("core simulation", () => {
 
     expect(state.hungerStreak).toBeGreaterThan(0);
     expect(state.phase).toBe("lost");
-    expect(state.crew).toHaveLength(0);
-    expect(state.lossReason).toMatch(/deserted|dead/i);
+    // Full wipe or leader death (campaign) both count as a lost convoy.
+    expect(state.lossReason).toMatch(/wiped|deserted|dead|leader/i);
   });
 
   it("blocks move when out of fuel (stranded)", () => {

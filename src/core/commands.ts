@@ -17,6 +17,12 @@ import {
 } from "./crew";
 import { applyEndOfTurn } from "./endTurn";
 import {
+  campaignStatusView,
+  deliverScientists,
+  extractScientist,
+  tryDiscoverScientists,
+} from "./campaign";
+import {
   assertNoPending,
   createPendingEncounter,
   maybeSpawnRoadEncounter,
@@ -147,6 +153,14 @@ export function applyCommand(state: GameState, command: GameCommand): CommandRes
         skipStrategicUpkeep = !tac.finished;
         break;
       }
+      case "extractScientist":
+        assertNoPending(next);
+        events.push(...extractScientist(next, rng, command.scientistId));
+        break;
+      case "deliverScientists":
+        assertNoPending(next);
+        events.push(...deliverScientists(next));
+        break;
       case "scavengeVehicle":
         assertNoPending(next);
         events.push(...cmdScavengeVehicle(next, rng, command.classId));
@@ -218,6 +232,7 @@ function buildStatus(state: GameState): StatusSnapshot {
     lastBattleReport: state.lastBattleReport
       ? structuredClone(state.lastBattleReport)
       : null,
+    campaign: campaignStatusView(state),
     recentLog: state.log.slice(-8),
   };
 }
@@ -325,6 +340,8 @@ function cmdSearch(state: GameState, rng: SeededRng): GameEvent[] {
       ev(state, "specials", `Noted sites: ${city.specialLocations.join(", ")}.`),
     );
   }
+
+  events.push(...tryDiscoverScientists(state, rng));
 
   // Recruit attempt
   let hireChance = balance.recruit.searchHireChance;
